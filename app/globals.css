@@ -1,26 +1,184 @@
 @import "tailwindcss";
 
+/* next-themes writes `class="dark"` onto <html>, so the dark variant follows the
+   class rather than the media query. The media query still drives the default
+   through next-themes' `defaultTheme="system"`. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------
+   VOUR design tokens.
+
+   Locked decisions, applied everywhere:
+   - One accent: acid lime. No second accent colour appears anywhere on the site.
+   - Neutrals are the cool zinc family. Never #000000, never #ffffff.
+   - Two radii only: `surface` (12px) for panels/cards, `control` (8px) for
+     buttons, inputs and chips.
+--------------------------------------------------------------------------- */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #fafafa;
+  --bg-subtle: #f4f4f5;
+  --surface: #ffffff00; /* light mode groups with hairlines, not filled cards */
+  --surface-solid: #f4f4f5;
+  --border: #e4e4e7;
+  --border-strong: #d4d4d8;
+  --text: #18181b;
+  --text-muted: #52525b;
+  /* `faint` is still used on small text (meta lines, footer headings), so it has
+     to clear WCAG AA 4.5:1 against `--bg`, not just look quiet. */
+  --text-faint: #63636d;
+
+  /* Accent as a fill keeps the lime; accent as text darkens so body-size text
+     clears WCAG AA against the light background. */
+  --accent: #c6f24e;
+  --accent-hover: #b7e63a;
+  --accent-fg: #09090b;
+  --accent-text: #4d6b0a;
+  --accent-soft: #c6f24e26;
+}
+
+.dark {
+  --bg: #09090b;
+  --bg-subtle: #101012;
+  --surface: #ffffff08;
+  --surface-solid: #151518;
+  --border: #ffffff14;
+  --border-strong: #ffffff24;
+  --text: #fafafa;
+  --text-muted: #a1a1aa;
+  /* See the light-mode note: 4.5:1 against `--bg`, measured. */
+  --text-faint: #8b8b96;
+
+  --accent: #c6f24e;
+  --accent-hover: #d4f76f;
+  --accent-fg: #09090b;
+  --accent-text: #c6f24e;
+  --accent-soft: #c6f24e1f;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-bg-subtle: var(--bg-subtle);
+  --color-surface: var(--surface);
+  --color-surface-solid: var(--surface-solid);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-text-faint: var(--text-faint);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-text: var(--accent-text);
+  --color-accent-soft: var(--accent-soft);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --radius-surface: 0.75rem;
+  --radius-control: 0.5rem;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--accent);
+    color: var(--accent-fg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* The nav is sticky, so in-page anchors need headroom. */
+  [id] {
+    scroll-margin-top: 6rem;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  /* Hairline rule that reads at the same weight in both themes. */
+  .rule {
+    border-color: var(--border);
+  }
+}
+
+/* Radix reports the measured panel height on --radix-accordion-content-height. */
+@keyframes accordion-down {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+    opacity: 1;
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+    opacity: 1;
+  }
+  to {
+    height: 0;
+    opacity: 0;
+  }
+}
+
+/* Marquee track. Duplicated content shifts by exactly -50%, so the loop is seamless. */
+@keyframes vour-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee {
+  animation: vour-marquee var(--marquee-duration, 40s) linear infinite;
+}
+
+.marquee-host:hover .animate-marquee {
+  animation-play-state: paused;
+}
+
+/* Every animation on the site collapses here. Motion components additionally
+   check useReducedMotion(), but this catches the CSS-driven ones. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-marquee {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
