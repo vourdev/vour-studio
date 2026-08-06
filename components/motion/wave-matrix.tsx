@@ -127,7 +127,8 @@ export function WaveMatrix({ className }: { className?: string }) {
           const cy = (height / 2) + r * PITCH;
           // Tracked separately so each kind can drive its own block size. The
           // pointer trail is deliberately finer than the sweep.
-          let iSweep = 0;
+          let iSweepYellow = 0;
+          let iSweepBlue = 0;
           let iPoint = 0;
           let minPointerDistRatio = 1.0;
 
@@ -153,29 +154,30 @@ export function WaveMatrix({ className }: { className?: string }) {
               const ring1 = Math.exp(-(diff1 * diff1) / (2 * bw1 * bw1));
               const contrib1 = ring1 * s1;
 
-              // Wave 2: Second wave (dimmer, smaller)
+              // Wave 2: Second wave (blue, dimmer, smaller)
               const r2 = r1 - spacing;
               let contrib2 = 0;
               if (r2 > 0) {
                 const bw2 = SWEEP_BAND * 0.8;
                 const diff2 = distance - r2;
-                const s2 = s1 * 0.55;
+                const s2 = s1 * 0.45; // adjusted opacity
                 const ring2 = Math.exp(-(diff2 * diff2) / (2 * bw2 * bw2));
                 contrib2 = ring2 * s2;
               }
 
-              // Wave 3: Third wave (even dimmer, even smaller)
+              // Wave 3: Third wave (blue, even dimmer, even smaller)
               const r3 = r2 - spacing;
               let contrib3 = 0;
               if (r3 > 0) {
                 const bw3 = SWEEP_BAND * 0.65;
                 const diff3 = distance - r3;
-                const s3 = s1 * 0.3;
+                const s3 = s1 * 0.22; // adjusted opacity
                 const ring3 = Math.exp(-(diff3 * diff3) / (2 * bw3 * bw3));
                 contrib3 = ring3 * s3;
               }
 
-              iSweep += contrib1 + contrib2 + contrib3;
+              iSweepYellow += contrib1;
+              iSweepBlue += contrib2 + contrib3;
             } else {
               const dx = cx - w.x;
               const dy = cy - w.y;
@@ -197,6 +199,7 @@ export function WaveMatrix({ className }: { className?: string }) {
             }
           }
 
+          const iSweep = iSweepYellow + iSweepBlue;
           const i = iSweep + iPoint;
           if (i < 0.05) continue;
 
@@ -211,10 +214,19 @@ export function WaveMatrix({ className }: { className?: string }) {
           const pointSize = CELL_MIN + (POINT_CELL_MAX - CELL_MIN) * e;
           const size = sweepSize * (1 - share) + pointSize * share;
 
-          // Color rendering based on pointer proximity
+          // Color rendering: base color is blended from sweep (yellow vs blue waves)
           let h = 75;
           let s = 71;
           let l = 70;
+
+          const sweepTotal = iSweepYellow + iSweepBlue;
+          if (sweepTotal > 0) {
+            const blueShare = iSweepBlue / sweepTotal;
+            // Wave 1 is yellow (75deg), Wave 2 & 3 are blue (215deg)
+            h = 75 * (1 - blueShare) + 215 * blueShare;
+            s = 71 * (1 - blueShare) + 85 * blueShare;
+            l = 70 * (1 - blueShare) + 55 * blueShare;
+          }
 
           if (share > 0) {
             const r = minPointerDistRatio;
@@ -245,9 +257,9 @@ export function WaveMatrix({ className }: { className?: string }) {
               pS = 80 - 10 * t;
               pL = 50 - 20 * t;
             }
-            h = 75 * (1 - share) + pH * share;
-            s = 71 * (1 - share) + pS * share;
-            l = 70 * (1 - share) + pL * share;
+            h = h * (1 - share) + pH * share;
+            s = s * (1 - share) + pS * share;
+            l = l * (1 - share) + pL * share;
           }
 
           ctx.fillStyle = `hsl(${h}, ${s}%, ${l}%)`;
