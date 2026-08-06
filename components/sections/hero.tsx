@@ -1,12 +1,40 @@
 import Link from "next/link";
+import {
+  siDocker,
+  siGithub,
+  siN8n,
+  siNextdotjs,
+  siNodedotjs,
+  siPostgresql,
+  siReact,
+  siSupabase,
+  siTailwindcss,
+  siTypescript,
+  siVercel,
+} from "simple-icons";
 
 import { KineticHeading } from "@/components/motion/kinetic-heading";
 import { MagneticButton } from "@/components/motion/magnetic-button";
 import { Reveal } from "@/components/motion/reveal";
 import { WaveMatrix } from "@/components/motion/wave-matrix";
+import { Marquee } from "@/components/motion/marquee";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { PRIMARY_CTA, PRODUCTS_CTA, siteConfig } from "@/lib/site";
+
+const logos = [
+  siNextdotjs,
+  siReact,
+  siTypescript,
+  siTailwindcss,
+  siNodedotjs,
+  siPostgresql,
+  siSupabase,
+  siDocker,
+  siVercel,
+  siN8n,
+  siGithub,
+];
 
 /**
  * Centred composition. The rest of the site is asymmetric on purpose, but here
@@ -22,7 +50,7 @@ import { PRIMARY_CTA, PRODUCTS_CTA, siteConfig } from "@/lib/site";
  */
 export function Hero() {
   return (
-    <section className="relative isolate flex min-h-[70dvh] items-center overflow-hidden pt-28 pb-20">
+    <section className="relative isolate flex min-h-dvh items-center overflow-hidden pt-24 pb-16">
       {/* Static lattice: one paint, never repainted. The canvas above it draws
           only the cells a wave is currently lighting. */}
       <div
@@ -70,6 +98,32 @@ export function Hero() {
           <Button asChild size="lg" variant="secondary">
             <Link href="/products">{PRODUCTS_CTA}</Link>
           </Button>
+        </Reveal>
+
+        {/* Tech Stack Marquee */}
+        <Reveal delay={0.65} className="mt-16 w-full max-w-3xl">
+          <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-text-faint mb-6 text-center">
+            {"Built on the tech stack trusted by developers at the world's most innovative companies"}
+          </p>
+          <Marquee durationSeconds={45}>
+            {logos.map((logo) => (
+              <span
+                key={logo.title}
+                className="mx-7 inline-flex shrink-0 items-center text-text-faint transition-colors hover:text-text"
+                title={logo.title}
+              >
+                <svg
+                  role="img"
+                  aria-label={logo.title}
+                  viewBox="0 0 24 24"
+                  className="size-7"
+                  fill="currentColor"
+                >
+                  <path d={logo.path} />
+                </svg>
+              </span>
+            ))}
+          </Marquee>
         </Reveal>
       </Container>
     </section>
