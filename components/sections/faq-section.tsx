@@ -15,15 +15,15 @@ import { faqs } from "@/lib/data/faq";
 export function FaqSection() {
   return (
     <Section id="faq" className="border-t border-border bg-bg-subtle">
-      <Container>
-        <p className="font-mono text-xs uppercase tracking-[0.18em] text-accent-text">
+      <Container className="flex flex-col items-center">
+        <p className="text-center font-mono text-xs uppercase tracking-[0.18em] text-accent-text">
           FAQ
         </p>
-        <h2 className="mt-4 max-w-[20ch] text-3xl font-semibold tracking-tight text-balance md:text-4xl">
+        <h2 className="mt-4 text-center max-w-[20ch] text-3xl font-semibold tracking-tight text-balance md:text-4xl">
           Pertanyaan yang sering masuk
         </h2>
 
-        <Accordion type="single" collapsible className="mt-10 max-w-3xl border-t border-border">
+        <Accordion type="single" collapsible className="mt-10 w-full max-w-3xl border-t border-border mx-auto">
           {faqs.map((faq) => (
             <AccordionItem key={faq.question} value={faq.question}>
               <AccordionTrigger>{faq.question}</AccordionTrigger>

@@ -85,8 +85,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             would make enableSystem decorative. */}
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="dark"
+          forcedTheme="dark"
           disableTransitionOnChange
         >
           <a

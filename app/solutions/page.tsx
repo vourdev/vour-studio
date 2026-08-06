@@ -71,13 +71,19 @@ export default function SolutionsPage() {
                     {/* The three service pillars already have their detail on
                         this page, so their action here is to start a project.
                         Only the products pillar points elsewhere. */}
-                    <Button asChild variant="secondary" size="sm" className="mt-7">
-                      {service.ctaHref.startsWith("/products") ? (
-                        <Link href="/products">{PRODUCTS_CTA}</Link>
-                      ) : (
-                        <Link href="/contact">{PRIMARY_CTA}</Link>
-                      )}
-                    </Button>
+                    {service.slug === "ai-automation" ? (
+                      <Button disabled variant="secondary" size="sm" className="mt-7">
+                        Coming Soon
+                      </Button>
+                    ) : (
+                      <Button asChild variant="secondary" size="sm" className="mt-7">
+                        {service.ctaHref.startsWith("/products") ? (
+                          <Link href="/products">{PRODUCTS_CTA}</Link>
+                        ) : (
+                          <Link href="/contact">{PRIMARY_CTA}</Link>
+                        )}
+                      </Button>
+                    )}
                   </div>
 
                   <div className="grid gap-10 sm:grid-cols-2">

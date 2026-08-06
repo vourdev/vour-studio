@@ -130,10 +130,11 @@
   .dot-grid {
     background-image: radial-gradient(
       circle at center,
-      var(--border-strong) 1px,
-      transparent 1px
+      rgba(255, 255, 255, 0.16) 1.25px,
+      transparent 1.25px
     );
     background-size: 22px 22px;
+    background-position: center;
   }
 }
 

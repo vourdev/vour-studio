@@ -50,7 +50,7 @@ export function TrustBar() {
       <Container>
         <dl className="grid grid-cols-1 gap-8 sm:grid-cols-3">
           {stats.map((stat, i) => (
-            <Reveal key={stat.label} index={i} className="flex flex-col gap-1">
+            <Reveal key={stat.label} index={i} className="flex flex-col items-center text-center gap-1">
               <dt className="order-2 text-sm text-text-muted">{stat.label}</dt>
               <dd className="order-1 font-mono text-3xl font-semibold tracking-tight md:text-4xl">
                 {stat.value}

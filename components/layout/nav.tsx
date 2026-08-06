@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { Logo } from "@/components/layout/logo";
-import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { mainNav, PRIMARY_CTA } from "@/lib/site";
@@ -69,7 +68,6 @@ export function Nav() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <ThemeToggle />
           <Button asChild size="sm" className="hidden sm:inline-flex">
             <Link href="/contact">{PRIMARY_CTA}</Link>
           </Button>

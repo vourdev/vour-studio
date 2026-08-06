@@ -30,17 +30,15 @@ const PITCH = 22; // distance between cell centres, px
 const CELL_MIN = 1.5; // block size at rest, px
 const CELL_MAX = 9; // block size at a wave peak, px
 
-// Downward sweep (the opening animation).
+// Radial sweep (the opening animation - 3 circular waves).
 const SWEEP_SPEED = 520; // px per second
-const SWEEP_BAND = 78; // thickness of the front, px
+const SWEEP_BAND = 32; // thickness of the front, px
 const SWEEP_LIFE = 2.8; // seconds before the front has decayed
-const SWEEP_BEND = 26; // how far the front bows, px
-const SWEEP_EVERY = 4400; // ms between repeats
 
-// Pointer pulse.
-const POINT_RADIUS = 118; // px
-const POINT_LIFE = 0.85; // seconds
-const POINT_CELL_MAX = 7; // pointer blocks stay smaller than sweep blocks, px
+// Pointer pulse (trail/tail).
+const POINT_RADIUS = 40; // px
+const POINT_LIFE = 0.45; // seconds
+const POINT_CELL_MAX = 8.0; // pointer blocks stay slightly larger and uniform, px
 
 /** Ceiling on block alpha. The field sits behind the headline and must never
     compete with it for contrast. */
@@ -66,6 +64,8 @@ export function WaveMatrix({ className }: { className?: string }) {
     let height = 0;
     let cols = 0;
     let rows = 0;
+    let halfCols = 0;
+    let halfRows = 0;
     let weights = new Float32Array(0);
     let frame = 0;
     let running = false;
@@ -92,12 +92,20 @@ export function WaveMatrix({ className }: { className?: string }) {
       canvas.width = Math.max(1, Math.floor(width * dpr));
       canvas.height = Math.max(1, Math.floor(height * dpr));
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      cols = Math.max(1, Math.ceil(width / PITCH) + 1);
-      rows = Math.max(1, Math.ceil(height / PITCH) + 1);
+
+      // Centered grid alignment with CSS dot-grid background
+      halfCols = Math.ceil(width / PITCH / 2) + 2;
+      halfRows = Math.ceil(height / PITCH / 2) + 2;
+      cols = 2 * halfCols + 1;
+      rows = 2 * halfRows + 1;
 
       weights = new Float32Array(cols * rows);
-      for (let c = 0; c < cols; c++) {
-        for (let r = 0; r < rows; r++) weights[r * cols + c] = cellWeight(c, r);
+      for (let c = -halfCols; c <= halfCols; c++) {
+        const cIdx = c + halfCols;
+        for (let r = -halfRows; r <= halfRows; r++) {
+          const rIdx = r + halfRows;
+          weights[rIdx * cols + cIdx] = cellWeight(c, r);
+        }
       }
     };
 
@@ -107,59 +115,142 @@ export function WaveMatrix({ className }: { className?: string }) {
 
       wavesRef.current = wavesRef.current.filter((w) => {
         const age = (t - w.start) / 1000;
-        return age < (w.kind === "sweep" ? SWEEP_LIFE * 1.6 : POINT_LIFE * 2.4);
+        return age < (w.kind === "sweep" ? SWEEP_LIFE * 1.6 : POINT_LIFE);
       });
 
-      const ox = (width - (cols - 1) * PITCH) / 2;
-      const oy = (height - (rows - 1) * PITCH) / 2;
+      for (let c = -halfCols; c <= halfCols; c++) {
+        const cIdx = c + halfCols;
+        const cx = (width / 2) + c * PITCH;
 
-      for (let c = 0; c < cols; c++) {
-        const cx = ox + c * PITCH;
-
-        for (let r = 0; r < rows; r++) {
-          const cy = oy + r * PITCH;
+        for (let r = -halfRows; r <= halfRows; r++) {
+          const rIdx = r + halfRows;
+          const cy = (height / 2) + r * PITCH;
           // Tracked separately so each kind can drive its own block size. The
           // pointer trail is deliberately finer than the sweep.
           let iSweep = 0;
           let iPoint = 0;
+          let minPointerDistRatio = 1.0;
 
           for (const w of wavesRef.current) {
             const age = (t - w.start) / 1000;
             if (age < 0) continue;
 
             if (w.kind === "sweep") {
-              // Front starts above the top edge and travels down past the bottom.
-              const front = -SWEEP_BAND * 2 + age * SWEEP_SPEED;
-              const bend = Math.sin(cx / 210) * SWEEP_BEND;
-              const band = cy - (front + bend);
-              if (Math.abs(band) > SWEEP_BAND * 2.6) continue;
-              const ring = Math.exp(-(band * band) / (2 * SWEEP_BAND * SWEEP_BAND));
-              iSweep += ring * Math.exp(-age / SWEEP_LIFE) * w.strength;
+              // Radial/circular waves expanding from the top center downward
+              const centerX = width / 2;
+              const centerY = -50;
+              const distance = Math.hypot(cx - centerX, cy - centerY);
+
+              const speed = SWEEP_SPEED;
+              const spacing = 160; // spacing between wave peaks in px
+              const decayFactor = Math.exp(-age / SWEEP_LIFE);
+
+              // Wave 1: First wave (yellow, slightly faded)
+              const r1 = age * speed;
+              const bw1 = SWEEP_BAND;
+              const diff1 = distance - r1;
+              const s1 = 0.8 * w.strength * decayFactor;
+              const ring1 = Math.exp(-(diff1 * diff1) / (2 * bw1 * bw1));
+              const contrib1 = ring1 * s1;
+
+              // Wave 2: Second wave (dimmer, smaller)
+              const r2 = r1 - spacing;
+              let contrib2 = 0;
+              if (r2 > 0) {
+                const bw2 = SWEEP_BAND * 0.8;
+                const diff2 = distance - r2;
+                const s2 = s1 * 0.55;
+                const ring2 = Math.exp(-(diff2 * diff2) / (2 * bw2 * bw2));
+                contrib2 = ring2 * s2;
+              }
+
+              // Wave 3: Third wave (even dimmer, even smaller)
+              const r3 = r2 - spacing;
+              let contrib3 = 0;
+              if (r3 > 0) {
+                const bw3 = SWEEP_BAND * 0.65;
+                const diff3 = distance - r3;
+                const s3 = s1 * 0.3;
+                const ring3 = Math.exp(-(diff3 * diff3) / (2 * bw3 * bw3));
+                contrib3 = ring3 * s3;
+              }
+
+              iSweep += contrib1 + contrib2 + contrib3;
             } else {
               const dx = cx - w.x;
               const dy = cy - w.y;
-              if (Math.abs(dx) > POINT_RADIUS || Math.abs(dy) > POINT_RADIUS) continue;
               const d = Math.hypot(dx, dy);
-              if (d > POINT_RADIUS) continue;
-              const falloff = 1 - d / POINT_RADIUS;
+
               const decay = Math.max(0, 1 - age / POINT_LIFE);
-              iPoint += falloff * falloff * decay * w.strength;
+              // Shrinking radius of influence for a tapered tail (lancip)
+              const currentRadius = POINT_RADIUS * decay;
+
+              if (d <= currentRadius) {
+                const falloff = 1 - d / currentRadius;
+                iPoint += falloff * falloff * decay * w.strength;
+
+                const ratio = d / POINT_RADIUS;
+                if (ratio < minPointerDistRatio) {
+                  minPointerDistRatio = ratio;
+                }
+              }
             }
           }
 
           const i = iSweep + iPoint;
           if (i < 0.05) continue;
 
-          // Per-cell weight is what breaks up the grid: low-weight cells stay
-          // small and faint even at a wave peak.
-          const wgt = weights[r * cols + c];
-          const e = Math.min(1, i) * (0.25 + 0.75 * wgt);
+          const share = iPoint / i;
+          const wgt = weights[rIdx * cols + cIdx];
+          const activeWgt = (0.25 + 0.75 * wgt) * (1 - share) + 1.0 * share;
+          const e = Math.min(1, i) * activeWgt;
           if (e < 0.04) continue;
 
-          // Blend the two caps by how much each kind contributed to this cell.
-          const share = iPoint / i;
-          const cap = CELL_MAX * (1 - share) + POINT_CELL_MAX * share;
-          const size = CELL_MIN + (cap - CELL_MIN) * e * e;
+          // Blend the designs by how much each kind contributed to this cell.
+          const sweepSize = CELL_MIN + (CELL_MAX - CELL_MIN) * e * e;
+          const pointSize = CELL_MIN + (POINT_CELL_MAX - CELL_MIN) * e;
+          const size = sweepSize * (1 - share) + pointSize * share;
+
+          // Color rendering based on pointer proximity
+          let h = 75;
+          let s = 71;
+          let l = 70;
+
+          if (share > 0) {
+            const r = minPointerDistRatio;
+            let pH, pS, pL;
+            if (r <= 0.2) {
+              const t = r / 0.2;
+              pH = 75 + 60 * t;
+              pS = 71 + 4 * t;
+              pL = 69 - 14 * t;
+            } else if (r <= 0.4) {
+              const t = (r - 0.2) / 0.2;
+              pH = 135 + 50 * t;
+              pS = 75 + 5 * t;
+              pL = 55 - 5 * t;
+            } else if (r <= 0.6) {
+              const t = (r - 0.4) / 0.2;
+              pH = 185 + 30 * t;
+              pS = 80 + 5 * t;
+              pL = 50 + 5 * t;
+            } else if (r <= 0.8) {
+              const t = (r - 0.6) / 0.2;
+              pH = 215 + 35 * t;
+              pS = 85 - 5 * t;
+              pL = 55 - 5 * t;
+            } else {
+              const t = Math.min(1, (r - 0.8) / 0.2);
+              pH = 250 + 15 * t;
+              pS = 80 - 10 * t;
+              pL = 50 - 20 * t;
+            }
+            h = 75 * (1 - share) + pH * share;
+            s = 71 * (1 - share) + pS * share;
+            l = 70 * (1 - share) + pL * share;
+          }
+
+          ctx.fillStyle = `hsl(${h}, ${s}%, ${l}%)`;
           ctx.globalAlpha = Math.min(MAX_ALPHA, 0.05 + e * 0.8);
           ctx.fillRect(cx - size / 2, cy - size / 2, size, size);
         }
@@ -196,18 +287,14 @@ export function WaveMatrix({ className }: { className?: string }) {
       return () => {};
     }
 
-    // Opening sweep, then repeats so the hero keeps moving.
+    // Opening sweep, only once when first opened
     wavesRef.current.push({ kind: "sweep", start: performance.now() + 160, strength: 1.25 });
-    const sweepTimer = window.setInterval(() => {
-      if (!running) return;
-      wavesRef.current.push({ kind: "sweep", start: performance.now(), strength: 1.1 });
-    }, SWEEP_EVERY);
 
     const onPointerMove = (event: PointerEvent) => {
       // Coarse pointers have no hover; a trail that only fires on tap is noise.
       if (event.pointerType !== "mouse") return;
       const now = performance.now();
-      if (now - lastPointerWave < 38) return;
+      if (now - lastPointerWave < 14) return;
       const rect = canvas.getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
@@ -235,7 +322,6 @@ export function WaveMatrix({ className }: { className?: string }) {
 
     return () => {
       stop();
-      if (sweepTimer) window.clearInterval(sweepTimer);
       window.removeEventListener("pointermove", onPointerMove);
       resizeObserver.disconnect();
       intersectionObserver.disconnect();

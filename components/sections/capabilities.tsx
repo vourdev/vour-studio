@@ -19,14 +19,6 @@ const ICONS = {
   storefront: StorefrontIcon,
 } as const;
 
-/**
- * Four items, four cells, no empty tiles. Cells 1 and 4 span two columns so the
- * grid has rhythm instead of being four identical boxes, and those two carry an
- * accent wash so the block is not uniform text-on-surface.
- */
-const SPANS = ["md:col-span-2", "md:col-span-1", "md:col-span-1", "md:col-span-2"];
-const WASHED = [true, false, false, true];
-
 export function Capabilities() {
   return (
     <Section id="capabilities">
@@ -41,40 +33,54 @@ export function Capabilities() {
           </p>
         </Reveal>
 
-        <div className="mt-12 grid gap-4 md:grid-cols-3">
-          {services.map((service, i) => {
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 relative z-10 mt-12 max-w-7xl mx-auto border-y border-border lg:border-y-0">
+          {services.map((service, index) => {
             const Icon = ICONS[service.icon];
             return (
-              <Reveal key={service.slug} index={i} className={SPANS[i]}>
-                <article
-                  className={cn(
-                    "group flex h-full flex-col rounded-surface border border-border p-7 transition-colors hover:border-border-strong",
-                    WASHED[i]
-                      ? "bg-[radial-gradient(120%_100%_at_0%_0%,var(--accent-soft),transparent_60%)]"
-                      : "bg-bg-subtle",
+              <Reveal
+                key={service.slug}
+                index={index}
+                className={cn(
+                  "flex flex-col lg:border-r py-10 relative group/feature border-border",
+                  index === 0 && "lg:border-l",
+                  index % 2 === 0 ? "md:border-r" : "",
+                  index < 2 ? "md:border-b" : "",
+                  index < 3 ? "border-b lg:border-b-0" : ""
+                )}
+              >
+                <div className="opacity-0 group-hover/feature:opacity-100 transition duration-200 absolute inset-0 h-full w-full bg-gradient-to-t from-accent-soft to-transparent pointer-events-none" />
+
+                <div className="mb-4 relative z-10 px-8 text-text-muted group-hover/feature:text-accent transition-colors duration-200">
+                  <Icon weight="light" className="size-8" aria-hidden />
+                </div>
+                <div className="text-lg font-bold mb-2 relative z-10 px-8">
+                  <div className="absolute left-0 inset-y-0 h-6 group-hover/feature:h-8 w-1 rounded-tr-full rounded-br-full bg-border group-hover/feature:bg-accent transition-all duration-200 origin-center" />
+                  <span className="group-hover/feature:translate-x-2 transition duration-200 inline-block text-text">
+                    {service.title}
+                  </span>
+                </div>
+                <p className="text-sm text-text-muted max-w-xs relative z-10 px-8 leading-relaxed flex-1">
+                  {service.summary}
+                </p>
+                <div className="mt-6 relative z-10 px-8">
+                  {service.slug === "ai-automation" ? (
+                    <span className="inline-flex items-center text-sm font-medium text-text-faint">
+                      {service.ctaLabel}
+                    </span>
+                  ) : (
+                    <Link
+                      href={service.ctaHref}
+                      className="inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:underline"
+                    >
+                      {service.ctaLabel}
+                      <ArrowRightIcon
+                        weight="bold"
+                        className="size-3.5 transition-transform duration-300 ease-out-expo group-hover/feature:translate-x-1"
+                        aria-hidden
+                      />
+                    </Link>
                   )}
-                >
-                  <Icon
-                    weight="light"
-                    className="size-7 text-accent-text"
-                    aria-hidden
-                  />
-                  <h3 className="mt-5 text-xl font-medium">{service.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-text-muted">
-                    {service.summary}
-                  </p>
-                  <Link
-                    href={service.ctaHref}
-                    className="mt-6 inline-flex items-center gap-1.5 self-start text-sm font-medium text-accent-text"
-                  >
-                    {service.ctaLabel}
-                    <ArrowRightIcon
-                      weight="bold"
-                      className="size-3.5 transition-transform duration-300 ease-out-expo group-hover:translate-x-1"
-                      aria-hidden
-                    />
-                  </Link>
-                </article>
+                </div>
               </Reveal>
             );
           })}

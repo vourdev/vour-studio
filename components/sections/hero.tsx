@@ -22,12 +22,18 @@ import { PRIMARY_CTA, PRODUCTS_CTA, siteConfig } from "@/lib/site";
  */
 export function Hero() {
   return (
-    <section className="relative isolate flex min-h-dvh items-center overflow-hidden pt-24 pb-16">
+    <section className="relative isolate flex min-h-[70dvh] items-center overflow-hidden pt-28 pb-20">
       {/* Static lattice: one paint, never repainted. The canvas above it draws
           only the cells a wave is currently lighting. */}
       <div
         aria-hidden
-        className="dot-grid pointer-events-none absolute inset-0 -z-20 opacity-50 mask-[radial-gradient(115%_95%_at_50%_45%,black,transparent_78%)]"
+        className="pointer-events-none absolute inset-0 -z-20 dot-grid opacity-75"
+        style={{
+          maskImage: "linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)",
+          maskComposite: "intersect",
+          WebkitMaskComposite: "source-in",
+        }}
       />
       <WaveMatrix className="pointer-events-none absolute inset-0 -z-10 size-full" />
 
