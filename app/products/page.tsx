@@ -45,7 +45,7 @@ export default function ProductsPage() {
     <>
       <Section className="pt-32 pb-0">
         <Container>
-          <h1 className="max-w-[18ch] text-3xl font-semibold tracking-tight text-balance md:text-4xl">
+          <h1 className="max-w-[22ch] font-mono text-[1.6rem] font-semibold tracking-[-0.03em] md:text-[2.1rem]">
             Produk digital untuk developer
           </h1>
           <p className="mt-5 max-w-[58ch] leading-relaxed text-text-muted">

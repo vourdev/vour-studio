@@ -21,7 +21,7 @@ export default async function ResourcesPage() {
   return (
     <Section className="pt-32">
       <Container>
-        <h1 className="max-w-[18ch] text-3xl font-semibold tracking-tight text-balance md:text-4xl">
+        <h1 className="max-w-[24ch] font-mono text-[1.6rem] font-semibold tracking-[-0.03em] md:text-[2.1rem]">
           Tulisan, tutorial, dan catatan pengembangan
         </h1>
         <p className="mt-5 max-w-[58ch] leading-relaxed text-text-muted">

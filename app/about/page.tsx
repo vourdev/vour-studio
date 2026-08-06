@@ -51,7 +51,7 @@ export default function AboutPage() {
     <>
       <Section className="pt-32 pb-0">
         <Container>
-          <h1 className="max-w-[22ch] text-3xl font-semibold leading-tight tracking-tight text-balance md:text-[2.75rem]">
+          <h1 className="max-w-[26ch] leading-[1.16] font-mono text-[1.6rem] font-semibold tracking-[-0.03em] md:text-[2.1rem]">
             Kami membangun produk digital yang benar-benar dipakai
           </h1>
           <p className="mt-6 max-w-[60ch] text-lg leading-relaxed text-text-muted">

@@ -13,8 +13,11 @@ const buttonVariants = cva(
       variant: {
         primary:
           "bg-accent text-accent-fg hover:bg-accent-hover shadow-[0_1px_0_rgba(255,255,255,0.25)_inset]",
+        // Opaque, not transparent. In the hero this button sits over an animated
+        // canvas; a see-through fill let the moving blocks show through and the
+        // hover state read as broken.
         secondary:
-          "border border-border-strong bg-transparent text-text hover:border-accent hover:text-accent-text",
+          "border border-border-strong bg-bg text-text hover:border-accent hover:bg-bg-subtle hover:text-accent-text",
         ghost: "bg-transparent text-text-muted hover:text-text hover:bg-surface-solid",
       },
       size: {

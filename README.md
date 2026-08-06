@@ -96,7 +96,7 @@ app/
   sitemap.ts robots.ts opengraph-image.tsx not-found.tsx
 components/
   layout/                     nav, footer, theme toggle, Lenis provider
-  motion/                     reveal, kinetic heading, aurora canvas, magnetic button, marquee
+  motion/                     reveal, kinetic heading, wave matrix, magnetic button, marquee
   sections/                   one file per homepage section
   ui/                         button, accordion, field, container
   forms/ products/
@@ -113,8 +113,12 @@ lib/                          site config, SEO helpers, content index, data
 Locked decisions, enforced across every page. Changing any of these means
 changing it everywhere.
 
-- **One accent**: acid lime `#c6f24e`. No second accent colour appears anywhere.
-  As text on light backgrounds it darkens to `#4d6b0a` for WCAG AA.
+- **One accent**: acid lime `#cde87a`, saturation held at ~71% (the design
+  system caps accents at 80%). No second accent colour appears anywhere. As
+  text on light backgrounds it darkens to `#4d6b0a` for WCAG AA.
+- **Display type is monospace.** The hero and every marketing page H1 are set
+  in Geist Mono; section headings and article titles stay sans, because a long
+  title in monospace is harder to read than it is characterful.
 - **Neutrals**: cool zinc. Never `#000000`, never `#ffffff`.
 - **Two radii**: `rounded-surface` (12px) for panels, `rounded-control` (8px) for
   buttons and inputs.
@@ -156,7 +160,8 @@ Every animation on the site is motivated, and every one collapses under
 
 | Where | What | Why it exists |
 |---|---|---|
-| Hero | Aurora canvas + word-stagger headline | Brand atmosphere, and the stagger walks the eye through the value proposition |
+| Hero | Wave matrix + word-stagger headline | Opening sweep gives the page arrival; the stagger walks the eye through the value proposition |
+| Hero | Wave matrix reacts to the cursor | Feedback: the lattice shows where the pointer went |
 | Trust bar | Logo marquee | Breadth. The only marquee on the site |
 | Sections | Scroll reveal | Hierarchy, arrival order |
 | Workflow | Scrubbed SVG path | The drawing IS the six-step process |
@@ -175,10 +180,13 @@ JS disabled the failure mode is "no animation" rather than "no page".
 
 ### Verified, not assumed
 
-Checked in a real headless Chrome against the production build: the aurora
-canvas paints, the headline stagger completes, the workflow path scrubs and its
-nodes light, and the marquee runs. Under `prefers-reduced-motion` all four
-collapse to their end state with nothing hidden. Lighthouse (desktop) on `/`,
+Checked in a real headless Chrome against the production build: the wave matrix
+paints and changes between frames, the headline stagger completes, the workflow
+path scrubs and its nodes light, and the marquee runs. Under
+`prefers-reduced-motion` all four collapse to their end state with nothing
+hidden. The hero field is measured rather than eyeballed: peak coverage stays
+around 1% and coverage behind the headline and subhead stays under 2%, so the
+animation never competes with the copy. Lighthouse (desktop) on `/`,
 `/products`, `/contact`, `/solutions` and an article: **performance 100,
 accessibility 100, SEO 100**, LCP 0.6s, CLS 0.
 

@@ -29,12 +29,16 @@
   --text-faint: #63636d;
 
   /* Accent as a fill keeps the lime; accent as text darkens so body-size text
-     clears WCAG AA against the light background. */
-  --accent: #c6f24e;
-  --accent-hover: #b7e63a;
+     clears WCAG AA against the light background.
+
+     Saturation is held at ~71%. The earlier #c6f24e sat at 86%, above the 80%
+     ceiling the design system sets for accents, and read hotter than the rest
+     of the palette. */
+  --accent: #cde87a;
+  --accent-hover: #c2e163;
   --accent-fg: #09090b;
   --accent-text: #4d6b0a;
-  --accent-soft: #c6f24e26;
+  --accent-soft: #cde87a26;
 }
 
 .dark {
@@ -49,11 +53,11 @@
   /* See the light-mode note: 4.5:1 against `--bg`, measured. */
   --text-faint: #8b8b96;
 
-  --accent: #c6f24e;
-  --accent-hover: #d4f76f;
+  --accent: #cde87a;
+  --accent-hover: #dcef99;
   --accent-fg: #09090b;
-  --accent-text: #c6f24e;
-  --accent-soft: #c6f24e1f;
+  --accent-text: #cde87a;
+  --accent-soft: #cde87a1f;
 }
 
 @theme inline {
@@ -119,6 +123,17 @@
   /* Hairline rule that reads at the same weight in both themes. */
   .rule {
     border-color: var(--border);
+  }
+
+  /* Static engineering lattice behind the hero. Pure CSS, so it costs one paint
+     and never repaints; the canvas on top animates only the lit blocks. */
+  .dot-grid {
+    background-image: radial-gradient(
+      circle at center,
+      var(--border-strong) 1px,
+      transparent 1px
+    );
+    background-size: 22px 22px;
   }
 }
 

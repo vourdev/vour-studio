@@ -56,7 +56,7 @@ export default function ContactPage() {
     <Section className="pt-32">
       <Container className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-20">
         <div>
-          <h1 className="max-w-[16ch] text-3xl font-semibold tracking-tight text-balance md:text-4xl">
+          <h1 className="max-w-[20ch] font-mono text-[1.6rem] font-semibold tracking-[-0.03em] md:text-[2.1rem]">
             Mari bicarakan project Anda
           </h1>
           <p className="mt-5 max-w-[48ch] leading-relaxed text-text-muted">
