@@ -115,6 +115,7 @@ async function fetchProductsFromCms(): Promise<PayloadProduct[]> {
 
 const getCachedProducts = unstable_cache(fetchProductsFromCms, ["cms-products"], {
   revalidate: REVALIDATE_SECONDS,
+  tags: ["cms-products"],
 });
 
 /** Digital products from the CMS. Falls back to `lib/data/products.ts` only
@@ -194,6 +195,7 @@ async function fetchProjectsFromCms(): Promise<PayloadProject[]> {
 
 const getCachedProjects = unstable_cache(fetchProjectsFromCms, ["cms-projects"], {
   revalidate: REVALIDATE_SECONDS,
+  tags: ["cms-projects"],
 });
 
 /** Portfolio case studies from the CMS. Falls back to `lib/data/projects.ts`
@@ -273,6 +275,7 @@ async function fetchPostsFromCms(): Promise<PayloadPost[]> {
 
 const getCachedPosts = unstable_cache(fetchPostsFromCms, ["cms-posts"], {
   revalidate: REVALIDATE_SECONDS,
+  tags: ["cms-posts"],
 });
 
 /** Post metadata for listings, newest first — same `{ slug, meta }` shape the
@@ -339,7 +342,10 @@ async function fetchSiteSettingsFromCms(): Promise<PayloadSiteSettings> {
 const getCachedSiteSettings = unstable_cache(
   fetchSiteSettingsFromCms,
   ["cms-site-settings"],
-  { revalidate: REVALIDATE_SECONDS },
+  {
+    revalidate: REVALIDATE_SECONDS,
+    tags: ["cms-site-settings"],
+  },
 );
 
 /** Contact + nav settings from the admin global; falls back to `lib/site.ts`
