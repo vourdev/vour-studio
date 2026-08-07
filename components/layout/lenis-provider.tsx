@@ -37,7 +37,9 @@ export function LenisProvider() {
         duration: 1.05,
         easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
+        wheelMultiplier: 1,
         touchMultiplier: 1.6,
+        autoResize: true,
       });
 
       const onScroll = () => ScrollTrigger.update();

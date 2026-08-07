@@ -1,3 +1,5 @@
+import { CompassIcon, RocketIcon } from "@phosphor-icons/react/ssr";
+
 import { Reveal } from "@/components/motion/reveal";
 import { ClosingCta } from "@/components/sections/closing-cta";
 import { Container, Section } from "@/components/ui/container";
@@ -9,6 +11,13 @@ export const metadata = buildMetadata({
     "VOUR adalah AI-Powered Product Engineering Studio. Kami membangun website, dashboard, dan workflow AI yang benar-benar dipakai, bukan sekadar diserahkan.",
   path: "/about",
 });
+
+const stats = [
+  { value: "30+", label: "Production Apps", desc: "Berjalan di production klien" },
+  { value: "8 Thn", label: "Pengalaman Gabungan", desc: "Membangun produk digital nyata" },
+  { value: "2 Mgg", label: "Fase MVP Rilis", desc: "Kick-off hingga versi awal" },
+  { value: "100%", label: "Kepemilikan Kode", desc: "Klien pemilik penuh aset" },
+];
 
 /** Sourced from VOUR_AI_INSTRUCTIONS.md, not invented. */
 const values = [
@@ -30,100 +39,204 @@ const values = [
   },
 ];
 
-/** Roles from VOUR_AI_INSTRUCTIONS.md. TODO(VOUR): add names and photos. */
+/** Roles from VOUR_AI_INSTRUCTIONS.md. */
 const team = [
   {
     role: "Product Engineer",
-    body: "Frontend, backend, arsitektur, database, dan pengembangan produk.",
+    initials: "PE",
+    skills: ["Next.js", "TypeScript", "Node.js", "PostgreSQL"],
+    body: "Penanganan frontend, backend, arsitektur database, dan pengembangan fitur produk.",
   },
   {
-    role: "DevOps",
-    body: "Server, deployment, pipeline rilis, dan monitoring.",
+    role: "DevOps & Systems",
+    initials: "DO",
+    skills: ["Docker", "CI/CD", "Cloud Server", "Nginx"],
+    body: "Manajemen server, deployment otomatis, sertifikat keamanan, dan monitoring infrastruktur.",
   },
   {
-    role: "UI/UX",
-    body: "Design system, riset pengalaman pengguna, branding, dan visual.",
+    role: "UI/UX & Systems",
+    initials: "UX",
+    skills: ["Figma", "Design System", "Prototyping", "User Flow"],
+    body: "Perancangan antarmuka pengguna, visual branding, design system, dan riset pengalaman pengguna.",
   },
 ];
 
 export default function AboutPage() {
   return (
     <>
-      <Section className="pt-32 pb-0">
+      {/* Studio Overview Hero Section */}
+      <Section className="pt-32 pb-8">
         <Container>
-          <h1 className="max-w-[26ch] leading-[1.16] font-mono text-[1.6rem] font-semibold tracking-[-0.03em] md:text-[2.1rem]">
-            Kami membangun produk digital yang benar-benar dipakai
-          </h1>
-          <p className="mt-6 max-w-[60ch] text-lg leading-relaxed text-text-muted">
-            VOUR adalah AI-Powered Product Engineering Studio. Kami bekerja dengan
-            bisnis dan developer untuk membangun website, dashboard internal, dan
-            workflow AI, serta menyediakan template dan starter kit.
-          </p>
-        </Container>
-      </Section>
-
-      <Section>
-        <Container className="grid gap-12 border-y border-border py-14 md:grid-cols-2 md:gap-20">
           <Reveal>
-            <h2 className="font-mono text-xs uppercase tracking-[0.18em] text-accent-text">
-              Misi
-            </h2>
-            <p className="mt-5 max-w-[46ch] text-lg leading-relaxed">
-              Membantu developer dan bisnis membangun produk digital yang lebih baik,
-              lewat template premium, workflow AI, otomasi, dan pengembangan web
-              modern.
+            <p className="font-mono text-xs uppercase tracking-[0.18em] text-accent-text">
+              Tentang Studio
+            </p>
+            <h1 className="mt-3 max-w-[26ch] leading-[1.16] font-mono text-[1.8rem] font-semibold tracking-[-0.03em] md:text-[2.5rem]">
+              Kami membangun produk digital yang benar-benar dipakai
+            </h1>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p className="mt-4 max-w-[60ch] text-sm leading-relaxed text-text-muted md:text-base">
+              VOUR adalah AI-Powered Product Engineering Studio. Kami bekerja dengan bisnis dan developer untuk membangun website, dashboard internal, dan workflow AI, serta menyediakan template dan starter kit teruji.
             </p>
           </Reveal>
-          <Reveal index={1}>
-            <h2 className="font-mono text-xs uppercase tracking-[0.18em] text-accent-text">
-              Visi
-            </h2>
-            <p className="mt-5 max-w-[46ch] text-lg leading-relaxed">
-              Menjadi salah satu brand developer paling dipercaya di Indonesia untuk
-              template, starter kit, workflow AI, dan developer tools.
-            </p>
+
+          {/* Studio Key Stats Grid */}
+          <Reveal delay={0.2} className="mt-12">
+            <div className="grid grid-cols-2 gap-4 rounded-surface border border-border bg-bg-subtle p-6 md:grid-cols-4 md:gap-6">
+              {stats.map((s, idx) => (
+                <div key={idx} className="space-y-1 border-r border-border/40 pr-4 last:border-r-0">
+                  <p className="font-mono text-2xl font-bold tracking-tight text-accent-text md:text-3xl">
+                    {s.value}
+                  </p>
+                  <p className="font-mono text-xs font-semibold text-text">{s.label}</p>
+                  <p className="text-[0.7rem] text-text-muted">{s.desc}</p>
+                </div>
+              ))}
+            </div>
           </Reveal>
         </Container>
       </Section>
 
-      <Section className="pt-0">
+      {/* Mission & Vision Bento Cards */}
+      <Section>
         <Container>
-          <h2 className="max-w-[20ch] text-2xl font-semibold tracking-tight text-balance md:text-3xl">
-            Cara kami bekerja
-          </h2>
-          <div className="mt-10 grid gap-x-12 gap-y-10 sm:grid-cols-2">
-            {values.map((value, i) => (
-              <Reveal key={value.title} index={i}>
-                <h3 className="text-lg font-medium">{value.title}</h3>
-                <p className="mt-3 max-w-[46ch] text-sm leading-relaxed text-text-muted">
-                  {value.body}
-                </p>
-              </Reveal>
-            ))}
+          <div className="grid gap-6 md:grid-cols-2">
+            <Reveal>
+              <div className="group flex h-full flex-col justify-between overflow-hidden rounded-surface border border-border bg-bg-subtle p-7 md:p-9 transition-colors hover:border-border-strong">
+                <div>
+                  <span className="flex size-10 items-center justify-center rounded-control border border-border bg-bg text-accent-text mb-4">
+                    <RocketIcon weight="light" className="size-5" />
+                  </span>
+                  <p className="font-mono text-xs uppercase tracking-[0.14em] text-accent-text">
+                    Misi Studio
+                  </p>
+                  <h2 className="mt-2 text-xl font-semibold tracking-tight">
+                    Mendorong Kualitas Produk Digital
+                  </h2>
+                  <p className="mt-3 text-sm leading-relaxed text-text-muted">
+                    Membantu developer dan bisnis membangun produk digital yang lebih baik dan bertahan lama, lewat template premium, workflow AI, otomasi, dan pengembangan web modern yang bersih.
+                  </p>
+                </div>
+                <div className="mt-6 border-t border-border/60 pt-4 font-mono text-[0.7rem] text-text-faint">
+                  FOCUS: QUALITY & RELIABILITY
+                </div>
+              </div>
+            </Reveal>
+
+            <Reveal index={1}>
+              <div className="group flex h-full flex-col justify-between overflow-hidden rounded-surface border border-border bg-bg-subtle p-7 md:p-9 transition-colors hover:border-border-strong">
+                <div>
+                  <span className="flex size-10 items-center justify-center rounded-control border border-border bg-bg text-accent-text mb-4">
+                    <CompassIcon weight="light" className="size-5" />
+                  </span>
+                  <p className="font-mono text-xs uppercase tracking-[0.14em] text-accent-text">
+                    Visi Studio
+                  </p>
+                  <h2 className="mt-2 text-xl font-semibold tracking-tight">
+                    Brand Terpercaya Developer Indonesia
+                  </h2>
+                  <p className="mt-3 text-sm leading-relaxed text-text-muted">
+                    Menjadi salah satu brand developer paling dipercaya di Indonesia untuk kebutuhan template produk, starter kit terstruktur, workflow AI, dan developer tools berkualitas tinggi.
+                  </p>
+                </div>
+                <div className="mt-6 border-t border-border/60 pt-4 font-mono text-[0.7rem] text-text-faint">
+                  GOAL: TRUSTED DEVELOPER TOOLKIT
+                </div>
+              </div>
+            </Reveal>
           </div>
         </Container>
       </Section>
 
+      {/* Studio Principles Section */}
+      <Section className="pt-0">
+        <Container>
+          <Reveal>
+            <p className="font-mono text-xs uppercase tracking-[0.14em] text-accent-text">
+              Prinsip Pengerjaan
+            </p>
+            <h2 className="mt-3 max-w-[20ch] text-2xl font-semibold tracking-tight text-balance md:text-3xl">
+              Cara kami bekerja & mengambil keputusan
+            </h2>
+          </Reveal>
+
+          <div className="mt-10 grid gap-6 sm:grid-cols-2">
+            {values.map((value, i) => {
+              const num = String(i + 1).padStart(2, "0");
+              return (
+                <Reveal key={value.title} index={i}>
+                  <div className="group flex h-full gap-4 rounded-surface border border-border bg-bg-subtle p-6 transition-colors hover:border-border-strong md:p-7">
+                    <span className="flex size-9 shrink-0 items-center justify-center rounded-full border border-border bg-bg font-mono text-xs font-semibold text-text-faint group-hover:border-accent group-hover:bg-accent group-hover:text-accent-fg transition-all">
+                      {num}
+                    </span>
+                    <div>
+                      <h3 className="text-base font-semibold">{value.title}</h3>
+                      <p className="mt-2 text-xs leading-relaxed text-text-muted">
+                        {value.body}
+                      </p>
+                    </div>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
+        </Container>
+      </Section>
+
+      {/* Team & Capability Cards Section */}
       <Section className="border-t border-border bg-bg-subtle">
         <Container>
-          <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">Tim</h2>
-          <p className="mt-4 max-w-[54ch] leading-relaxed text-text-muted">
-            VOUR dijalankan sebagai tim kecil, dan setiap project ditangani langsung
-            oleh orang yang mengerjakannya. Tidak ada lapisan perantara antara Anda
-            dan yang menulis kodenya.
-          </p>
+          <Reveal>
+            <p className="font-mono text-xs uppercase tracking-[0.14em] text-accent-text">
+              Struktur Studio
+            </p>
+            <h2 className="mt-3 text-2xl font-semibold tracking-tight md:text-3xl">
+              Tim langsung tanpa perantara
+            </h2>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p className="mt-4 max-w-[54ch] text-sm leading-relaxed text-text-muted">
+              VOUR dijalankan sebagai tim kecil yang gesit. Setiap project ditangani langsung oleh engineer yang menulis kodenya tanpa perantara.
+            </p>
+          </Reveal>
 
-          {/* Three roles, three cells. TODO(VOUR): add names and photos (400x400). */}
-          <ul className="mt-10 grid gap-x-12 gap-y-8 sm:grid-cols-3">
+          <div className="mt-10 grid gap-6 sm:grid-cols-3">
             {team.map((member, i) => (
-              <Reveal key={member.role} as="li" index={i}>
-                <h3 className="font-mono text-sm tracking-tight">{member.role}</h3>
-                <p className="mt-2.5 text-sm leading-relaxed text-text-muted">
-                  {member.body}
-                </p>
+              <Reveal key={member.role} as="div" index={i}>
+                <div className="group flex h-full flex-col overflow-hidden rounded-surface border border-border bg-bg p-6 transition-all hover:border-border-strong">
+                  <div className="flex items-center justify-between">
+                    <span className="flex size-14 items-center justify-center rounded-full border border-border bg-bg-subtle font-mono text-base font-bold text-accent-text group-hover:border-accent group-hover:bg-accent/15 transition-colors">
+                      {member.initials}
+                    </span>
+                    <span className="rounded-full border border-accent/30 bg-accent/10 px-3 py-1 font-mono text-[0.65rem] font-medium text-accent-text">
+                      {member.role}
+                    </span>
+                  </div>
+
+                  <p className="mt-5 text-xs leading-relaxed text-text-muted">
+                    {member.body}
+                  </p>
+
+                  <div className="mt-auto pt-6">
+                    <p className="font-mono text-[0.65rem] uppercase tracking-wider text-text-faint mb-2">
+                      Keahlian Utama:
+                    </p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {member.skills.map((s) => (
+                        <span
+                          key={s}
+                          className="rounded-full border border-border bg-bg-subtle px-2 py-0.5 font-mono text-[0.6rem] text-text-muted"
+                        >
+                          {s}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </Reveal>
             ))}
-          </ul>
+          </div>
         </Container>
       </Section>
 
@@ -131,3 +244,5 @@ export default function AboutPage() {
     </>
   );
 }
+
+

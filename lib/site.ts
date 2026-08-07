@@ -33,7 +33,7 @@ export const mainNav = [
   { label: "Solutions", href: "/solutions" },
   { label: "Products", href: "/products" },
   { label: "Projects", href: "/projects" },
-  { label: "Resources", href: "/resources" },
+  { label: "Blog", href: "/resources" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ] as const;
@@ -48,7 +48,7 @@ export const mainNav = [
 export const PRIMARY_CTA = "Mulai Project"; // -> /contact
 export const PRODUCTS_CTA = "Lihat Produk"; // -> /products
 export const PROJECTS_CTA = "Lihat Project"; // -> /projects
-export const RESOURCES_CTA = "Lihat Tulisan"; // -> /resources
+export const RESOURCES_CTA = "Lihat Blog"; // -> /resources
 export const SERVICE_CTA = "Pelajari"; // -> /solutions#<slug>
 
 /** placeholder: swap for the real profiles. */

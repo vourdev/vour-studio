@@ -6,11 +6,19 @@ export function Differentiators() {
   return (
     <Section className="border-t border-border bg-bg-subtle">
       <Container>
-        <Reveal>
-          <h2 className="max-w-[20ch] text-3xl font-semibold tracking-tight text-balance md:text-4xl text-left mb-16">
-            Mengapa memilih VOUR?
-          </h2>
-        </Reveal>
+        <div className="max-w-2xl mb-16">
+          <Reveal>
+            <h2 className="text-3xl font-semibold tracking-tight text-balance md:text-4xl text-left">
+              Mengapa memilih VOUR?
+            </h2>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p className="mt-5 text-base text-text-muted leading-relaxed max-w-lg">
+              Hal-hal yang biasanya ditanyakan klien sebelum memutuskan mulai
+              kerja sama, kami jawab di sini.
+            </p>
+          </Reveal>
+        </div>
 
         <div className="grid grid-cols-6 gap-6">
           {/* Card 1: Modern Tech Stack (Col-span 2) */}

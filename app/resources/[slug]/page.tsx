@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Container, Section } from "@/components/ui/container";
 import { getPost, isPostSlug, postSlugs } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
-import { PRIMARY_CTA, RESOURCES_CTA } from "@/lib/site";
+import { PRIMARY_CTA } from "@/lib/site";
 import { formatDate } from "@/lib/utils";
 
 export function generateStaticParams() {
@@ -57,7 +57,7 @@ export default async function ResourcePage({ params }: PageProps<"/resources/[sl
           className="inline-flex items-center gap-1.5 text-sm text-text-muted transition-colors hover:text-text"
         >
           <ArrowLeftIcon weight="bold" className="size-3.5" aria-hidden />
-          {RESOURCES_CTA}
+          Kembali ke Blog
         </Link>
 
         <p className="mt-10 font-mono text-xs uppercase tracking-[0.14em] text-accent-text">
