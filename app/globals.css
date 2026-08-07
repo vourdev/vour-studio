@@ -6,7 +6,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ---------------------------------------------------------------------------
-   VOUR design tokens.
+   Vour design tokens.
 
    Locked decisions, applied everywhere:
    - One accent: acid lime. No second accent colour appears anywhere on the site.
@@ -16,48 +16,39 @@
 --------------------------------------------------------------------------- */
 
 :root {
-  --bg: #fafafa;
-  --bg-subtle: #f4f4f5;
-  --surface: #ffffff00; /* light mode groups with hairlines, not filled cards */
-  --surface-solid: #f4f4f5;
-  --border: #e4e4e7;
-  --border-strong: #d4d4d8;
-  --text: #18181b;
-  --text-muted: #52525b;
-  /* `faint` is still used on small text (meta lines, footer headings), so it has
-     to clear WCAG AA 4.5:1 against `--bg`, not just look quiet. */
-  --text-faint: #63636d;
+  --bg: #0a0a0a;
+  --bg-subtle: #121214;
+  --surface: #ffffff0a;
+  --surface-solid: #151518;
+  --border: #ffffff14;
+  --border-strong: #ffffff29;
+  --text: #ffffff;
+  --text-muted: #a1a1aa;
+  --text-faint: #71717a;
 
-  /* Accent as a fill keeps the lime; accent as text darkens so body-size text
-     clears WCAG AA against the light background.
-
-     Saturation is held at ~71%. The earlier #c6f24e sat at 86%, above the 80%
-     ceiling the design system sets for accents, and read hotter than the rest
-     of the palette. */
-  --accent: #cde87a;
-  --accent-hover: #c2e163;
-  --accent-fg: #09090b;
-  --accent-text: #4d6b0a;
-  --accent-soft: #cde87a26;
+  --accent: #39d5f6;
+  --accent-hover: #60dff9;
+  --accent-fg: #0a0a0a;
+  --accent-text: #39d5f6;
+  --accent-soft: rgba(57, 213, 246, 0.12);
 }
 
 .dark {
-  --bg: #09090b;
-  --bg-subtle: #101012;
-  --surface: #ffffff08;
+  --bg: #0a0a0a;
+  --bg-subtle: #121214;
+  --surface: #ffffff0a;
   --surface-solid: #151518;
   --border: #ffffff14;
-  --border-strong: #ffffff24;
-  --text: #fafafa;
+  --border-strong: #ffffff29;
+  --text: #ffffff;
   --text-muted: #a1a1aa;
-  /* See the light-mode note: 4.5:1 against `--bg`, measured. */
-  --text-faint: #8b8b96;
+  --text-faint: #71717a;
 
-  --accent: #cde87a;
-  --accent-hover: #dcef99;
-  --accent-fg: #09090b;
-  --accent-text: #cde87a;
-  --accent-soft: #cde87a1f;
+  --accent: #39d5f6;
+  --accent-hover: #60dff9;
+  --accent-fg: #0a0a0a;
+  --accent-text: #39d5f6;
+  --accent-soft: rgba(57, 213, 246, 0.12);
 }
 
 @theme inline {
@@ -120,6 +111,7 @@
 }
 
 @layer utilities {
+
   /* Hairline rule that reads at the same weight in both themes. */
   .rule {
     border-color: var(--border);
@@ -128,11 +120,9 @@
   /* Static engineering lattice behind the hero. Pure CSS, so it costs one paint
      and never repaints; the canvas on top animates only the lit blocks. */
   .dot-grid {
-    background-image: radial-gradient(
-      circle at center,
-      rgba(255, 255, 255, 0.16) 1.25px,
-      transparent 1.25px
-    );
+    background-image: radial-gradient(circle at center,
+        rgba(255, 255, 255, 0.16) 1.25px,
+        transparent 1.25px);
     background-size: 22px 22px;
     background-position: center;
   }
@@ -144,6 +134,7 @@
     height: 0;
     opacity: 0;
   }
+
   to {
     height: var(--radix-accordion-content-height);
     opacity: 1;
@@ -155,6 +146,7 @@
     height: var(--radix-accordion-content-height);
     opacity: 1;
   }
+
   to {
     height: 0;
     opacity: 0;
@@ -166,6 +158,7 @@
   from {
     transform: translate3d(0, 0, 0);
   }
+
   to {
     transform: translate3d(-50%, 0, 0);
   }

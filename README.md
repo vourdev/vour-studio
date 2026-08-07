@@ -1,6 +1,6 @@
-# VOUR Platform
+# Vour Platform
 
-Marketing site for VOUR, an AI-Powered Product Engineering Studio. Built from
+Marketing site for Vour, an AI-Powered Product Engineering Studio. Built from
 [`docs/PRD.md`](docs/PRD.md) and [`docs/vour-website-build-prompt.md`](docs/vour-website-build-prompt.md).
 
 All visitor-facing copy is Indonesian.
@@ -228,12 +228,12 @@ add them later without a code change.
 
 ## Known gaps
 
-These are deliberate and need real input from VOUR before launch.
+These are deliberate and need real input from Vour before launch.
 
 - **Placeholder content**: trust-bar statistics, product prices, project case
-  studies, FAQ answers and team profiles. All marked `TODO(VOUR)` in code.
+  studies, FAQ answers and team profiles. All marked `TODO(Vour)` in code.
 - **Placeholder images**: project thumbnails and article covers use
-  `picsum.photos` seeds. Every slot is marked with a `TODO(VOUR)` comment naming
+  `picsum.photos` seeds. Every slot is marked with a `TODO(Vour)` comment naming
   the dimensions needed.
 - **Placeholder contact details**: WhatsApp number, email and social URLs in
   `lib/site.ts`.

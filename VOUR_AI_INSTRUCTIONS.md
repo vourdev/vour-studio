@@ -1,12 +1,12 @@
-# VOUR AI Instructions
+# Vour AI Instructions
 
 Version: 1.0
 
 ---
 
-# What is VOUR?
+# What is Vour?
 
-VOUR is an AI-Powered Product Engineering Studio.
+Vour is an AI-Powered Product Engineering Studio.
 
 We are NOT:
 
@@ -90,7 +90,7 @@ Never waste work.
 
 # Business Model
 
-VOUR has two main businesses.
+Vour has two main businesses.
 
 ## Service
 
@@ -456,7 +456,7 @@ Maintainability
 
 # Branding
 
-VOUR should always feel:
+Vour should always feel:
 
 Professional
 
@@ -494,7 +494,7 @@ Avoid excessive marketing language.
 
 Before recommending anything evaluate:
 
-Does this improve VOUR?
+Does this improve Vour?
 
 Does this improve scalability?
 
@@ -576,7 +576,7 @@ AI Studio
 
 # Final Goal
 
-VOUR should become an ecosystem for developers.
+Vour should become an ecosystem for developers.
 
 One platform where developers can:
 
@@ -598,7 +598,7 @@ Improve productivity.
 
 # Important Rule
 
-Whenever helping VOUR:
+Whenever helping Vour:
 
 Think like:
 

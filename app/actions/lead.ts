@@ -101,7 +101,7 @@ export async function submitLead(
     try {
       const email = renderLeadNotification({ ...data, storedInDb });
       await new Resend(resendKey).emails.send({
-        from: process.env.RESEND_FROM ?? "VOUR <onboarding@resend.dev>",
+        from: process.env.RESEND_FROM ?? "Vour <onboarding@resend.dev>",
         to: email.to,
         replyTo: email.replyTo,
         subject: email.subject,

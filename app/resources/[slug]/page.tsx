@@ -75,7 +75,7 @@ export default async function ResourcePage({ params }: PageProps<"/resources/[sl
 
       <Container className="mt-12 max-w-5xl">
         <div className="relative aspect-16/9 overflow-hidden rounded-surface border border-border">
-          {/* TODO(VOUR): real article cover, 1200x675. */}
+          {/* TODO(Vour): real article cover, 1200x675. */}
           <Image
             src={meta.image}
             alt=""

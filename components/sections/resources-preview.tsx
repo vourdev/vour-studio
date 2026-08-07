@@ -52,7 +52,7 @@ export async function ResourcesPreview() {
                   className={cn("block", single && "grid gap-8 sm:grid-cols-2 sm:items-center")}
                 >
                   <div className="relative aspect-16/10 overflow-hidden rounded-surface border border-border">
-                    {/* TODO(VOUR): real article cover, 1200x675. */}
+                    {/* TODO(Vour): real article cover, 1200x675. */}
                     <Image
                       src={post.meta.image}
                       alt=""

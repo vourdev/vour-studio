@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Wordmark, not an illustration: the brand name set in the display face with a
- * single accent element. TODO(VOUR): replace with the real logo asset once one exists.
+ * single accent element. TODO(Vour): replace with the real logo asset once one exists.
  */
 export function Logo({ className }: { className?: string }) {
   return (

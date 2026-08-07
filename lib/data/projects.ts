@@ -1,5 +1,5 @@
 /**
- * TODO(VOUR): placeholder case studies. Replace names, industries and results
+ * TODO(Vour): placeholder case studies. Replace names, industries and results
  * with real engagements, and swap the Picsum seeds for real screenshots.
  *
  * `result` is the headline of each card, not the screenshot. What the client

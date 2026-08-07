@@ -36,8 +36,7 @@ Before completing tasks, verify with:
 - All env variables are optional. `getDb()` returns `null` if credentials (`TURSO_DATABASE_URL`) are absent.
 - The contact form server action (`app/actions/lead.ts`) must degrade gracefully. Turso/Resend failures should be caught and logged (warning/error log) rather than erroring out the user flow.
 
-### Design System & Tailwind v4
-- **One Accent**: Acid lime `#cde87a` (`--accent`). Text on light background: `#4d6b0a` (`--accent-text`). No second accents are allowed.
+- **One Accent**: Cyan/Turquoise `#39d5f6` (`--accent`). Background: Deep Black `#0a0a0a`. Primary: White `#ffffff`. Style: Flat, clean, developer tools aesthetic (Vercel, Linear, Raycast, Warp).
 - **Display Font**: Monospace (Geist Mono) for H1 hero, numbers, and labels only. Sans (Geist Sans) for section headings/body.
 - **Radii**: Card/panels: `rounded-surface` (12px), buttons/inputs: `rounded-control` (8px).
 - Tailwind CSS v4 styles are configured directly in `app/globals.css` (no `tailwind.config.js`).

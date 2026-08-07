@@ -9,7 +9,7 @@ export function Differentiators() {
         <div className="max-w-2xl mb-16">
           <Reveal>
             <h2 className="text-3xl font-semibold tracking-tight text-balance md:text-4xl text-left">
-              Mengapa memilih VOUR?
+              Mengapa memilih Vour?
             </h2>
           </Reveal>
           <Reveal delay={0.1}>

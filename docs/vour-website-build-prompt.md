@@ -1,18 +1,18 @@
-# PROMPT: Build Website VOUR
+# PROMPT: Build Website Vour
 
-Gunakan prompt ini di Claude Code, Cursor, atau AI coding tool lain untuk membangun website VOUR dari nol.
+Gunakan prompt ini di Claude Code, Cursor, atau AI coding tool lain untuk membangun website Vour dari nol.
 
 ---
 
 ## 1. Konteks Bisnis (WAJIB dipahami sebelum coding)
 
-VOUR adalah **AI-Powered Product Engineering Studio** — BUKAN freelancer, BUKAN cheap web developer, BUKAN software house tradisional, BUKAN digital agency biasa.
+Vour adalah **AI-Powered Product Engineering Studio** — BUKAN freelancer, BUKAN cheap web developer, BUKAN software house tradisional, BUKAN digital agency biasa.
 
 **Target audience utama:** Developer, Startup, UMKM, Agency (sekunder: student, tech enthusiast).
 
 **Positioning yang harus terasa di seluruh website:**
-- Pengunjung harus tahu VOUR menerima jasa (web/dashboard/AI automation) dalam < 5 detik.
-- Pengunjung harus paham VOUR bukan freelancer/software house biasa dalam < 10 detik.
+- Pengunjung harus tahu Vour menerima jasa (web/dashboard/AI automation) dalam < 5 detik.
+- Pengunjung harus paham Vour bukan freelancer/software house biasa dalam < 10 detik.
 - Yang dijual adalah **solusi**, bukan teknologi. Next.js/Docker/React tidak boleh jadi selling point di copy — itu hanya alat.
 
 **Tone of voice:** Professional, friendly, helpful, technical, straightforward. Hindari bahasa marketing yang berlebihan.
@@ -59,7 +59,7 @@ Home
 ├── Hero
 ├── Trust Bar
 ├── Apa yang Bisa Kami Bantu? (bukan "Solutions" — terlalu generik)
-├── Mengapa Memilih VOUR?
+├── Mengapa Memilih Vour?
 ├── Featured Products
 ├── Selected Projects
 ├── Workflow
@@ -78,7 +78,7 @@ Menu utama: Solutions, Products, Projects, Resources, About, Contact
 ### Hero
 - Headline: "Jasa Pembuatan Website, Dashboard, dan AI Automation untuk Bisnis Modern."
   (Alternatif: "Bangun Website Profesional dan Workflow AI yang Membantu Bisnis Berkembang.")
-- Subheadline: "VOUR adalah AI-Powered Product Engineering Studio yang membantu bisnis membangun website profesional, dashboard internal, workflow AI, serta menyediakan template dan starter kit untuk developer."
+- Subheadline: "Vour adalah AI-Powered Product Engineering Studio yang membantu bisnis membangun website profesional, dashboard internal, workflow AI, serta menyediakan template dan starter kit untuk developer."
 - CTA Primary: "Mulai Project" | CTA Secondary: "Lihat Produk"
 - Visual: mockup website/dashboard/AI workflow/mobile view — satu "wow moment" animasi di sini boleh lebih ekspresif (kandidat: Aceternity spotlight/aurora atau React Bits background), tapi tetap satu elemen saja, jangan ramai.
 
@@ -91,7 +91,7 @@ Placeholder statistik (isi angka riil nanti): "xx+ Projects", "xx+ Templates", "
 3. ☁ Infrastructure & Deployment — Docker, VPS, CI/CD, SSL, Reverse Proxy, Monitoring, dan Deployment Production. CTA: "Pelajari"
 4. 🛍 Premium Digital Products — Template, Starter Kit, Component Library, AI Workflow, dan Developer Toolkit. CTA: "Lihat Produk"
 
-### Mengapa Memilih VOUR? (4 card, tanpa CTA)
+### Mengapa Memilih Vour? (4 card, tanpa CTA)
 AI-Powered Development · Modern Tech Stack · Clean Architecture · Documentation — masing-masing 1 kalimat penjelasan singkat.
 
 ### Featured Products
@@ -111,7 +111,7 @@ Apakah menerima revisi? · Berapa lama pengerjaan? · Apakah bisa meeting online
 (Jawaban belum final — isi placeholder yang jujur, bukan copy generik.)
 
 ### CTA (penutup sebelum footer)
-Headline: "Punya Ide Produk Digital?" | Subheadline: "Diskusikan kebutuhan project Anda bersama VOUR." | CTA: "Mulai Project" / "Hubungi WhatsApp"
+Headline: "Punya Ide Produk Digital?" | Subheadline: "Diskusikan kebutuhan project Anda bersama Vour." | CTA: "Mulai Project" / "Hubungi WhatsApp"
 
 ### Footer
 Menu: Solutions, Products, Projects, Resources, About, Contact.
@@ -135,7 +135,7 @@ Buat minimal 2 tabel:
 - `leads` — id, name, email, whatsapp, message, source_page, created_at
 - `newsletter_subscribers` — id, email, subscribed_at
 
-Setiap submit form leads → simpan ke Turso DAN trigger email notifikasi ke internal VOUR via Resend (bukan ke user admin dashboard).
+Setiap submit form leads → simpan ke Turso DAN trigger email notifikasi ke internal Vour via Resend (bukan ke user admin dashboard).
 
 ---
 

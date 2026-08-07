@@ -85,7 +85,7 @@ export function Hero() {
           delay={0.45}
           className="mt-7 max-w-[52ch] text-base leading-relaxed text-text-muted md:text-lg"
         >
-          VOUR membantu bisnis dan developer membangun produk digital yang cepat,
+          Vour membantu bisnis dan developer membangun produk digital yang cepat,
           rapi, dan siap dikembangkan.
         </Reveal>
 

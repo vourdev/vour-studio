@@ -14,11 +14,11 @@ import { BookOpenIcon, ShieldCheckIcon, SparkleIcon } from "@phosphor-icons/reac
 export const metadata = buildMetadata({
   title: "Products",
   description:
-    "Template, starter kit, dan toolkit siap pakai dari VOUR untuk developer yang ingin melewati bagian membosankan dan langsung mengerjakan bagian yang penting.",
+    "Template, starter kit, dan toolkit siap pakai dari Vour untuk developer yang ingin melewati bagian membosankan dan langsung mengerjakan bagian yang penting.",
   path: "/products",
 });
 
-/** TODO(VOUR): confirm these answers once the first product actually ships. */
+/** TODO(Vour): confirm these answers once the first product actually ships. */
 const productFaqs = [
   {
     question: "Kapan produknya bisa dibeli?",

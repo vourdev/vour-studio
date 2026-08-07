@@ -6,7 +6,7 @@ export function buildMetadata({
   title,
   description,
   path = "/",
-  image,
+  image = "/images/ogImage.png",
 }: {
   title: string;
   description: string;
@@ -14,6 +14,7 @@ export function buildMetadata({
   image?: string;
 }): Metadata {
   const url = new URL(path, siteConfig.url).toString();
+  const imageUrl = new URL(image, siteConfig.url).toString();
 
   return {
     title,
@@ -26,18 +27,18 @@ export function buildMetadata({
       siteName: siteConfig.name,
       title,
       description,
-      ...(image ? { images: [{ url: image }] } : {}),
+      images: [{ url: imageUrl, width: 1200, height: 630, alt: title }],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      ...(image ? { images: [image] } : {}),
+      images: [imageUrl],
     },
   };
 }
 
-/** Organization plus the three service lines, so search engines see what VOUR sells. */
+/** Organization plus the three service lines, so search engines see what Vour sells. */
 export function organizationJsonLd() {
   return {
     "@context": "https://schema.org",

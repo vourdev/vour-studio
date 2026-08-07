@@ -40,7 +40,7 @@ export function Nav() {
     <header className="sticky top-0 z-40 border-b border-border bg-bg/80 backdrop-blur-xl">
       {/* h-16 desktop keeps the bar at 64px, comfortably under the 80px cap. */}
       <Container className="flex h-16 items-center justify-between gap-6">
-        <Link href="/" className="shrink-0" aria-label={`${"VOUR"} beranda`}>
+        <Link href="/" className="shrink-0" aria-label={`${"Vour"} beranda`}>
           <Logo />
         </Link>
 

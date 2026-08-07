@@ -38,6 +38,11 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: siteConfig.legalName }],
   creator: siteConfig.legalName,
+  icons: {
+    icon: "/images/vourdev-logo.jpeg",
+    shortcut: "/images/vourdev-logo.jpeg",
+    apple: "/images/vourdev-logo.jpeg",
+  },
   openGraph: {
     type: "website",
     locale: "id_ID",
@@ -45,19 +50,21 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     title: `${siteConfig.name} - ${siteConfig.tagline}`,
     description: siteConfig.description,
+    images: [{ url: "/images/ogImage.png", width: 1200, height: 630, alt: `${siteConfig.name} - ${siteConfig.tagline}` }],
   },
   twitter: {
     card: "summary_large_image",
     title: `${siteConfig.name} - ${siteConfig.tagline}`,
     description: siteConfig.description,
+    images: ["/images/ogImage.png"],
   },
   robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
-    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
+    { media: "(prefers-color-scheme: light)", color: "#0a0a0a" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
   ],
 };
 

@@ -22,7 +22,7 @@ import { PRIMARY_CTA, PRODUCTS_CTA } from "@/lib/site";
 export const metadata = buildMetadata({
   title: "Solutions",
   description:
-    "Website development, AI automation, infrastructure dan deployment, serta produk digital untuk developer. Empat layanan VOUR dan hasil yang Anda dapatkan.",
+    "Website development, AI automation, infrastructure dan deployment, serta produk digital untuk developer. Empat layanan Vour dan hasil yang Anda dapatkan.",
   path: "/solutions",
 });
 
@@ -325,7 +325,7 @@ export default function SolutionsPage() {
         </Container>
       </Section>
 
-      {/* Differentiators Matrix Section ("Mengapa Memilih VOUR") */}
+      {/* Differentiators Matrix Section ("Mengapa Memilih Vour") */}
       <Section className="border-t border-border bg-bg/50">
         <Container>
           <Reveal>
@@ -333,7 +333,7 @@ export default function SolutionsPage() {
               Pendekatan Kami
             </p>
             <h2 className="mt-3 text-2xl font-semibold tracking-tight text-balance md:text-3xl">
-              Mengapa bekerja bersama VOUR
+              Mengapa bekerja bersama Vour
             </h2>
           </Reveal>
 

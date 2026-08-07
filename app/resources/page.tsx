@@ -11,7 +11,7 @@ import { formatDate } from "@/lib/utils";
 export const metadata = buildMetadata({
   title: "Blog",
   description:
-    "Tutorial, studi kasus, dan catatan pengembangan dari VOUR. Ditulis untuk developer dan pemilik bisnis yang ingin memahami keputusan teknis tanpa jargon.",
+    "Tutorial, studi kasus, dan catatan pengembangan dari Vour. Ditulis untuk developer dan pemilik bisnis yang ingin memahami keputusan teknis tanpa jargon.",
   path: "/resources",
 });
 

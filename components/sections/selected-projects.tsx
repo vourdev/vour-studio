@@ -42,7 +42,7 @@ export function SelectedProjects() {
               )}
             >
               <figure className="relative aspect-3/2 overflow-hidden rounded-surface border border-border">
-                {/* TODO(VOUR): real project screenshot, 1200x800. */}
+                {/* TODO(Vour): real project screenshot, 1200x800. */}
                 <Image
                   src={project.image}
                   alt={`Tampilan project ${project.name}`}
@@ -94,7 +94,7 @@ export function SelectedProjects() {
       {/* Pattern break: full-bleed image, caption below rather than overlaid. */}
       <Reveal y={32} className="mt-20">
         <figure className="relative aspect-16/9 w-full overflow-hidden border-y border-border md:aspect-[21/9]">
-          {/* TODO(VOUR): real project screenshot, 1600x900. */}
+          {/* TODO(Vour): real project screenshot, 1600x900. */}
           <Image
             src={third.image}
             alt={`Tampilan project ${third.name}`}

@@ -214,48 +214,32 @@ export function WaveMatrix({ className }: { className?: string }) {
           const pointSize = CELL_MIN + (POINT_CELL_MAX - CELL_MIN) * e;
           const size = sweepSize * (1 - share) + pointSize * share;
 
-          // Color rendering: base color is blended from sweep (yellow vs white waves)
-          let h = 75;
-          let s = 71;
-          let l = 70;
+          // Color rendering: base color is blended from sweep (cyan vs white waves)
+          let h = 190;
+          let s = 90;
+          let l = 59;
 
           const sweepTotal = iSweepYellow + iSweepWhite;
           if (sweepTotal > 0) {
             const whiteShare = iSweepWhite / sweepTotal;
-            // Wave 1 is yellow (75deg), Wave 2 & 3 are white (0deg sat, 95% lightness)
-            h = 75 * (1 - whiteShare);
-            s = 71 * (1 - whiteShare);
-            l = 70 * (1 - whiteShare) + 95 * whiteShare;
+            // Wave 1 is cyan (190deg, 90% sat, 59% light), Wave 2 & 3 are white (0deg sat, 95% lightness)
+            h = 190 * (1 - whiteShare);
+            s = 90 * (1 - whiteShare);
+            l = 59 * (1 - whiteShare) + 95 * whiteShare;
           }
 
           if (share > 0) {
             const r = minPointerDistRatio;
-            let pH, pS, pL;
-            if (r <= 0.2) {
-              const t = r / 0.2;
-              pH = 75 + 60 * t;
-              pS = 71 + 4 * t;
-              pL = 69 - 14 * t;
-            } else if (r <= 0.4) {
-              const t = (r - 0.2) / 0.2;
-              pH = 135 + 50 * t;
-              pS = 75 + 5 * t;
-              pL = 55 - 5 * t;
-            } else if (r <= 0.6) {
-              const t = (r - 0.4) / 0.2;
-              pH = 185 + 30 * t;
-              pS = 80 + 5 * t;
-              pL = 50 + 5 * t;
-            } else if (r <= 0.8) {
-              const t = (r - 0.6) / 0.2;
-              pH = 215 + 35 * t;
-              pS = 85 - 5 * t;
-              pL = 55 - 5 * t;
+            const pH = 190;
+            let pS = 90;
+            let pL = 59;
+            if (r <= 0.5) {
+              const t = r / 0.5;
+              pL = 59 + 25 * t;
             } else {
-              const t = Math.min(1, (r - 0.8) / 0.2);
-              pH = 250 + 15 * t;
-              pS = 80 - 10 * t;
-              pL = 50 - 20 * t;
+              const t = (r - 0.5) / 0.5;
+              pS = 90 - 70 * t;
+              pL = 84 + 11 * t;
             }
             h = h * (1 - share) + pH * share;
             s = s * (1 - share) + pS * share;

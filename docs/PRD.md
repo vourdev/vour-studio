@@ -1,6 +1,6 @@
 # Product Requirement Document (PRD)
 
-# VOUR Platform
+# Vour Platform
 
 Version: 1.0
 
@@ -8,13 +8,13 @@ Status:
 Planning
 
 Owner:
-VOUR
+Vour
 
 ---
 
 # Overview
 
-VOUR Platform adalah website resmi VOUR yang berfungsi sebagai pusat informasi, portfolio, pemasaran, dan penjualan digital products serta jasa development.
+Vour Platform adalah website resmi Vour yang berfungsi sebagai pusat informasi, portfolio, pemasaran, dan penjualan digital products serta jasa development.
 
 Platform ini dirancang agar dapat berkembang dari website sederhana menjadi Product Platform yang mendukung:
 
@@ -26,13 +26,13 @@ Platform ini dirancang agar dapat berkembang dari website sederhana menjadi Prod
 - Payment Gateway
 - SaaS
 
-Website ini bukan sekadar company profile, tetapi menjadi pusat ekosistem VOUR.
+Website ini bukan sekadar company profile, tetapi menjadi pusat ekosistem Vour.
 
 ---
 
 # Vision
 
-Menjadi platform modern yang memperkenalkan VOUR sebagai AI-Powered Product Engineering Studio.
+Menjadi platform modern yang memperkenalkan Vour sebagai AI-Powered Product Engineering Studio.
 
 Platform harus mampu:
 
@@ -53,7 +53,7 @@ Platform harus mampu:
 - Menjual template
 - Menjual ebook
 - Menjual AI Workflow
-- Meningkatkan personal branding VOUR
+- Meningkatkan personal branding Vour
 - Menjadi landing page seluruh traffic
 
 ---
@@ -62,7 +62,7 @@ Platform harus mampu:
 
 Visitor dapat:
 
-- mengenal VOUR
+- mengenal Vour
 - melihat portfolio
 - melihat produk
 - melihat layanan

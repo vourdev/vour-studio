@@ -1,31 +1,31 @@
 /**
  * Single source of truth for brand, navigation and contact details.
  *
- * TODO(VOUR): every value marked `placeholder` needs the real thing before launch.
+ * TODO(Vour): every value marked `placeholder` needs the real thing before launch.
  */
 
 export const siteConfig = {
-  name: "VOUR",
-  legalName: "VOUR Studio",
+  name: "Vour",
+  legalName: "Vour Studio",
   tagline: "AI-Powered Product Engineering Studio",
   description:
-    "VOUR membangun website, dashboard internal, dan workflow AI untuk bisnis modern. Juga menyediakan template dan starter kit untuk developer.",
+    "Vour membangun website, dashboard internal, dan workflow AI untuk bisnis modern. Juga menyediakan template dan starter kit untuk developer.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://vour.studio", // placeholder domain
   locale: "id-ID",
 } as const;
 
-/** placeholder: swap for the real WhatsApp business number (digits only, 62 prefix). */
 export const WHATSAPP_NUMBER =
-  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "6281234567890";
+  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "6287787388296";
 
-/** placeholder: swap for the real inbox. */
+export const PHONE_NUMBER = "087787388296";
+
 export const CONTACT_EMAIL =
-  process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "halo@vour.studio";
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "vour.d3v@gmail.com";
 
 export function whatsappLink(message?: string) {
   const text =
     message ??
-    "Halo VOUR, saya ingin mendiskusikan sebuah project. Boleh minta informasinya?";
+    "Halo Vour, saya ingin mendiskusikan sebuah project. Boleh minta informasinya?";
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
 }
 
@@ -53,12 +53,12 @@ export const SERVICE_CTA = "Pelajari"; // -> /solutions#<slug>
 
 /** placeholder: swap for the real profiles. */
 export const socialLinks = [
-  { label: "GitHub", href: "https://github.com/vourstudio", icon: "github" },
+  { label: "GitHub", href: "/", icon: "github" },
   {
     label: "LinkedIn",
-    href: "https://linkedin.com/company/vourstudio",
+    href: "/",
     icon: "linkedin",
   },
-  { label: "Instagram", href: "https://instagram.com/vour.studio", icon: "instagram" },
-  { label: "TikTok", href: "https://tiktok.com/@vour.studio", icon: "tiktok" },
+  { label: "Instagram", href: "/", icon: "instagram" },
+  { label: "TikTok", href: "https://www.tiktok.com/@vour.dev", icon: "tiktok" },
 ] as const;

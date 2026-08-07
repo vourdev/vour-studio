@@ -1,5 +1,5 @@
 /**
- * TODO(VOUR): every product below is a placeholder. Prices, feature lists and
+ * TODO(Vour): every product below is a placeholder. Prices, feature lists and
  * availability all need real values before launch. `status: "soon"` renders a
  * disabled CTA rather than a dead link.
  */

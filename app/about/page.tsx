@@ -8,7 +8,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "About",
   description:
-    "VOUR adalah AI-Powered Product Engineering Studio. Kami membangun website, dashboard, dan workflow AI yang benar-benar dipakai, bukan sekadar diserahkan.",
+    "Vour adalah AI-Powered Product Engineering Studio. Kami membangun website, dashboard, dan workflow AI yang benar-benar dipakai, bukan sekadar diserahkan.",
   path: "/about",
 });
 
@@ -77,7 +77,7 @@ export default function AboutPage() {
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mt-4 max-w-[60ch] text-sm leading-relaxed text-text-muted md:text-base">
-              VOUR adalah AI-Powered Product Engineering Studio. Kami bekerja dengan bisnis dan developer untuk membangun website, dashboard internal, dan workflow AI, serta menyediakan template dan starter kit teruji.
+              Vour adalah AI-Powered Product Engineering Studio. Kami bekerja dengan bisnis dan developer untuk membangun website, dashboard internal, dan workflow AI, serta menyediakan template dan starter kit teruji.
             </p>
           </Reveal>
 
@@ -197,7 +197,7 @@ export default function AboutPage() {
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mt-4 max-w-[54ch] text-sm leading-relaxed text-text-muted">
-              VOUR dijalankan sebagai tim kecil yang gesit. Setiap project ditangani langsung oleh engineer yang menulis kodenya tanpa perantara.
+              Vour dijalankan sebagai tim kecil yang gesit. Setiap project ditangani langsung oleh engineer yang menulis kodenya tanpa perantara.
             </p>
           </Reveal>
 

@@ -30,7 +30,7 @@ export function ClosingCta() {
         </Reveal>
         <Reveal index={1}>
           <p className="mt-5 max-w-[46ch] text-text-muted md:text-lg">
-            Diskusikan kebutuhan project Anda bersama VOUR. Konsultasi awal tidak
+            Diskusikan kebutuhan project Anda bersama Vour. Konsultasi awal tidak
             dipungut biaya.
           </p>
         </Reveal>

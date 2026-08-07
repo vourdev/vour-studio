@@ -10,12 +10,12 @@ import {
 import { LeadForm } from "@/components/forms/lead-form";
 import { Container, Section } from "@/components/ui/container";
 import { buildMetadata } from "@/lib/seo";
-import { CONTACT_EMAIL, whatsappLink } from "@/lib/site";
+import { CONTACT_EMAIL, PHONE_NUMBER, whatsappLink } from "@/lib/site";
 
 export const metadata = buildMetadata({
   title: "Kontak",
   description:
-    "Diskusikan kebutuhan project Anda bersama VOUR. Hubungi lewat WhatsApp, email, atau kirim pesan langsung dari halaman ini.",
+    "Diskusikan kebutuhan project Anda bersama Vour. Hubungi lewat WhatsApp, email, atau kirim pesan langsung dari halaman ini.",
   path: "/contact",
 });
 
@@ -23,7 +23,7 @@ const channels = [
   {
     icon: WhatsappLogoIcon,
     label: "WhatsApp",
-    value: "Jalur tercepat, biasanya dibalas di jam kerja",
+    value: PHONE_NUMBER,
     href: whatsappLink(),
     external: true,
   },
@@ -92,7 +92,7 @@ export default function ContactPage() {
           </ul>
 
           <div className="mt-10">
-            <h2 className="text-sm font-medium text-text">Ikuti VOUR</h2>
+            <h2 className="text-sm font-medium text-text">Ikuti Vour</h2>
             <ul className="mt-4 flex items-center gap-3">
               {socials.map((social) => (
                 <li key={social.label}>

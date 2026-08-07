@@ -10,7 +10,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Projects",
   description:
-    "Project yang sudah diselesaikan VOUR, lengkap dengan tantangan, pengerjaan, dan hasil yang dicapai untuk setiap klien.",
+    "Project yang sudah diselesaikan Vour, lengkap dengan tantangan, pengerjaan, dan hasil yang dicapai untuk setiap klien.",
   path: "/projects",
 });
 
@@ -107,7 +107,7 @@ export default function ProjectsPage() {
 
                         <div className="rounded-control border border-border bg-bg p-3.5">
                           <p className="font-mono uppercase tracking-wider text-accent-text text-[0.65rem]">
-                            Solusi VOUR
+                            Solusi Vour
                           </p>
                           <p className="mt-1.5 leading-relaxed text-text-muted">
                             {project.solution}
