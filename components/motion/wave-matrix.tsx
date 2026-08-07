@@ -32,7 +32,7 @@ const CELL_MAX = 9; // block size at a wave peak, px
 
 // Radial sweep (the opening animation - 3 circular waves).
 const SWEEP_SPEED = 520; // px per second
-const SWEEP_BAND = 32; // thickness of the front, px
+const SWEEP_BAND = 32; // base thickness of the front, px
 const SWEEP_LIFE = 2.8; // seconds before the front has decayed
 
 // Pointer pulse (trail/tail).
@@ -128,7 +128,7 @@ export function WaveMatrix({ className }: { className?: string }) {
           // Tracked separately so each kind can drive its own block size. The
           // pointer trail is deliberately finer than the sweep.
           let iSweepYellow = 0;
-          let iSweepBlue = 0;
+          let iSweepWhite = 0;
           let iPoint = 0;
           let minPointerDistRatio = 1.0;
 
@@ -137,47 +137,47 @@ export function WaveMatrix({ className }: { className?: string }) {
             if (age < 0) continue;
 
             if (w.kind === "sweep") {
-              // Radial/circular waves expanding from the top center downward
+              // 3 circular waves expanding from the top center downward
               const centerX = width / 2;
               const centerY = -50;
               const distance = Math.hypot(cx - centerX, cy - centerY);
 
               const speed = SWEEP_SPEED;
-              const spacing = 160; // spacing between wave peaks in px
+              const spacing = 150; // spacing between wave peaks in px
               const decayFactor = Math.exp(-age / SWEEP_LIFE);
 
-              // Wave 1: First wave (yellow, slightly faded)
+              // Wave 1: First circle wave (yellow accent)
               const r1 = age * speed;
-              const bw1 = SWEEP_BAND;
+              const bw1 = SWEEP_BAND * 0.65;
               const diff1 = distance - r1;
-              const s1 = 0.8 * w.strength * decayFactor;
+              const s1 = 0.85 * w.strength * decayFactor;
               const ring1 = Math.exp(-(diff1 * diff1) / (2 * bw1 * bw1));
               const contrib1 = ring1 * s1;
 
-              // Wave 2: Second wave (blue, dimmer, smaller)
+              // Wave 2: Second circle wave (dimmer white)
               const r2 = r1 - spacing;
               let contrib2 = 0;
               if (r2 > 0) {
                 const bw2 = SWEEP_BAND * 0.8;
                 const diff2 = distance - r2;
-                const s2 = s1 * 0.45; // adjusted opacity
+                const s2 = s1 * 0.32; // dimmer white wave 2
                 const ring2 = Math.exp(-(diff2 * diff2) / (2 * bw2 * bw2));
                 contrib2 = ring2 * s2;
               }
 
-              // Wave 3: Third wave (blue, even dimmer, even smaller)
+              // Wave 3: Third circle wave (very dim white)
               const r3 = r2 - spacing;
               let contrib3 = 0;
               if (r3 > 0) {
-                const bw3 = SWEEP_BAND * 0.65;
+                const bw3 = SWEEP_BAND * 0.7;
                 const diff3 = distance - r3;
-                const s3 = s1 * 0.22; // adjusted opacity
+                const s3 = s1 * 0.14; // very dim white wave 3
                 const ring3 = Math.exp(-(diff3 * diff3) / (2 * bw3 * bw3));
                 contrib3 = ring3 * s3;
               }
 
               iSweepYellow += contrib1;
-              iSweepBlue += contrib2 + contrib3;
+              iSweepWhite += contrib2 + contrib3;
             } else {
               const dx = cx - w.x;
               const dy = cy - w.y;
@@ -199,7 +199,7 @@ export function WaveMatrix({ className }: { className?: string }) {
             }
           }
 
-          const iSweep = iSweepYellow + iSweepBlue;
+          const iSweep = iSweepYellow + iSweepWhite;
           const i = iSweep + iPoint;
           if (i < 0.05) continue;
 
@@ -214,18 +214,18 @@ export function WaveMatrix({ className }: { className?: string }) {
           const pointSize = CELL_MIN + (POINT_CELL_MAX - CELL_MIN) * e;
           const size = sweepSize * (1 - share) + pointSize * share;
 
-          // Color rendering: base color is blended from sweep (yellow vs blue waves)
+          // Color rendering: base color is blended from sweep (yellow vs white waves)
           let h = 75;
           let s = 71;
           let l = 70;
 
-          const sweepTotal = iSweepYellow + iSweepBlue;
+          const sweepTotal = iSweepYellow + iSweepWhite;
           if (sweepTotal > 0) {
-            const blueShare = iSweepBlue / sweepTotal;
-            // Wave 1 is yellow (75deg), Wave 2 & 3 are blue (215deg)
-            h = 75 * (1 - blueShare) + 215 * blueShare;
-            s = 71 * (1 - blueShare) + 85 * blueShare;
-            l = 70 * (1 - blueShare) + 55 * blueShare;
+            const whiteShare = iSweepWhite / sweepTotal;
+            // Wave 1 is yellow (75deg), Wave 2 & 3 are white (0deg sat, 95% lightness)
+            h = 75 * (1 - whiteShare);
+            s = 71 * (1 - whiteShare);
+            l = 70 * (1 - whiteShare) + 95 * whiteShare;
           }
 
           if (share > 0) {
@@ -296,7 +296,7 @@ export function WaveMatrix({ className }: { className?: string }) {
         { kind: "sweep", start: performance.now() - 900, strength: 1.15 },
       ];
       draw(performance.now());
-      return () => {};
+      return () => { };
     }
 
     // Opening sweep, only once when first opened
