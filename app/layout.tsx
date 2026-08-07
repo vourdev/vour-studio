@@ -50,7 +50,16 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     title: `${siteConfig.name} - ${siteConfig.tagline}`,
     description: siteConfig.description,
-    images: [{ url: "/images/ogImage.png", width: 1200, height: 630, alt: `${siteConfig.name} - ${siteConfig.tagline}` }],
+    images: [
+      {
+        url: `${siteConfig.url}/images/ogImage.png`,
+        secureUrl: `${siteConfig.url}/images/ogImage.png`,
+        width: 1536,
+        height: 1024,
+        type: "image/png",
+        alt: `${siteConfig.name} - ${siteConfig.tagline}`,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
