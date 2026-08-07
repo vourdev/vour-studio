@@ -10,7 +10,7 @@ export const siteConfig = {
   tagline: "AI-Powered Product Engineering Studio",
   description:
     "Vour membangun website, dashboard internal, dan workflow AI untuk bisnis modern. Juga menyediakan template dan starter kit untuk developer.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://vour-studio.vercel.app",
+  url: "https://vour-studio.vercel.app",
   locale: "id-ID",
 } as const;
 
