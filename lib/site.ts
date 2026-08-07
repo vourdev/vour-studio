@@ -22,11 +22,11 @@ export const PHONE_NUMBER = "087787388296";
 export const CONTACT_EMAIL =
   process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "vour.d3v@gmail.com";
 
-export function whatsappLink(message?: string) {
+export function whatsappLink(message?: string, number = WHATSAPP_NUMBER) {
   const text =
     message ??
     "Halo Vour, saya ingin mendiskusikan sebuah project. Boleh minta informasinya?";
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+  return `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
 }
 
 export const mainNav = [
@@ -51,14 +51,38 @@ export const PROJECTS_CTA = "Lihat Project"; // -> /projects
 export const RESOURCES_CTA = "Lihat Blog"; // -> /resources
 export const SERVICE_CTA = "Pelajari"; // -> /solutions#<slug>
 
-/** placeholder: swap for the real profiles. */
-export const socialLinks = [
-  { label: "GitHub", href: "/", icon: "github" },
-  {
-    label: "LinkedIn",
-    href: "/",
-    icon: "linkedin",
-  },
-  { label: "Instagram", href: "/", icon: "instagram" },
-  { label: "TikTok", href: "https://www.tiktok.com/@vour.dev", icon: "tiktok" },
-] as const;
+/** Icon keys understood by the footer and contact page icon maps. */
+export type SocialIcon = "github" | "linkedin" | "instagram" | "tiktok";
+
+export type SocialLink = { label: string; href: string; icon: SocialIcon };
+export type NavItem = { label: string; href: string };
+
+/**
+ * Dynamic site-wide settings (contact, socials, nav) read from the admin CMS
+ * via `getSiteSettings()` in `lib/cms.ts`. This constant is the fallback used
+ * when the CMS is unreachable or the fields are empty.
+ */
+export type SiteSettings = {
+  contactEmail: string;
+  whatsappNumber: string;
+  phoneNumber: string;
+  socials: SocialLink[];
+  navLinks: NavItem[];
+};
+
+export const defaultSiteSettings: SiteSettings = {
+  contactEmail: CONTACT_EMAIL,
+  whatsappNumber: WHATSAPP_NUMBER,
+  phoneNumber: PHONE_NUMBER,
+  socials: [
+    { label: "GitHub", href: "https://github.com/vourstudio", icon: "github" },
+    {
+      label: "LinkedIn",
+      href: "https://linkedin.com/company/vourstudio",
+      icon: "linkedin",
+    },
+    { label: "Instagram", href: "https://instagram.com/vour.studio", icon: "instagram" },
+    { label: "TikTok", href: "https://tiktok.com/@vour.studio", icon: "tiktok" },
+  ],
+  navLinks: [...mainNav],
+};

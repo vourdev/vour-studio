@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { Reveal } from "@/components/motion/reveal";
 import { Container, Section } from "@/components/ui/container";
-import { projects } from "@/lib/data/projects";
+import type { Project } from "@/lib/data/projects";
 import { PROJECTS_CTA } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -14,10 +14,14 @@ import { cn } from "@/lib/utils";
  *
  * The result leads each card. A prospect is scanning for what the client got
  * back, not for a screenshot.
+ *
+ * Projects come from the CMS, so the count is not guaranteed: the zigzag rows
+ * render whatever is available and the full-bleed row only when a third
+ * project exists.
  */
-export function SelectedProjects() {
+export function SelectedProjects({ projects }: { projects: Project[] }) {
   const [first, second, third] = projects;
-  const zigzag = [first, second];
+  const zigzag = [first, second].filter(Boolean) as Project[];
 
   return (
     <Section id="projects" className="border-t border-border">
@@ -32,7 +36,8 @@ export function SelectedProjects() {
         </Reveal>
       </Container>
 
-      <Container className="mt-14 space-y-20">
+      {zigzag.length > 0 && (
+        <Container className="mt-14 space-y-20">
         {zigzag.map((project, i) => (
           <Reveal key={project.slug} y={32}>
             <article
@@ -89,49 +94,54 @@ export function SelectedProjects() {
             </article>
           </Reveal>
         ))}
-      </Container>
+        </Container>
+      )}
 
       {/* Pattern break: full-bleed image, caption below rather than overlaid. */}
-      <Reveal y={32} className="mt-20">
-        <figure className="relative aspect-16/9 w-full overflow-hidden border-y border-border md:aspect-[21/9]">
-          {/* TODO(Vour): real project screenshot, 1600x900. */}
-          <Image
-            src={third.image}
-            alt={`Tampilan project ${third.name}`}
-            fill
-            sizes="100vw"
-            className="object-cover"
-          />
-        </figure>
-        <Container className="mt-8 grid gap-6 lg:grid-cols-[1fr_1fr] lg:gap-14">
-          <div>
-            <p className="font-mono text-xs uppercase tracking-[0.14em] text-text-faint">
-              {third.industry} / {third.year}
-            </p>
-            <h3 className="mt-4 text-2xl font-semibold leading-snug tracking-tight text-balance">
-              {third.result}
-            </h3>
-          </div>
-          <div className="space-y-5 text-sm">
-            <p className="max-w-[52ch] leading-relaxed text-text-muted">
-              {third.challenge}
-            </p>
-            <p className="max-w-[52ch] leading-relaxed text-text-muted">
-              {third.solution}
-            </p>
-          </div>
-        </Container>
-      </Reveal>
+      {third && (
+        <Reveal y={32} className="mt-20">
+          <figure className="relative aspect-16/9 w-full overflow-hidden border-y border-border md:aspect-[21/9]">
+            {/* TODO(Vour): real project screenshot, 1600x900. */}
+            <Image
+              src={third.image}
+              alt={`Tampilan project ${third.name}`}
+              fill
+              sizes="100vw"
+              className="object-cover"
+            />
+          </figure>
+          <Container className="mt-8 grid gap-6 lg:grid-cols-[1fr_1fr] lg:gap-14">
+            <div>
+              <p className="font-mono text-xs uppercase tracking-[0.14em] text-text-faint">
+                {third.industry} / {third.year}
+              </p>
+              <h3 className="mt-4 text-2xl font-semibold leading-snug tracking-tight text-balance">
+                {third.result}
+              </h3>
+            </div>
+            <div className="space-y-5 text-sm">
+              <p className="max-w-[52ch] leading-relaxed text-text-muted">
+                {third.challenge}
+              </p>
+              <p className="max-w-[52ch] leading-relaxed text-text-muted">
+                {third.solution}
+              </p>
+            </div>
+          </Container>
+        </Reveal>
+      )}
 
-      <Container className="mt-14">
-        <Link
-          href="/projects"
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-accent-text"
-        >
-          {PROJECTS_CTA}
-          <ArrowRightIcon weight="bold" className="size-3.5" aria-hidden />
-        </Link>
-      </Container>
+      {projects.length > 0 && (
+        <Container className="mt-14">
+          <Link
+            href="/projects"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-accent-text"
+          >
+            {PROJECTS_CTA}
+            <ArrowRightIcon weight="bold" className="size-3.5" aria-hidden />
+          </Link>
+        </Container>
+      )}
     </Section>
   );
 }

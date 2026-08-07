@@ -28,13 +28,21 @@ Before completing tasks, verify with:
   - `RESOURCES_CTA` ("Lihat Tulisan") -> `/resources`
   - `SERVICE_CTA` ("Pelajari") -> `/solutions#<slug>`
 
-### MDX Blog Posts
-- `@next/mdx` lacks frontmatter. Define and export `metadata: PostMeta` object in `content/resources/<slug>.mdx`.
-- Register the new slug in the `postSlugs` array in `lib/content.ts` (newest first).
+### Blog Posts (CMS)
+- Blog content lives in the admin CMS `posts` collection (Lexical rich text, draft/publish). Anonymous `read` only exposes `_status: 'published'`, so drafts never leak.
+- `lib/cms.ts` provides `getPosts()` (listings, `{ slug, meta }` shape) and `getPost(slug)` (full body). No MDX, no `lib/content.ts` — those were removed.
+- Article bodies are Lexical JSON: render with `components/blog/article-content.tsx` (`RichText` from `@payloadcms/richtext-lexical/react`) inside the `.article-prose` container styled in `app/globals.css`.
+- The article route (`app/resources/[slug]/page.tsx`) uses `dynamicParams = true` so newly published posts render on demand with ISR.
 
-### Database & Resend Email Actions
-- All env variables are optional. `getDb()` returns `null` if credentials (`TURSO_DATABASE_URL`) are absent.
-- The contact form server action (`app/actions/lead.ts`) must degrade gracefully. Turso/Resend failures should be caught and logged (warning/error log) rather than erroring out the user flow.
+### Lead Forwarding (no local database)
+- This repo has **no database, ORM, or email code**. Storage + notification live in the sibling project `vour-studio-admin` (Payload CMS + Postgres).
+- The contact form server action (`app/actions/lead.ts`) validates with zod, then forwards the lead to `POST <LEAD_API_URL>/api/leads` with header `x-api-key: LEAD_API_KEY`.
+- Must degrade gracefully: missing `LEAD_API_URL`/`LEAD_API_KEY` or admin API errors are logged (warning/error) and the visitor still gets a success state. Never error out the user flow.
+
+### CMS Content Reads
+- `lib/cms.ts` is the only read path into the admin CMS (`GET <CMS_API_URL>/api/products` and `/api/projects`, wrapped in `unstable_cache` with 60s ISR, 3s timeout). `CMS_API_URL` falls back to `LEAD_API_URL`, then `http://localhost:3000`.
+- Must degrade gracefully: the cached fetch throws on failure (revalidation keeps last-known-good data); `getProducts()` / `getProjects()` return the static placeholder data from `lib/data/*` only when nothing good is cached, and log a warning. Never throw in the render path.
+- Server components call the `get*()` fetchers and pass the result down as props. Client components must **not** import `lib/cms.ts` (it reads `process.env` and `fetch`s); they receive data via props.
 
 - **One Accent**: Cyan/Turquoise `#39d5f6` (`--accent`). Background: Deep Black `#0a0a0a`. Primary: White `#ffffff`. Style: Flat, clean, developer tools aesthetic (Vercel, Linear, Raycast, Warp).
 - **Display Font**: Monospace (Geist Mono) for H1 hero, numbers, and labels only. Sans (Geist Sans) for section headings/body.

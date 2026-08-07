@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { Reveal } from "@/components/motion/reveal";
 import { Container, Section } from "@/components/ui/container";
-import { getAllPosts } from "@/lib/content";
+import { getPosts } from "@/lib/cms";
 import { RESOURCES_CTA } from "@/lib/site";
 import { cn, formatDate } from "@/lib/utils";
 
@@ -20,7 +20,7 @@ const GRID_BY_COUNT: Record<number, string> = {
 };
 
 export async function ResourcesPreview() {
-  const posts = (await getAllPosts()).slice(0, 3);
+  const posts = (await getPosts()).slice(0, 3);
 
   if (posts.length === 0) return null;
 

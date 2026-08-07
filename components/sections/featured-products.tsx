@@ -15,13 +15,12 @@ import { Reveal } from "@/components/motion/reveal";
 import { Container, Section } from "@/components/ui/container";
 import {
   formatPrice,
-  Product,
   productCategories,
-  products,
+  type Product,
 } from "@/lib/data/products";
 import { PRODUCTS_CTA } from "@/lib/site";
 
-export function FeaturedProducts() {
+export function FeaturedProducts({ products }: { products: Product[] }) {
   const [activeCategory, setActiveCategory] = useState<string>("Semua");
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(
     null,

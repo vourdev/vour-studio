@@ -9,8 +9,9 @@ import {
 
 import { LeadForm } from "@/components/forms/lead-form";
 import { Container, Section } from "@/components/ui/container";
+import { getSiteSettings } from "@/lib/cms";
 import { buildMetadata } from "@/lib/seo";
-import { CONTACT_EMAIL, PHONE_NUMBER, whatsappLink } from "@/lib/site";
+import { whatsappLink } from "@/lib/site";
 
 export const metadata = buildMetadata({
   title: "Kontak",
@@ -19,39 +20,39 @@ export const metadata = buildMetadata({
   path: "/contact",
 });
 
-const channels = [
-  {
-    icon: WhatsappLogoIcon,
-    label: "WhatsApp",
-    value: PHONE_NUMBER,
-    href: whatsappLink(),
-    external: true,
-  },
-  {
-    icon: EnvelopeSimpleIcon,
-    label: "Email",
-    value: CONTACT_EMAIL,
-    href: `mailto:${CONTACT_EMAIL}`,
-    external: false,
-  },
-];
+const SOCIAL_ICONS = {
+  github: GithubLogoIcon,
+  linkedin: LinkedinLogoIcon,
+  instagram: InstagramLogoIcon,
+  tiktok: TiktokLogoIcon,
+} as const;
 
-const socials = [
-  { icon: GithubLogoIcon, label: "GitHub", href: "https://github.com/vourstudio" },
-  {
-    icon: LinkedinLogoIcon,
-    label: "LinkedIn",
-    href: "https://linkedin.com/company/vourstudio",
-  },
-  {
-    icon: InstagramLogoIcon,
-    label: "Instagram",
-    href: "https://instagram.com/vour.studio",
-  },
-  { icon: TiktokLogoIcon, label: "TikTok", href: "https://tiktok.com/@vour.studio" },
-];
+export default async function ContactPage() {
+  const settings = await getSiteSettings();
 
-export default function ContactPage() {
+  const channels = [
+    {
+      icon: WhatsappLogoIcon,
+      label: "WhatsApp",
+      value: settings.phoneNumber,
+      href: whatsappLink(undefined, settings.whatsappNumber),
+      external: true,
+    },
+    {
+      icon: EnvelopeSimpleIcon,
+      label: "Email",
+      value: settings.contactEmail,
+      href: `mailto:${settings.contactEmail}`,
+      external: false,
+    },
+  ];
+
+  const socials = settings.socials.map((social) => ({
+    icon: SOCIAL_ICONS[social.icon],
+    label: social.label,
+    href: social.href,
+  }));
+
   return (
     <Section className="pt-32">
       <Container className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-20">
@@ -95,7 +96,7 @@ export default function ContactPage() {
             <h2 className="text-sm font-medium text-text">Ikuti Vour</h2>
             <ul className="mt-4 flex items-center gap-3">
               {socials.map((social) => (
-                <li key={social.label}>
+                <li key={`${social.label}-${social.href}`}>
                   <a
                     href={social.href}
                     target="_blank"

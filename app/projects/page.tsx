@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Reveal } from "@/components/motion/reveal";
 import { ClosingCta } from "@/components/sections/closing-cta";
 import { Container, Section } from "@/components/ui/container";
-import { projects } from "@/lib/data/projects";
+import { getProjects } from "@/lib/cms";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -14,7 +14,9 @@ export const metadata = buildMetadata({
   path: "/projects",
 });
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const projects = await getProjects();
+
   return (
     <>
       <Section className="pt-32 pb-8">

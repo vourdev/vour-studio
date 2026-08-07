@@ -2,6 +2,7 @@ import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
+import { getSiteSettings } from "@/lib/cms";
 import { Footer } from "@/components/layout/footer";
 import { LenisProvider } from "@/components/layout/lenis-provider";
 import { Nav } from "@/components/layout/nav";
@@ -77,7 +78,9 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const settings = await getSiteSettings();
+
   return (
     <html
       lang="id"
@@ -112,11 +115,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             Lompat ke konten utama
           </a>
           <LenisProvider />
-          <Nav />
+          <Nav navLinks={settings.navLinks} />
           <main id="main" className="flex-1">
             {children}
           </main>
-          <Footer />
+          <Footer settings={settings} />
         </ThemeProvider>
         <Analytics />
         <script

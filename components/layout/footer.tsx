@@ -10,7 +10,12 @@ import Link from "next/link";
 
 import { Logo } from "@/components/layout/logo";
 import { Container } from "@/components/ui/container";
-import { CONTACT_EMAIL, mainNav, siteConfig, whatsappLink } from "@/lib/site";
+import {
+  defaultSiteSettings,
+  siteConfig,
+  whatsappLink,
+  type SiteSettings,
+} from "@/lib/site";
 
 const SOCIAL_ICONS = {
   github: GithubLogoIcon,
@@ -19,14 +24,9 @@ const SOCIAL_ICONS = {
   tiktok: TiktokLogoIcon,
 } as const;
 
-const socials = [
-  { label: "GitHub", href: "https://github.com/vourstudio", icon: "github" },
-  { label: "LinkedIn", href: "https://linkedin.com/company/vourstudio", icon: "linkedin" },
-  { label: "Instagram", href: "https://instagram.com/vour.studio", icon: "instagram" },
-  { label: "TikTok", href: "https://tiktok.com/@vour.studio", icon: "tiktok" },
-] as const;
+export function Footer({ settings = defaultSiteSettings }: { settings?: SiteSettings }) {
+  const { contactEmail, whatsappNumber, socials, navLinks } = settings;
 
-export function Footer() {
   return (
     <footer className="mt-auto border-t border-border">
       <Container className="grid gap-12 py-14 md:grid-cols-[1.5fr_1fr_1fr]">
@@ -40,7 +40,7 @@ export function Footer() {
             {socials.map((social) => {
               const Icon = SOCIAL_ICONS[social.icon];
               return (
-                <li key={social.label}>
+                <li key={`${social.label}-${social.href}`}>
                   <a
                     href={social.href}
                     target="_blank"
@@ -61,7 +61,7 @@ export function Footer() {
             Menu
           </h2>
           <ul className="mt-4 space-y-3">
-            {mainNav.map((item) => (
+            {navLinks.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
@@ -81,7 +81,7 @@ export function Footer() {
           <ul className="mt-4 space-y-3">
             <li>
               <a
-                href={whatsappLink()}
+                href={whatsappLink(undefined, whatsappNumber)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-sm text-text-muted transition-colors hover:text-text"
@@ -92,11 +92,11 @@ export function Footer() {
             </li>
             <li>
               <a
-                href={`mailto:${CONTACT_EMAIL}`}
+                href={`mailto:${contactEmail}`}
                 className="inline-flex items-center gap-2 text-sm text-text-muted transition-colors hover:text-text"
               >
                 <EnvelopeSimpleIcon weight="light" className="size-4" aria-hidden />
-                {CONTACT_EMAIL}
+                {contactEmail}
               </a>
             </li>
           </ul>

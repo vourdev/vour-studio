@@ -4,50 +4,51 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { ArticleContent } from "@/components/blog/article-content";
 import { Button } from "@/components/ui/button";
 import { Container, Section } from "@/components/ui/container";
-import { getPost, isPostSlug, postSlugs } from "@/lib/content";
+import { getPost, getPosts } from "@/lib/cms";
 import { buildMetadata } from "@/lib/seo";
 import { PRIMARY_CTA } from "@/lib/site";
 import { formatDate } from "@/lib/utils";
 
-export function generateStaticParams() {
-  return postSlugs.map((slug) => ({ slug }));
+export async function generateStaticParams() {
+  const posts = await getPosts();
+  return posts.map((post) => ({ slug: post.slug }));
 }
 
-// Every article is known at build time, so an unknown slug is a 404 rather than
-// an on-demand render.
-export const dynamicParams = false;
+// New posts published in the CMS are served on demand (with ISR) rather than
+// requiring a redeploy; unknown slugs still 404.
+export const dynamicParams = true;
 
 export async function generateMetadata({
   params,
 }: PageProps<"/resources/[slug]">): Promise<Metadata> {
   const { slug } = await params;
-  if (!isPostSlug(slug)) return {};
-  const { meta } = await getPost(slug);
+  const post = await getPost(slug);
+  if (!post) return {};
 
   return {
     ...buildMetadata({
-      title: meta.title,
-      description: meta.description,
+      title: post.title,
+      description: post.description,
       path: `/resources/${slug}`,
-      image: meta.image,
+      image: post.image,
     }),
     openGraph: {
       type: "article",
-      title: meta.title,
-      description: meta.description,
-      publishedTime: meta.date,
-      images: [{ url: meta.image }],
+      title: post.title,
+      description: post.description,
+      publishedTime: post.date,
+      images: [{ url: post.image }],
     },
   };
 }
 
 export default async function ResourcePage({ params }: PageProps<"/resources/[slug]">) {
   const { slug } = await params;
-  if (!isPostSlug(slug)) notFound();
-
-  const { meta, Content } = await getPost(slug);
+  const post = await getPost(slug);
+  if (!post) notFound();
 
   return (
     <article className="pt-32">
@@ -61,15 +62,15 @@ export default async function ResourcePage({ params }: PageProps<"/resources/[sl
         </Link>
 
         <p className="mt-10 font-mono text-xs uppercase tracking-[0.14em] text-accent-text">
-          {meta.category}
+          {post.category}
         </p>
         <h1 className="mt-4 text-3xl font-semibold leading-tight tracking-tight text-balance md:text-4xl">
-          {meta.title}
+          {post.title}
         </h1>
-        <p className="mt-5 leading-relaxed text-text-muted">{meta.description}</p>
+        <p className="mt-5 leading-relaxed text-text-muted">{post.description}</p>
         <p className="mt-6 font-mono text-xs text-text-faint">
-          <time dateTime={meta.date}>{formatDate(meta.date)}</time> /{" "}
-          {meta.readingMinutes} menit baca
+          <time dateTime={post.date}>{formatDate(post.date)}</time> /{" "}
+          {post.readingMinutes} menit baca
         </p>
       </Container>
 
@@ -77,7 +78,7 @@ export default async function ResourcePage({ params }: PageProps<"/resources/[sl
         <div className="relative aspect-16/9 overflow-hidden rounded-surface border border-border">
           {/* TODO(Vour): real article cover, 1200x675. */}
           <Image
-            src={meta.image}
+            src={post.image}
             alt=""
             fill
             priority
@@ -88,15 +89,15 @@ export default async function ResourcePage({ params }: PageProps<"/resources/[sl
       </Container>
 
       <Container className="mt-14 max-w-3xl pb-8">
-        <Content />
+        <ArticleContent content={post.content} />
       </Container>
 
-      {meta.related && meta.related.length > 0 ? (
+      {post.related && post.related.length > 0 ? (
         <Container className="max-w-3xl">
           <div className="border-t border-border pt-8">
             <h2 className="text-sm font-medium">Terkait</h2>
             <ul className="mt-4 flex flex-wrap gap-2">
-              {meta.related.map((item) => (
+              {post.related.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}

@@ -1,0 +1,57 @@
+import Link from "next/link";
+import type { SerializedLexicalNode } from "lexical";
+import {
+  defaultJSXConverters,
+  RichText,
+  type JSXConverterArgs,
+  type JSXConverters,
+} from "@payloadcms/richtext-lexical/react";
+
+import type { RichTextContent } from "@/lib/data/posts";
+
+/** Same link styling the old MDX renderer applied. */
+const LINK_CLASS =
+  "text-accent-text underline decoration-accent/40 underline-offset-4 transition-colors hover:decoration-accent";
+
+/**
+ * Article body renderer for CMS posts. Payload's Lexical JSON is rendered with
+ * the official `RichText` component; the `.article-prose` styles in
+ * `app/globals.css` carry the design-token styling the old MDX renderer
+ * applied per element.
+ *
+ * Links mirror the previous MDX behavior: internal URLs use Next `<Link>`
+ * (SPA navigation), external URLs open in a new tab with `rel="noopener"`.
+ */
+function renderLink({ node, nodesToJSX, converters }: JSXConverterArgs) {
+  const linkNode = node as {
+    fields?: { url?: string };
+    children?: SerializedLexicalNode[];
+  };
+  const href = linkNode.fields?.url ?? "#";
+  const children = nodesToJSX({ nodes: linkNode.children ?? [], converters });
+  return href.startsWith("/") ? (
+    <Link href={href} className={LINK_CLASS}>
+      {children}
+    </Link>
+  ) : (
+    <a href={href} target="_blank" rel="noopener noreferrer" className={LINK_CLASS}>
+      {children}
+    </a>
+  );
+}
+
+const converters: JSXConverters = {
+  ...defaultJSXConverters,
+  link: renderLink,
+  autolink: renderLink,
+};
+
+export function ArticleContent({ content }: { content: RichTextContent }) {
+  return (
+    // disableContainer: RichText would otherwise wrap the body in its own div,
+    // which would break the `> :first-child` reset in the prose styles.
+    <div className="article-prose">
+      <RichText data={content} converters={converters} disableContainer />
+    </div>
+  );
+}

@@ -7,11 +7,11 @@ import { useEffect, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Field, Input } from "@/components/ui/field";
-import { formatPrice, productCategories, products, type Product } from "@/lib/data/products";
+import { formatPrice, productCategories, type Product } from "@/lib/data/products";
 import { PRIMARY_CTA } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-export function ProductBrowser() {
+export function ProductBrowser({ products }: { products: Product[] }) {
   const [category, setCategory] = useState<string>("Semua");
   const [query, setQuery] = useState("");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -44,7 +44,7 @@ export function ProductBrowser() {
         product.features.some((f) => f.toLowerCase().includes(q));
       return matchesCategory && matchesQuery;
     });
-  }, [category, query]);
+  }, [category, query, products]);
 
   return (
     <div>

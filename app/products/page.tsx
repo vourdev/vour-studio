@@ -8,6 +8,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Container, Section } from "@/components/ui/container";
+import { getProducts } from "@/lib/cms";
 import { buildMetadata } from "@/lib/seo";
 import { BookOpenIcon, ShieldCheckIcon, SparkleIcon } from "@phosphor-icons/react/ssr";
 
@@ -42,7 +43,9 @@ const productFaqs = [
   },
 ];
 
-export default function ProductsPage() {
+export default async function ProductsPage() {
+  const products = await getProducts();
+
   return (
     <>
       <Section className="pt-32 pb-0">
@@ -65,7 +68,7 @@ export default function ProductsPage() {
 
       <Section>
         <Container>
-          <ProductBrowser />
+          <ProductBrowser products={products} />
         </Container>
       </Section>
 

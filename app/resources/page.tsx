@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { Reveal } from "@/components/motion/reveal";
 import { Container, Section } from "@/components/ui/container";
-import { getAllPosts } from "@/lib/content";
+import { getPosts } from "@/lib/cms";
 import { buildMetadata } from "@/lib/seo";
 import { formatDate } from "@/lib/utils";
 
@@ -16,7 +16,7 @@ export const metadata = buildMetadata({
 });
 
 export default async function ResourcesPage() {
-  const posts = await getAllPosts();
+  const posts = await getPosts();
   const [featured, ...rest] = posts;
 
   return (

@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import { getAllPosts } from "@/lib/content";
+import { getPosts } from "@/lib/cms";
 import { siteConfig } from "@/lib/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -14,7 +14,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: route === "" ? 1 : 0.7,
   }));
 
-  const posts = await getAllPosts();
+  const posts = await getPosts();
   const postEntries: MetadataRoute.Sitemap = posts.map((post) => ({
     url: new URL(`/resources/${post.slug}`, siteConfig.url).toString(),
     lastModified: new Date(post.meta.date),

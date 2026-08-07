@@ -8,10 +8,10 @@ import { useEffect, useState } from "react";
 import { Logo } from "@/components/layout/logo";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import { mainNav, PRIMARY_CTA } from "@/lib/site";
+import { mainNav, PRIMARY_CTA, type NavItem } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-export function Nav() {
+export function Nav({ navLinks = mainNav }: { navLinks?: readonly NavItem[] }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [lastPathname, setLastPathname] = useState(pathname);
@@ -47,7 +47,7 @@ export function Nav() {
         {/* Six items plus a CTA fit on one line from lg up; below that it is a panel. */}
         <nav aria-label="Navigasi utama" className="hidden lg:block">
           <ul className="flex items-center gap-7">
-            {mainNav.map((item) => {
+            {navLinks.map((item) => {
               const active = pathname === item.href;
               return (
                 <li key={item.href}>
@@ -91,7 +91,7 @@ export function Nav() {
       {open ? (
         <div id="mobile-nav" className="border-t border-border bg-bg lg:hidden">
           <Container className="flex flex-col py-4">
-            {mainNav.map((item) => (
+            {navLinks.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}

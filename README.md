@@ -28,9 +28,6 @@ failing.
 | `npm run start` | Serve the production build |
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run lint` | ESLint |
-| `npm run db:generate` | Generate a Drizzle migration from `db/schema.ts` |
-| `npm run db:migrate` | Apply migrations to Turso |
-| `npm run db:studio` | Drizzle Studio |
 
 ---
 
@@ -44,12 +41,14 @@ failing.
 | Components | Radix primitives + CVA in `components/ui/`, shadcn-style owned code |
 | Animation | Motion (`motion/react`), GSAP ScrollTrigger, Lenis |
 | Icons | Phosphor (`@phosphor-icons/react/ssr`), Simple Icons for the tech marquee |
-| Content | MDX in `content/resources/`, git-based, no external CMS |
-| Database | Turso (libSQL) via Drizzle ORM, leads and newsletter only |
-| Email | Resend |
+| Content | Blog posts, products and projects read from the admin CMS via `lib/cms.ts` — **no MDX, no local content files** |
+| CMS reads | Products, projects and posts fetched from `GET <CMS_API_URL>/api/*` with ISR, falling back to `lib/data/*` placeholders |
+| Lead intake | Forwards leads to the admin CMS (`vour-studio-admin`) — **no database here** |
 | Analytics | Vercel Web Analytics |
 
-Not built, deliberately: auth, admin panel, payment gateway.
+Not built, deliberately: auth, admin panel, payment gateway. The database,
+auth and admin panel now live in the sibling project `vour-studio-admin`
+(Payload CMS + Postgres).
 
 ---
 
@@ -62,25 +61,28 @@ Every variable is optional. See [`.env.example`](.env.example) for the full list
 | `NEXT_PUBLIC_SITE_URL` | Canonical URLs and sitemap use the placeholder domain in `lib/site.ts` |
 | `NEXT_PUBLIC_WHATSAPP_NUMBER` | WhatsApp links point at a placeholder number |
 | `NEXT_PUBLIC_CONTACT_EMAIL` | Contact email falls back to a placeholder |
-| `TURSO_DATABASE_URL` / `TURSO_AUTH_TOKEN` | Leads are **not** stored; a warning is logged, the visitor still gets a success state |
-| `RESEND_API_KEY` / `RESEND_FROM` | No notification email is sent; a warning is logged |
-| `LEAD_NOTIFICATION_EMAIL` | Falls back to `NEXT_PUBLIC_CONTACT_EMAIL` |
+| `LEAD_API_URL` / `LEAD_API_KEY` | Lead is **not** forwarded to the CMS; a warning is logged, the visitor still gets a success state |
+| `CMS_API_URL` | Defaults to `LEAD_API_URL`; products are **not** read from the CMS (static placeholder data is shown instead) |
 
-Storage and notification are attempted independently: a Resend outage cannot
-lose the database row, and a Turso outage cannot swallow the email.
+### Setting up the CMS connection
 
-### Setting up Turso
+The database, storage and email live in the admin project
+(`vour-studio-admin`). This site forwards contact-form leads to its public API
+and reads content (currently products) from the same origin:
 
 ```bash
-turso db create vour
-turso db show vour --url          # -> TURSO_DATABASE_URL
-turso db tokens create vour       # -> TURSO_AUTH_TOKEN
-npm run db:generate
-npm run db:migrate
+# In vour-studio/.env.local
+LEAD_API_URL="https://<admin-domain>"   # or http://localhost:3000 for local
+LEAD_API_KEY="<shared secret, matches the admin's LEAD_API_KEY>"
+CMS_API_URL="https://<admin-domain>"    # optional; defaults to LEAD_API_URL
 ```
 
-Two tables, defined in `db/schema.ts`: `leads` and `newsletter_subscribers`.
-There is no admin UI for reading them by design; notifications go to email.
+Without these variables the site still renders: the form still succeeds and
+products fall back to the static data in `lib/data/`. Seed the admin's database
+first (`npm run seed:products` inside `vour-studio-admin`).
+
+> **Port conflict**: both projects default to port 3000. When running both
+> locally, give one of them a different port (e.g. `npm run dev -- -p 3001`).
 
 ---
 
@@ -90,8 +92,8 @@ There is no admin UI for reading them by design; notifications go to email.
 app/
   page.tsx                    homepage, composes the 10 sections
   solutions|products|projects|about|contact/
-  resources/                  MDX index
-  resources/[slug]/           MDX article renderer
+  resources/                  blog index (CMS posts)
+  resources/[slug]/           blog article (CMS post + Lexical render)
   actions/lead.ts             server action for the contact form
   sitemap.ts robots.ts opengraph-image.tsx not-found.tsx
 components/
@@ -100,10 +102,7 @@ components/
   sections/                   one file per homepage section
   ui/                         button, accordion, field, container
   forms/ products/
-content/resources/            MDX articles
-db/                           Drizzle schema + client
-emails/                       transactional email template
-lib/                          site config, SEO helpers, content index, data
+lib/                          site config, CMS client, SEO helpers, fallback data
 ```
 
 ---
@@ -197,17 +196,19 @@ That script is injected by the Vercel platform and only exists once deployed.
 
 ## Adding a blog post
 
-1. Create `content/resources/<slug>.mdx`.
-2. Export a `metadata` object at the top (see the existing post for the shape).
-   `@next/mdx` has no frontmatter support, so metadata is a real export.
-3. Add the slug to `postSlugs` in `lib/content.ts`.
+Blog posts are written and published from the admin panel (`vour-studio-admin`):
 
-The index, sitemap, static params and per-post `generateMetadata` all follow
-automatically. Link every article back to a relevant service or product via the
-`related` field.
+1. Open `http://localhost:3000/admin/collections/posts/create`, write the
+   article in the Lexical editor, and publish it (or save as draft).
+2. The site picks it up within the ISR window (~60s) — the article page uses
+   `dynamicParams = true`, so new slugs render on demand without a redeploy.
 
-**Turbopack note**: remark and rehype plugins are configured by *name* in
-`next.config.ts`, not by import. JS functions cannot cross the Rust boundary.
+Only published posts are visible to the site; drafts stay in the admin. The
+index, sitemap and per-post `generateMetadata` follow automatically. Link every
+article back to a relevant service or product via the `related` field.
+
+If the CMS is unreachable the site falls back to the static posts in
+`lib/data/posts.ts` (same rendering path as CMS content).
 
 ---
 
@@ -215,7 +216,8 @@ automatically. Link every article back to a relevant service or product via the
 
 ```bash
 npx vercel link
-npx vercel env add TURSO_DATABASE_URL production   # repeat per variable
+npx vercel env add LEAD_API_URL production   # repeat per variable
+npx vercel env add LEAD_API_KEY production
 npx vercel --prod
 ```
 
@@ -241,9 +243,8 @@ These are deliberate and need real input from Vour before launch.
   exists yet, so cards render a "Segera hadir" state instead of linking to a
   hollow page.
 - **`docs/PRD.md` is out of date** on infrastructure. It specifies Supabase,
-  Prisma, Docker and VPS; the newer build prompt specifies Turso, Drizzle and
-  Vercel, which is what is implemented. Worth reconciling the document.
-- **React Email not used.** `@react-email/components` is published as deprecated
-  ("Package no longer supported"), so the one transactional template is
-  inline-styled HTML in `emails/lead-notification.ts` instead. All interpolated
-  values are escaped.
+  Prisma, Docker and VPS; the actual stack is Vercel + the admin CMS project.
+  Worth reconciling the document.
+- **Lead notification template moved** to `vour-studio-admin` (`src/emails/`),
+  where leads are now stored and emailed. The marketing site no longer holds
+  any database or email configuration.
