@@ -16,7 +16,7 @@ import {
 import { KineticHeading } from "@/components/motion/kinetic-heading";
 import { MagneticButton } from "@/components/motion/magnetic-button";
 import { Reveal } from "@/components/motion/reveal";
-import { WaveMatrix } from "@/components/motion/wave-matrix";
+import { SplineBackground } from "@/components/motion/spline-background";
 import { Marquee } from "@/components/motion/marquee";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
@@ -51,21 +51,14 @@ const logos = [
 export function Hero() {
   return (
     <section className="relative isolate flex min-h-dvh items-center overflow-hidden pt-24 pb-16">
-      {/* Static lattice: one paint, never repainted. The canvas above it draws
-          only the cells a wave is currently lighting. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-20 dot-grid opacity-75"
-        style={{
-          maskImage: "linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)",
-          WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)",
-          maskComposite: "intersect",
-          WebkitMaskComposite: "source-in",
-        }}
-      />
-      <WaveMatrix className="pointer-events-none absolute inset-0 -z-10 size-full" />
+      {/* Owns the whole backdrop: lattice, accent glow, edge falloff, and the
+          3D scene that fades in behind them. It keeps its pointer events, so
+          the cursor drives the scene everywhere the content above opts out. */}
+      <SplineBackground className="absolute inset-0 -z-10 overflow-hidden" />
 
-      <Container className="flex flex-col items-center text-center">
+      {/* Transparent to the pointer so the scene behind stays interactive; the
+          links below re-enable it for themselves. */}
+      <Container className="pointer-events-none flex flex-col items-center text-center">
         <Reveal
           as="p"
           y={12}
@@ -89,7 +82,10 @@ export function Hero() {
           rapi, dan siap dikembangkan.
         </Reveal>
 
-        <Reveal delay={0.55} className="mt-10 flex flex-wrap items-center justify-center gap-3">
+        <Reveal
+          delay={0.55}
+          className="pointer-events-auto mt-10 flex flex-wrap items-center justify-center gap-3"
+        >
           <MagneticButton>
             <Button asChild size="lg">
               <Link href="/contact">{PRIMARY_CTA}</Link>
@@ -101,6 +97,9 @@ export function Hero() {
         </Reveal>
 
         {/* Tech Stack Marquee */}
+        {/* Deliberately left transparent to the pointer: this block is
+            full-width, so re-enabling it here would blank out a whole band of
+            the scene. Only the logos themselves opt back in. */}
         <Reveal delay={0.65} className="mt-16 w-full max-w-3xl">
           <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-text-faint mb-6 text-center">
             {"Built on the tech stack trusted by developers at the world's most innovative companies"}
@@ -109,7 +108,7 @@ export function Hero() {
             {logos.map((logo) => (
               <span
                 key={logo.title}
-                className="mx-7 inline-flex shrink-0 items-center text-text-faint transition-colors hover:text-text"
+                className="pointer-events-auto mx-7 inline-flex shrink-0 items-center text-text-faint transition-colors hover:text-text"
                 title={logo.title}
               >
                 <svg
