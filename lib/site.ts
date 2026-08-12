@@ -4,13 +4,40 @@
  * TODO(Vour): every value marked `placeholder` needs the real thing before launch.
  */
 
+/**
+ * Canonical origin for every absolute URL the site emits: metadataBase, OG
+ * tags, `alternates.canonical`, JSON-LD, sitemap and robots.
+ *
+ * Set `NEXT_PUBLIC_SITE_URL` to `https://vour.dev` once that domain resolves
+ * and points here; every one of the above follows with no code change. Until
+ * then the fallback stays on the origin that is actually live, because a
+ * canonical pointing at a domain that does not answer is worse for search than
+ * a canonical on a working `.vercel.app`.
+ *
+ * The value is inlined at build time, so changing it means a redeploy.
+ */
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
+  "https://vour-studio.vercel.app";
+
+/**
+ * Whether this deployment is the one search engines should index.
+ *
+ * Every preview build serves the same copy on its own `*.vercel.app` host. Left
+ * indexable, those hosts compete with the canonical domain for the same queries.
+ * `VERCEL_ENV` is "production" only on the production deployment; undefined
+ * means a local or self-hosted build, which we treat as the real thing.
+ */
+export const IS_INDEXABLE =
+  process.env.VERCEL_ENV === "production" || process.env.VERCEL_ENV === undefined;
+
 export const siteConfig = {
   name: "Vour",
   legalName: "Vour Studio",
   tagline: "AI-Powered Product Engineering Studio",
   description:
     "Vour membangun website, dashboard internal, dan workflow AI untuk bisnis modern. Juga menyediakan template dan starter kit untuk developer.",
-  url: "https://vour-studio.vercel.app",
+  url: SITE_URL,
   locale: "id-ID",
 } as const;
 

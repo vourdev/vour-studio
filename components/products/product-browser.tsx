@@ -1,12 +1,13 @@
 "use client";
 
-import { CheckIcon, EyeIcon, XIcon } from "@phosphor-icons/react/ssr";
+import { CheckIcon, XIcon } from "@phosphor-icons/react/ssr";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Field, Input } from "@/components/ui/field";
+import { ProductCard } from "@/components/products/product-card";
 import { formatPrice, productCategories, type Product } from "@/lib/data/products";
 import { PRIMARY_CTA } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -102,88 +103,7 @@ export function ProductBrowser({ products }: { products: Product[] }) {
         <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((product) => (
             <li key={product.slug} id={product.slug}>
-              <article className="group flex h-full flex-col overflow-hidden rounded-surface border border-border bg-bg-subtle transition-all duration-300 hover:border-border-strong hover:shadow-lg">
-                {/* Browser Window Frame Header */}
-                <div className="border-b border-border bg-bg px-3 py-2 flex items-center gap-1.5">
-                  <span className="size-2 rounded-full bg-red-500/60" />
-                  <span className="size-2 rounded-full bg-yellow-500/60" />
-                  <span className="size-2 rounded-full bg-green-500/60" />
-                  <span className="ml-2 flex-1 rounded bg-bg-subtle px-2 py-0.5 font-mono text-[0.65rem] text-text-faint truncate">
-                    vour.studio/products/{product.slug}
-                  </span>
-                </div>
-
-                {/* Product Image Preview with Hover Opacity & Centered Eye Icon */}
-                <div
-                  onClick={() => setSelectedProduct(product)}
-                  className="group/img relative aspect-16/10 cursor-pointer overflow-hidden border-b border-border bg-bg"
-                >
-                  <Image
-                    src={product.image}
-                    alt={`Pratinjau ${product.name}`}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover transition-all duration-500 group-hover/img:scale-105 group-hover/img:opacity-40"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover/img:opacity-100">
-                    <span className="inline-flex items-center gap-2 rounded-full border border-border bg-bg/95 backdrop-blur-md px-4 py-2 text-xs font-mono font-medium text-text shadow-lg">
-                      <EyeIcon weight="light" className="size-4 text-accent-text" />
-                      <span>Pratinjau Detail</span>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex flex-1 flex-col p-6">
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-xs uppercase tracking-[0.14em] text-accent-text">
-                      {product.category}
-                    </span>
-                    {product.status === "available" ? (
-                      <span className="rounded-full border border-accent/30 bg-accent/10 px-2.5 py-0.5 font-mono text-[0.65rem] text-accent-text">
-                        Tersedia
-                      </span>
-                    ) : (
-                      <span className="rounded-full border border-border bg-bg px-2.5 py-0.5 font-mono text-[0.65rem] text-text-faint">
-                        Segera hadir
-                      </span>
-                    )}
-                  </div>
-
-                  <h2 className="mt-3 text-lg font-semibold tracking-tight">{product.name}</h2>
-                  <p className="mt-2 text-xs leading-relaxed text-text-muted line-clamp-2">
-                    {product.tagline}
-                  </p>
-
-                  <ul className="mt-5 space-y-2 text-xs text-text-muted">
-                    {product.features.map((feature) => (
-                      <li key={feature} className="flex gap-2">
-                        <CheckIcon
-                          weight="bold"
-                          className="mt-0.5 size-3.5 shrink-0 text-accent-text"
-                          aria-hidden
-                        />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <div className="mt-auto flex items-center justify-between gap-4 pt-6">
-                    {product.status === "available" ? (
-                      <span className="font-mono text-sm font-semibold">{formatPrice(product.price)}</span>
-                    ) : (
-                      <span className="font-mono text-xs text-text-faint">Fase Finalisasi</span>
-                    )}
-
-                    <button
-                      type="button"
-                      onClick={() => setSelectedProduct(product)}
-                      className="text-xs font-mono font-medium text-accent-text hover:underline"
-                    >
-                      Lihat Detail →
-                    </button>
-                  </div>
-                </div>
-              </article>
+              <ProductCard product={product} onPreviewClick={setSelectedProduct} />
             </li>
           ))}
         </ul>

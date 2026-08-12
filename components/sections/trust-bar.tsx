@@ -1,5 +1,3 @@
-"use client";
-
 import { AnimatedNumber } from "@/components/motion/animated-number";
 import { Reveal } from "@/components/motion/reveal";
 import { Container, Section } from "@/components/ui/container";

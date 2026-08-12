@@ -8,7 +8,7 @@ import { LenisProvider } from "@/components/layout/lenis-provider";
 import { Nav } from "@/components/layout/nav";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import { organizationJsonLd } from "@/lib/seo";
-import { siteConfig } from "@/lib/site";
+import { IS_INDEXABLE, siteConfig } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -68,7 +68,13 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     images: ["/images/ogImage.png"],
   },
-  robots: { index: true, follow: true },
+  // Mirrors robots.txt. A disallow only asks a crawler not to fetch the page;
+  // a URL it already knows about can still be listed. The meta tag is what
+  // actually keeps preview hosts out of the index.
+  robots: IS_INDEXABLE
+    ? { index: true, follow: true }
+    : { index: false, follow: false },
+  alternates: { canonical: "/" },
 };
 
 export const viewport: Viewport = {

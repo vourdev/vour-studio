@@ -6,7 +6,7 @@ import {
   EyeIcon,
   PackageIcon,
   XIcon,
-} from "@phosphor-icons/react";
+} from "@phosphor-icons/react/ssr";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useId, useState } from "react";
