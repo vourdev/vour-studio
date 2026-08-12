@@ -3,16 +3,17 @@
 import {
   ArrowRightIcon,
   CheckIcon,
-  EyeIcon,
   PackageIcon,
   XIcon,
 } from "@phosphor-icons/react/ssr";
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 
 import { Reveal } from "@/components/motion/reveal";
+import { ProductCard } from "@/components/products/product-card";
 import { Container, Section } from "@/components/ui/container";
+import { Button } from "@/components/ui/button";
 import {
   formatPrice,
   productCategories,
@@ -27,30 +28,25 @@ export function FeaturedProducts({ products }: { products: Product[] }) {
   );
   const modalTitleId = useId();
 
-  const handleKeyDown = useCallback(
-    (e: KeyboardEvent) => {
+  useEffect(() => {
+    if (quickViewProduct) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && quickViewProduct) {
         setQuickViewProduct(null);
       }
-    },
-    [quickViewProduct],
-  );
+    };
 
-  useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
-    if (quickViewProduct) {
-      document.body.style.overflow = "hidden";
-      document.documentElement.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
-    }
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
     };
-  }, [handleKeyDown, quickViewProduct]);
+  }, [quickViewProduct]);
 
   const filteredProducts =
     activeCategory === "Semua"
@@ -130,125 +126,13 @@ export function FeaturedProducts({ products }: { products: Product[] }) {
             </div>
           </Reveal>
         ) : (
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {filteredProducts.map((product, i) => (
-              <Reveal
-                key={product.slug}
-                y={24}
-                index={i}
-                className="group flex flex-col"
-              >
-                <article className="flex h-full flex-col overflow-hidden rounded-surface border border-border bg-bg-subtle/80 transition-all duration-300 hover:border-border-strong hover:bg-surface-solid hover:shadow-lg dark:hover:shadow-accent/5">
-                  {/* Sleek Browser Window Frame */}
-                  <div className="border-b border-border bg-bg/80 backdrop-blur-xs">
-                    <div className="flex items-center justify-between px-3.5 py-2.5">
-                      <div className="flex items-center gap-1.5">
-                        <span className="size-2.5 rounded-full bg-red-500/70" />
-                        <span className="size-2.5 rounded-full bg-yellow-500/70" />
-                        <span className="size-2.5 rounded-full bg-green-500/70" />
-                      </div>
-
-                      <div className="flex items-center gap-1.5 rounded-full border border-border bg-surface-solid/80 px-3 py-0.5 font-mono text-[11px] text-text-faint">
-                        <span className="size-1.5 rounded-full bg-accent" />
-                        <span>vour.studio/p/{product.slug}</span>
-                      </div>
-
-                      <span className="rounded-control border border-border bg-bg-subtle px-2 py-0.5 font-mono text-[10px] uppercase text-text-faint">
-                        {product.category}
-                      </span>
-                    </div>
-
-                    {/* Image Preview with Hover Opacity, Centered Eye Icon & Click Trigger */}
-                    <button
-                      type="button"
-                      onClick={() => setQuickViewProduct(product)}
-                      aria-label={`Pratinjau detail ${product.name}`}
-                      className="group/img relative aspect-16/10 w-full overflow-hidden bg-bg text-left cursor-pointer focus:outline-none"
-                    >
-                      <Image
-                        src={product.image}
-                        alt={`Pratinjau ${product.name}`}
-                        fill
-                        sizes="(max-width: 640px) 100vw, 48vw"
-                        className="object-cover transition-all duration-500 group-hover/img:scale-105 group-hover/img:opacity-40"
-                      />
-
-                      {/* Centered Eye Icon Overlay */}
-                      <div className="absolute inset-0 flex items-center justify-center bg-bg/30 opacity-0 backdrop-blur-[2px] transition-all duration-300 group-hover/img:opacity-100">
-                        <div className="flex size-12 items-center justify-center rounded-full border border-accent/40 bg-accent-soft text-accent-text shadow-md transition-transform duration-300 scale-90 group-hover/img:scale-100">
-                          <EyeIcon weight="bold" className="size-6" />
-                        </div>
-                      </div>
-
-                      <div className="absolute bottom-3 right-3">
-                        <span className="rounded-control border border-accent/30 bg-bg/90 backdrop-blur-xs px-2.5 py-1 font-mono text-xs text-accent-text shadow-xs">
-                          {product.status === "available" ? formatPrice(product.price) : "Segera hadir"}
-                        </span>
-                      </div>
-                    </button>
-                  </div>
-
-                  {/* Card Content */}
-                  <div className="flex flex-1 flex-col p-6">
-                    <div className="flex items-start justify-between gap-4">
-                      <div>
-                        <p className="font-mono text-xs uppercase tracking-[0.14em] text-text-faint">
-                          {product.category}
-                        </p>
-                        <h3 className="mt-1 text-xl font-semibold tracking-tight text-text">
-                          {product.name}
-                        </h3>
-                      </div>
-                    </div>
-
-                    <p className="mt-3 text-sm leading-relaxed text-text-muted">
-                      {product.tagline}
-                    </p>
-
-                    <ul className="mt-6 space-y-2.5 text-sm text-text-muted">
-                      {product.features.map((feature) => (
-                        <li key={feature} className="flex items-start gap-2.5">
-                          <CheckIcon
-                            weight="bold"
-                            className="mt-0.5 size-4 shrink-0 text-accent-text"
-                            aria-hidden
-                          />
-                          <span className="text-sm">{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <div className="mt-auto flex items-center justify-between gap-4 pt-6">
-                      {product.status === "available" ? (
-                        <>
-                          <span className="font-mono text-sm font-medium text-text">
-                            {formatPrice(product.price)}
-                          </span>
-                          <Link
-                            href={`/products#${product.slug}`}
-                            className="inline-flex items-center gap-1 text-sm font-medium text-accent-text hover:underline"
-                          >
-                            Detail Produk
-                            <ArrowRightIcon weight="bold" className="size-3.5" aria-hidden />
-                          </Link>
-                        </>
-                      ) : (
-                        <>
-                          <span className="rounded-control border border-border px-2.5 py-1 font-mono text-xs text-text-faint">
-                            Segera hadir
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() => setQuickViewProduct(product)}
-                            className="text-sm font-medium text-text-muted hover:text-text"
-                          >
-                            Lihat Info
-                          </button>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                </article>
+              <Reveal key={product.slug} y={24} index={i}>
+                <ProductCard
+                  product={product}
+                  onPreviewClick={setQuickViewProduct}
+                />
               </Reveal>
             ))}
           </div>
@@ -351,21 +235,22 @@ export function FeaturedProducts({ products }: { products: Product[] }) {
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <button
-                    type="button"
+                  <Button
+                    variant="secondary"
+                    size="sm"
                     onClick={() => setQuickViewProduct(null)}
-                    className="rounded-control border border-border px-4 py-2 text-sm font-medium text-text hover:bg-surface-solid"
                   >
                     Tutup
-                  </button>
-                  <Link
-                    href={`/products#${quickViewProduct.slug}`}
-                    onClick={() => setQuickViewProduct(null)}
-                    className="inline-flex items-center gap-1.5 rounded-control border border-accent bg-accent px-4 py-2 text-sm font-medium text-accent-fg transition-all hover:bg-accent-hover"
-                  >
-                    {PRODUCTS_CTA}
-                    <ArrowRightIcon weight="bold" className="size-4" aria-hidden />
-                  </Link>
+                  </Button>
+                  <Button asChild size="sm">
+                    <Link
+                      href={`/products#${quickViewProduct.slug}`}
+                      onClick={() => setQuickViewProduct(null)}
+                    >
+                      {PRODUCTS_CTA}
+                      <ArrowRightIcon weight="bold" className="ml-1.5 size-4" aria-hidden />
+                    </Link>
+                  </Button>
                 </div>
               </div>
             </div>

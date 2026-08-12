@@ -53,17 +53,18 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
           </div>
 
           <div className="absolute bottom-0 left-0 flex w-full items-end justify-between p-5">
-            <div className="text-white">
+            <div className="text-white flex-1">
               <h3 className="text-xl font-bold tracking-tight">{product.name}</h3>
               <p className="mt-1 text-sm text-white/90 line-clamp-2">{product.tagline}</p>
             </div>
 
-            {/* Animated button appears on hover */}
+            {/* Animated button - hidden by default, appears on parent card hover */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: false, amount: 0.5 }}
+              animate={{ opacity: 0, x: 20 }}
+              whileHover={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             >
               {product.status === "available" ? (
                 <Button
@@ -71,7 +72,7 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
                   variant="secondary"
                   asChild
                   aria-label={`Lihat detail ${product.name}`}
-                  className="shadow-lg"
+                  className="shadow-lg whitespace-nowrap"
                 >
                   <Link href="/contact">
                     Lihat Live
@@ -84,7 +85,7 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
                   variant="secondary"
                   onClick={() => onPreviewClick?.(product)}
                   aria-label={`Pratinjau ${product.name}`}
-                  className="shadow-lg"
+                  className="shadow-lg whitespace-nowrap"
                 >
                   Pratinjau
                   <ArrowUpRight className="ml-1.5 h-4 w-4" />
@@ -138,14 +139,6 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
             />
           </div>
 
-          {/* Quick action on card body click */}
-          <button
-            type="button"
-            onClick={() => onPreviewClick?.(product)}
-            className="mt-4 w-full text-center text-xs font-mono font-medium text-accent-text hover:underline"
-          >
-            Lihat Detail Lengkap →
-          </button>
         </div>
       </motion.article>
     );

@@ -16,6 +16,8 @@ const nextConfig: NextConfig = {
       // Custom domain for R2 media. Keeps images loading even on networks that
       // block the *.r2.dev subdomain (e.g. some ISP DNS filtering).
       { protocol: "https", hostname: "media.vour.studio" },
+      // Admin CMS deployed on Vercel (serves uploaded media)
+      { protocol: "https", hostname: "vour-studio-admin.vercel.app" },
     ],
   },
 };
