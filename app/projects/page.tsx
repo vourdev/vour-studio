@@ -22,10 +22,7 @@ export default async function ProjectsPage() {
       <Section className="pt-32 pb-8">
         <Container>
           <Reveal>
-            <p className="font-mono text-xs uppercase tracking-[0.18em] text-accent-text">
-              Studi Kasus & Portfolio
-            </p>
-            <h1 className="mt-3 max-w-[24ch] font-mono text-[1.8rem] font-semibold tracking-[-0.03em] md:text-[2.5rem]">
+            <h1 className="max-w-[24ch] font-mono text-[1.8rem] font-semibold tracking-[-0.03em] md:text-[2.5rem] text-balance">
               Project pilihan yang telah kami selesaikan
             </h1>
           </Reveal>

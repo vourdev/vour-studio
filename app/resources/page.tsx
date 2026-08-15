@@ -22,10 +22,7 @@ export default async function ResourcesPage() {
         <BackgroundBeams className="opacity-15" />
         <Container>
           <Reveal>
-            <p className="font-mono text-xs uppercase tracking-[0.18em] text-accent-text">
-              Engineering Journal
-            </p>
-            <h1 className="mt-3 max-w-[24ch] font-mono text-[1.8rem] font-semibold tracking-[-0.035em] md:text-[2.5rem] lg:text-[3rem] leading-none">
+            <h1 className="font-mono text-[1.8rem] font-semibold tracking-[-0.035em] md:text-[2.5rem] lg:text-[3rem] leading-none text-balance">
               Jurnal & Catatan Engineering Vour
             </h1>
           </Reveal>

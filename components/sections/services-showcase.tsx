@@ -1,15 +1,11 @@
 import {
-  ArrowRightIcon,
   BrowsersIcon,
   CloudArrowUpIcon,
   PackageIcon,
-  CheckCircleIcon,
 } from "@phosphor-icons/react/ssr";
-import Link from "next/link";
-
 import { Reveal } from "@/components/motion/reveal";
-import { Button } from "@/components/ui/button";
 import { Container, Section } from "@/components/ui/container";
+import { BentoGrid, type BentoItem } from "@/components/ui/bento-grid";
 
 const services = [
   {
@@ -23,7 +19,7 @@ const services = [
       "Desain responsif & konsisten di semua layar",
       "Struktur kode bersih & asisten SEO bawaan",
     ],
-    ctaLabel: "Mulai Konsultasi",
+    ctaLabel: "Mulai Project",
     ctaHref: "/contact?service=website-development",
     learnMoreHref: "/solutions#website-development",
     metric: "01",
@@ -39,7 +35,7 @@ const services = [
       "Monitoring server 24/7 & mitigasi berkala",
       "Struktur server stabil & efisiensi biaya VPS/Cloud",
     ],
-    ctaLabel: "Mulai Konsultasi",
+    ctaLabel: "Mulai Project",
     ctaHref: "/contact?service=infrastructure",
     learnMoreHref: "/solutions#infrastructure",
     metric: "02",
@@ -63,6 +59,22 @@ const services = [
 ];
 
 export function ServicesShowcase() {
+  const bentoServices: BentoItem[] = services.map((s, idx) => {
+    const Icon = s.icon;
+    return {
+      title: s.title,
+      description: s.description,
+      icon: <Icon weight="duotone" className="w-[18px] h-[18px] text-accent-text" />,
+      status: idx === 0 ? "Web" : idx === 1 ? "Cloud" : "Starters",
+      tagline: s.tagline,
+      meta: s.metric,
+      tags: s.outcomes,
+      cta: s.ctaLabel,
+      href: s.learnMoreHref,
+      colSpan: idx === 0 ? 2 : idx === 1 ? 1 : 3,
+    };
+  });
+
   return (
     <Section id="services" className="relative border-t border-border bg-bg/80 backdrop-blur-sm overflow-hidden">
       {/* Background ambient light */}
@@ -70,85 +82,22 @@ export function ServicesShowcase() {
 
       <Container>
         <Reveal>
-          <div className="mx-auto max-w-3xl text-center mb-16">
-            <h2 className="font-mono text-3xl font-semibold tracking-tight text-balance md:text-[2.25rem] leading-tight">
+          <div className="max-w-2xl text-left mb-12">
+            <h2 className="font-mono text-2xl font-semibold tracking-tight text-balance md:text-3xl leading-tight">
               Layanan Development & Infrastructure Vour
             </h2>
-            <p className="mx-auto mt-4 max-w-[60ch] text-sm leading-relaxed text-text-muted md:text-base">
+            <p className="mt-4 text-sm leading-relaxed text-text-muted md:text-base">
               Kami siap bermitra untuk merancang, membangun, dan men-deploy produk digital Anda dengan standar performa engineering terbaik.
             </p>
           </div>
         </Reveal>
 
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {services.map((service, index) => {
-            const Icon = service.icon;
-            return (
-              <Reveal key={service.title} index={index} y={32}>
-                <article className="group relative flex h-full flex-col overflow-hidden rounded-surface border border-border bg-surface-solid/40 p-8 transition-all duration-300 hover:border-accent/30 hover:bg-surface-solid/70 hover:shadow-2xl hover:-translate-y-1">
-                  {/* Subtle hover gradient glass indicator */}
-                  <div className="absolute top-0 right-0 h-24 w-24 bg-accent-soft blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-                  {/* Corner index number */}
-                  <span className="absolute top-6 right-8 font-mono text-sm font-semibold text-text-faint/60 group-hover:text-accent-text/80 transition-colors duration-300">
-                    {service.metric}
-                  </span>
-
-                  <div className="flex items-center gap-4">
-                    <div className="flex size-12 shrink-0 items-center justify-center rounded-control border border-border bg-bg-subtle text-accent-text group-hover:border-accent/40 group-hover:bg-accent-soft transition-all duration-300">
-                      <Icon weight="duotone" className="size-6 animate-pulse-subtle" aria-hidden />
-                    </div>
-                    <div>
-                      <p className="font-mono text-[10px] tracking-wider uppercase text-text-faint group-hover:text-accent-text/70 transition-colors duration-300">
-                        {service.tagline}
-                      </p>
-                      <h3 className="mt-0.5 text-lg font-bold tracking-tight text-white group-hover:text-accent-text transition-colors duration-300">
-                        {service.title}
-                      </h3>
-                    </div>
-                  </div>
-
-                  <p className="mt-6 text-sm leading-relaxed text-text-muted">
-                    {service.description}
-                  </p>
-
-                  <div className="my-6 h-px w-full bg-border" />
-
-                  <ul className="space-y-3.5 text-xs text-text-muted mb-8">
-                    {service.outcomes.map((outcome) => (
-                      <li key={outcome} className="flex items-start gap-2.5">
-                        <CheckCircleIcon
-                          weight="fill"
-                          className="mt-0.5 size-4 shrink-0 text-accent/80 group-hover:text-accent transition-colors duration-300"
-                        />
-                        <span className="leading-snug">{outcome}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <div className="mt-auto flex items-center justify-between gap-4 pt-4">
-                    <Button asChild size="sm" className="flex-1 active:scale-95 transition-transform duration-100">
-                      <Link href={service.ctaHref}>{service.ctaLabel}</Link>
-                    </Button>
-                    <Link
-                      href={service.learnMoreHref}
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-text-muted hover:text-accent-text transition-colors group/link"
-                    >
-                      Detail
-                      <ArrowRightIcon
-                        weight="bold"
-                        className="size-3 transition-transform duration-200 group-hover/link:translate-x-0.5"
-                        aria-hidden
-                      />
-                    </Link>
-                  </div>
-                </article>
-              </Reveal>
-            );
-          })}
-        </div>
+        <Reveal delay={0.1}>
+          <BentoGrid items={bentoServices} />
+        </Reveal>
       </Container>
     </Section>
   );
 }
+
 export default ServicesShowcase;

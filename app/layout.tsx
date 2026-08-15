@@ -121,7 +121,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             Lompat ke konten utama
           </a>
           <LenisProvider />
-          <Nav navLinks={settings.navLinks} />
+          <Nav settings={settings} />
           <main id="main" className="flex-1">
             {children}
           </main>

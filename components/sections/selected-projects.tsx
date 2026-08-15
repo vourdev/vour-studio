@@ -27,16 +27,13 @@ export function SelectedProjects({ projects }: { projects: Project[] }) {
     <Section id="projects" className="border-t border-border">
       <Container>
         <Reveal>
-          <p className="font-mono text-xs uppercase tracking-[0.18em] text-accent-text">
-            Selected projects
-          </p>
-          <h2 className="mt-4 max-w-[20ch] text-3xl font-semibold tracking-tight text-balance md:text-4xl">
+          <h2 className="max-w-[20ch] text-3xl font-semibold tracking-tight text-balance md:text-4xl">
             Hasil yang dicapai, bukan sekadar tampilan
           </h2>
         </Reveal>
       </Container>
 
-      {zigzag.length > 0 && (
+      {zigzag.length > 0 ? (
         <Container className="mt-14 space-y-20">
         {zigzag.map((project, i) => (
           <Reveal key={project.slug} y={32}>
@@ -95,10 +92,10 @@ export function SelectedProjects({ projects }: { projects: Project[] }) {
           </Reveal>
         ))}
         </Container>
-      )}
+      ) : null}
 
       {/* Pattern break: full-bleed image, caption below rather than overlaid. */}
-      {third && (
+      {third ? (
         <Reveal y={32} className="mt-20">
           <figure className="relative aspect-16/9 w-full overflow-hidden border-y border-border md:aspect-[21/9]">
             {/* TODO(Vour): real project screenshot, 1600x900. */}
@@ -129,9 +126,9 @@ export function SelectedProjects({ projects }: { projects: Project[] }) {
             </div>
           </Container>
         </Reveal>
-      )}
+      ) : null}
 
-      {projects.length > 0 && (
+      {projects.length > 0 ? (
         <Container className="mt-14">
           <Link
             href="/projects"
@@ -141,7 +138,7 @@ export function SelectedProjects({ projects }: { projects: Project[] }) {
             <ArrowRightIcon weight="bold" className="size-3.5" aria-hidden />
           </Link>
         </Container>
-      )}
+      ) : null}
     </Section>
   );
 }

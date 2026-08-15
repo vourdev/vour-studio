@@ -33,10 +33,7 @@ export default function SolutionsPage() {
       <Section className="pt-32 pb-8">
         <Container>
           <Reveal>
-            <p className="font-mono text-xs uppercase tracking-[0.18em] text-accent-text">
-              Layanan Studio
-            </p>
-            <h1 className="mt-3 max-w-[24ch] font-mono text-[1.8rem] font-semibold tracking-[-0.03em] md:text-[2.5rem]">
+            <h1 className="max-w-[24ch] font-mono text-[1.8rem] font-semibold tracking-[-0.03em] md:text-[2.5rem] text-balance">
               Solusi teknis yang fokus pada hasil nyata
             </h1>
           </Reveal>
@@ -329,10 +326,7 @@ export default function SolutionsPage() {
       <Section className="border-t border-border bg-bg/50">
         <Container>
           <Reveal>
-            <p className="font-mono text-xs uppercase tracking-[0.18em] text-accent-text">
-              Pendekatan Kami
-            </p>
-            <h2 className="mt-3 text-2xl font-semibold tracking-tight text-balance md:text-3xl">
+            <h2 className="text-2xl font-semibold tracking-tight text-balance md:text-3xl">
               Mengapa bekerja bersama Vour
             </h2>
           </Reveal>
@@ -367,10 +361,7 @@ export default function SolutionsPage() {
               className="pointer-events-none absolute -right-20 -top-20 size-80 rounded-full bg-accent/10 blur-3xl"
             />
             <Reveal>
-              <p className="font-mono text-xs uppercase tracking-[0.14em] text-accent-text">
-                Custom Solution
-              </p>
-              <h2 className="mt-3 max-w-[20ch] text-2xl font-semibold tracking-tight text-balance md:text-3xl">
+              <h2 className="max-w-[20ch] text-2xl font-semibold tracking-tight text-balance md:text-3xl">
                 Kebutuhan Anda tidak masuk salah satu di atas?
               </h2>
             </Reveal>

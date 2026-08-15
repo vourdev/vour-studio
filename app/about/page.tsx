@@ -30,10 +30,7 @@ export default function AboutPage() {
           <div className="grid lg:grid-cols-[1.2fr_1fr] items-center gap-12 lg:gap-16">
             <div>
               <Reveal>
-                <p className="font-mono text-xs uppercase tracking-[0.18em] text-accent-text">
-                  Tentang Vour Studio
-                </p>
-                <h1 className="mt-3 font-mono text-[1.85rem] font-semibold leading-[1.16] tracking-[-0.035em] sm:text-[2.5rem] lg:text-[3rem]">
+                <h1 className="font-mono text-[1.85rem] font-semibold leading-[1.16] tracking-[-0.035em] sm:text-[2.5rem] lg:text-[3rem] text-balance">
                   Kami membangun produk digital yang bekerja secara nyata
                 </h1>
               </Reveal>

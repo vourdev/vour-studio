@@ -31,8 +31,8 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
           "group relative w-full max-w-sm overflow-hidden rounded-surface bg-bg-subtle border border-border shadow-sm",
           className
         )}
-        whileHover={{ y: -5, scale: 1.02 }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        whileHover={{ y: -6 }}
+        transition={{ type: "spring", stiffness: 260, damping: 22 }}
       >
         {/* Top section with background image and content */}
         <div className="relative h-60 w-full overflow-hidden">
@@ -41,7 +41,8 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
             alt={`Pratinjau ${product.name}`}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover transition-all duration-500"
+            className="object-cover"
+            priority={false}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
           

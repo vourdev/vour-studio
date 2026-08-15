@@ -16,10 +16,7 @@ export function FaqSection() {
   return (
     <Section id="faq" className="border-t border-border bg-bg-subtle">
       <Container className="flex flex-col items-center">
-        <p className="text-center font-mono text-xs uppercase tracking-[0.18em] text-accent-text">
-          FAQ
-        </p>
-        <h2 className="mt-4 text-center max-w-[20ch] text-3xl font-semibold tracking-tight text-balance md:text-4xl">
+        <h2 className="text-center max-w-[20ch] text-3xl font-semibold tracking-tight text-balance md:text-4xl">
           Pertanyaan yang sering masuk
         </h2>
 

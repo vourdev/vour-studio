@@ -79,7 +79,7 @@ export function BlogExplorer({ posts }: { posts: PostItem[] }) {
         {filteredPosts.map((post) => (
           <article
             key={post.slug}
-            className="group flex h-full flex-col overflow-hidden rounded-surface border border-border bg-bg-subtle shadow-sm transition-all duration-300 hover:border-accent/40 hover:shadow-md"
+            className="group flex h-full flex-col overflow-hidden rounded-surface border border-border bg-bg-subtle shadow-sm transition-[border-color,box-shadow] duration-300 hover:border-accent/40 hover:shadow-md"
           >
             <Link href={`/resources/${post.slug}`} className="flex flex-1 flex-col">
               {/* Edge-to-edge Image Header */}

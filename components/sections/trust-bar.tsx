@@ -40,10 +40,7 @@ export function TrustBar() {
       <Container>
         <div className="max-w-2xl mb-12">
           <Reveal>
-            <p className="font-mono text-xs uppercase tracking-[0.18em] text-accent-text">
-              Statistik & Track Record
-            </p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight text-balance md:text-4xl">
+            <h2 className="text-3xl font-semibold tracking-tight text-balance md:text-4xl">
               Angka yang bisa dibuktikan
             </h2>
           </Reveal>

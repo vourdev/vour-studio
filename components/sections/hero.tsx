@@ -17,7 +17,7 @@ import { KineticHeading } from "@/components/motion/kinetic-heading";
 import { MagneticButton } from "@/components/motion/magnetic-button";
 import { Reveal } from "@/components/motion/reveal";
 import { SplineBackground } from "@/components/motion/spline-background";
-import { Marquee } from "@/components/motion/marquee";
+import { Marquee } from "@/components/ui/marquee-utils/marquee";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { PRIMARY_CTA, SERVICES_CTA, siteConfig } from "@/lib/site";
@@ -59,27 +59,19 @@ export function Hero() {
       {/* Transparent to the pointer so the scene behind stays interactive; the
           links below re-enable it for themselves. */}
       <Container className="pointer-events-none flex flex-col items-center text-center">
-        <Reveal
-          as="p"
-          y={12}
-          className="font-mono text-xs uppercase tracking-[0.18em] text-accent-text"
-        >
-          {siteConfig.tagline}
-        </Reveal>
-
         <KineticHeading
           text="Website, Dashboard, dan AI Automation untuk Bisnis Modern."
           accentFrom={6}
-          className="mt-7 max-w-5xl font-mono text-[1.85rem] font-semibold leading-[1.16] tracking-[-0.035em] sm:text-[2.5rem] lg:text-[3.25rem]"
+          className="font-mono text-[1.85rem] font-semibold leading-[1.16] tracking-[-0.035em] sm:text-[2.5rem] lg:text-[3.25rem]"
         />
 
         <Reveal
           as="p"
           delay={0.45}
-          className="mt-7 max-w-[52ch] text-base leading-relaxed text-text-muted md:text-lg"
+          className="mt-7 max-w-[58ch] text-base leading-relaxed text-text-muted md:text-lg"
         >
-          Vour membantu bisnis dan developer membangun produk digital yang cepat,
-          rapi, dan siap dikembangkan.
+          Vour adalah AI-Powered Product Engineering Studio yang membantu bisnis dan
+          developer membangun produk digital yang cepat, rapi, dan siap dikembangkan.
         </Reveal>
 
         <Reveal
@@ -102,9 +94,9 @@ export function Hero() {
             the scene. Only the logos themselves opt back in. */}
         <Reveal delay={0.65} className="mt-16 w-full max-w-3xl">
           <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-text-faint mb-6 text-center">
-            {"Built on the tech stack trusted by developers at the world's most innovative companies"}
+            {"BUILT ON THE TECH STACK TRUSTED BY DEVELOPERS AT THE WORLD'S MOST INNOVATIVE COMPANIES"}
           </p>
-          <Marquee durationSeconds={45}>
+          <Marquee className="[--duration:40s]" pauseOnHover>
             {logos.map((logo) => (
               <span
                 key={logo.title}

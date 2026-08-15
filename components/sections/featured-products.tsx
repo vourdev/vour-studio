@@ -59,10 +59,7 @@ export function FeaturedProducts({ products }: { products: Product[] }) {
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div>
-              <p className="font-mono text-xs uppercase tracking-[0.18em] text-accent-text">
-                Katalog Siap Pakai
-              </p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-balance md:text-4xl">
+              <h2 className="text-3xl font-semibold tracking-tight text-balance md:text-4xl">
                 Produk digital siap pakai
               </h2>
               <p className="mt-3 max-w-[54ch] text-sm leading-relaxed text-text-muted">
@@ -140,7 +137,7 @@ export function FeaturedProducts({ products }: { products: Product[] }) {
       </Container>
 
       {/* Quick View Modal */}
-      {quickViewProduct && (
+      {quickViewProduct ? (
         <div
           role="dialog"
           aria-modal="true"
@@ -256,7 +253,7 @@ export function FeaturedProducts({ products }: { products: Product[] }) {
             </div>
           </div>
         </div>
-      )}
+      ) : null}
     </Section>
   );
 }
