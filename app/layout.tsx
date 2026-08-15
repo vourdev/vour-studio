@@ -93,7 +93,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       // next-themes swaps this class before paint; suppressHydrationWarning keeps
       // React from complaining about the server/client mismatch that causes.
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full`}
+      className={`${geistSans.variable} ${geistMono.variable}`}
     >
       <head>
         {/* Scroll reveals are server-rendered with `opacity:0` and only revealed
@@ -104,7 +104,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           <style>{`[data-reveal]{opacity:1!important;transform:none!important}`}</style>
         </noscript>
       </head>
-      <body className="flex min-h-full flex-col">
+      <body className="flex min-h-dvh flex-col">
         {/* "system" rather than "dark": the visitor's OS preference wins on first
             visit, and the nav toggle overrides it from there. Hard-coding "dark"
             would make enableSystem decorative. */}

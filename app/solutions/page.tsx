@@ -316,7 +316,7 @@ export default function SolutionsPage() {
                     Mulai dari fitur, bukan konfigurasi dasar.
                   </p>
                   <Button asChild variant="secondary" size="sm">
-                    <Link href="/products">{PRODUCTS_CTA}</Link>
+                    <Link href="/#products">{PRODUCTS_CTA}</Link>
                   </Button>
                 </div>
               </div>

@@ -18,6 +18,8 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "media.vour.studio" },
       // Admin CMS deployed on Vercel (serves uploaded media)
       { protocol: "https", hostname: "vour-studio-admin.vercel.app" },
+      // Unsplash for testimonial avatars
+      { protocol: "https", hostname: "images.unsplash.com" },
     ],
   },
 };

@@ -85,6 +85,18 @@
     scroll-behavior: smooth;
   }
 
+  html.lenis, html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
   body {
     background-color: var(--bg);
     color: var(--text);
@@ -172,6 +184,51 @@
   animation-play-state: paused;
 }
 
+/* Infinite slider animation for testimonials */
+@keyframes infinite-scroll {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-100% / 3));
+  }
+}
+
+.animate-infinite-scroll {
+  animation: infinite-scroll var(--animation-duration, 40s) linear infinite;
+}
+
+.group\/column:hover .animate-infinite-scroll {
+  animation-duration: var(--hover-speed, 80s);
+}
+
+/* Marquee animation for horizontal testimonials */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+@keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+  }
+}
+
+.animate-marquee {
+  animation: marquee var(--duration) linear infinite;
+}
+
+.animate-marquee-vertical {
+  animation: marquee-vertical var(--duration) linear infinite;
+}
+
 /* Every animation on the site collapses here. Motion components additionally
    check useReducedMotion(), but this catches the CSS-driven ones. */
 @media (prefers-reduced-motion: reduce) {
@@ -180,6 +237,10 @@
   }
 
   .animate-marquee {
+    animation: none;
+  }
+
+  .animate-infinite-scroll {
     animation: none;
   }
 

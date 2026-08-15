@@ -97,7 +97,7 @@ export const services: Service[] = [
       "Developer toolkit",
     ],
     ctaLabel: PRODUCTS_CTA,
-    ctaHref: "/products",
+    ctaHref: "/#products",
   },
 ];
 

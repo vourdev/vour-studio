@@ -20,7 +20,7 @@ import { SplineBackground } from "@/components/motion/spline-background";
 import { Marquee } from "@/components/motion/marquee";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import { PRIMARY_CTA, PRODUCTS_CTA, siteConfig } from "@/lib/site";
+import { PRIMARY_CTA, SERVICES_CTA, siteConfig } from "@/lib/site";
 
 const logos = [
   siNextdotjs,
@@ -92,7 +92,7 @@ export function Hero() {
             </Button>
           </MagneticButton>
           <Button asChild size="lg" variant="secondary">
-            <Link href="/products">{PRODUCTS_CTA}</Link>
+            <Link href="/#services">{SERVICES_CTA}</Link>
           </Button>
         </Reveal>
 

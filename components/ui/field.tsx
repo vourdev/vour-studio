@@ -53,7 +53,7 @@ export function Field({
 }
 
 const controlStyles =
-  "w-full rounded-control border border-border bg-bg-subtle px-4 text-text placeholder:text-text-faint transition-colors focus:border-accent focus:outline-none focus-visible:outline-none disabled:opacity-60";
+  "w-full rounded-control border border-border bg-bg-subtle px-4 text-text placeholder:text-text-faint transition-all duration-200 hover:border-border-strong focus:border-accent focus:ring-2 focus:ring-accent/15 focus:outline-none disabled:opacity-60 disabled:cursor-not-allowed";
 
 export function Input({ className, ...props }: ComponentProps<"input">) {
   return <input className={cn(controlStyles, "h-11", className)} {...props} />;

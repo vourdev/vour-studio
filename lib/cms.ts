@@ -37,8 +37,8 @@ import { defaultSiteSettings, type SiteSettings } from "@/lib/site";
 export const CMS_API_URL =
   process.env.CMS_API_URL ?? process.env.LEAD_API_URL ?? "http://localhost:3000";
 
-/** A stalled CMS must not hang a page render. Fall back after 3s. */
-const FETCH_TIMEOUT_MS = 3_000;
+/** A stalled CMS must not hang a page render. Fall back after 10s. */
+const FETCH_TIMEOUT_MS = 10_000;
 
 /** Time-based revalidation (ISR). New products appear within this window. */
 const REVALIDATE_SECONDS = 60;

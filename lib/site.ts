@@ -57,8 +57,7 @@ export function whatsappLink(message?: string, number = WHATSAPP_NUMBER) {
 }
 
 export const mainNav = [
-  { label: "Solutions", href: "/solutions" },
-  { label: "Products", href: "/products" },
+  { label: "Layanan", href: "/solutions" },
   { label: "Projects", href: "/projects" },
   { label: "Blog", href: "/resources" },
   { label: "About", href: "/about" },
@@ -73,7 +72,8 @@ export const mainNav = [
  * sections later and wonders whether they go somewhere different.
  */
 export const PRIMARY_CTA = "Mulai Project"; // -> /contact
-export const PRODUCTS_CTA = "Lihat Produk"; // -> /products
+export const SERVICES_CTA = "Lihat Layanan"; // -> /#services
+export const PRODUCTS_CTA = "Lihat Produk"; // -> /#products
 export const PROJECTS_CTA = "Lihat Project"; // -> /projects
 export const RESOURCES_CTA = "Lihat Blog"; // -> /resources
 export const SERVICE_CTA = "Pelajari"; // -> /solutions#<slug>

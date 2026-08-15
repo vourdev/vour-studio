@@ -6,7 +6,8 @@ import {
   WarningIcon,
   WhatsappLogoIcon,
 } from "@phosphor-icons/react/ssr";
-import { useActionState, useEffect, useRef, useState } from "react";
+import { useActionState, useEffect, useRef, useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 
 import { submitLead, type LeadFormState } from "@/app/actions/lead";
 import { Button } from "@/components/ui/button";
@@ -15,14 +16,32 @@ import { whatsappLink } from "@/lib/site";
 
 const initialState: LeadFormState = { status: "idle" };
 
-export function LeadForm({ sourcePage = "/contact" }: { sourcePage?: string }) {
+function LeadFormFields({ sourcePage }: { sourcePage: string }) {
   const [state, formAction, pending] = useActionState(submitLead, initialState);
   const [mountedAt] = useState(() => Date.now());
   const elapsedRef = useRef<HTMLInputElement>(null);
   const statusRef = useRef<HTMLDivElement>(null);
+  const searchParams = useSearchParams();
+  const serviceParam = searchParams.get("service");
+  const productParam = searchParams.get("product");
 
-  // Move focus to the result so a screen reader announces the outcome instead of
-  // leaving the user on a button whose page silently changed.
+  const [message, setMessage] = useState(() => {
+    if (serviceParam === "website-development") {
+      return "Halo Vour, saya tertarik dengan layanan Website & Dashboard Development. ";
+    }
+    if (serviceParam === "infrastructure") {
+      return "Halo Vour, saya tertarik dengan layanan Infrastructure & Deployment. ";
+    }
+    if (productParam) {
+      const productName = productParam
+        .split("-")
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(" ");
+      return `Halo Vour, saya tertarik dengan produk ${productName}. `;
+    }
+    return "";
+  });
+
   useEffect(() => {
     if (state.status !== "idle") statusRef.current?.focus();
   }, [state.status]);
@@ -32,7 +51,7 @@ export function LeadForm({ sourcePage = "/contact" }: { sourcePage?: string }) {
       <div
         ref={statusRef}
         tabIndex={-1}
-        className="rounded-surface border border-border bg-bg-subtle p-8 focus:outline-none"
+        className="rounded-surface border border-border bg-bg-subtle p-8 focus:outline-none animate-in fade-in slide-in-from-bottom-4 duration-300"
       >
         <CheckCircleIcon weight="light" className="size-8 text-accent-text" aria-hidden />
         <h2 className="mt-4 text-xl font-medium">Pesan Anda sudah masuk</h2>
@@ -44,7 +63,7 @@ export function LeadForm({ sourcePage = "/contact" }: { sourcePage?: string }) {
           href={whatsappLink()}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-accent-text"
+          className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-accent-text hover:text-accent-hover transition-colors duration-200"
         >
           <WhatsappLogoIcon weight="light" className="size-4" aria-hidden />
           Chat lewat WhatsApp
@@ -67,7 +86,7 @@ export function LeadForm({ sourcePage = "/contact" }: { sourcePage?: string }) {
       <input type="hidden" name="sourcePage" value={sourcePage} />
       <input type="hidden" name="elapsedMs" ref={elapsedRef} defaultValue="0" />
 
-      {/* Honeypot. Hidden from sight and from assistive tech; only bots fill it. */}
+      {/* Honeypot for bots */}
       <div className="absolute left-[-9999px]" aria-hidden>
         <label htmlFor="company">Perusahaan</label>
         <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />
@@ -78,7 +97,7 @@ export function LeadForm({ sourcePage = "/contact" }: { sourcePage?: string }) {
           ref={statusRef}
           tabIndex={-1}
           role="alert"
-          className="flex items-start gap-3 rounded-control border border-red-500/40 bg-red-500/5 p-4 text-sm text-red-600 focus:outline-none dark:text-red-400"
+          className="flex items-start gap-3 rounded-control border border-red-500/40 bg-red-500/5 p-4 text-sm text-red-600 focus:outline-none dark:text-red-400 animate-in fade-in slide-in-from-top-4 duration-300"
         >
           <WarningIcon weight="light" className="mt-0.5 size-4 shrink-0" aria-hidden />
           {state.message}
@@ -140,6 +159,8 @@ export function LeadForm({ sourcePage = "/contact" }: { sourcePage?: string }) {
           id="message"
           name="message"
           required
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
           aria-invalid={Boolean(state.fieldErrors?.message)}
           aria-describedby={
             state.fieldErrors?.message ? "message-error" : "message-hint"
@@ -147,7 +168,12 @@ export function LeadForm({ sourcePage = "/contact" }: { sourcePage?: string }) {
         />
       </Field>
 
-      <Button type="submit" size="lg" disabled={pending} className="self-start">
+      <Button
+        type="submit"
+        size="lg"
+        disabled={pending}
+        className="self-start active:scale-95 transition-all duration-150 disabled:opacity-80"
+      >
         {pending ? (
           <>
             <CircleNotchIcon
@@ -162,5 +188,13 @@ export function LeadForm({ sourcePage = "/contact" }: { sourcePage?: string }) {
         )}
       </Button>
     </form>
+  );
+}
+
+export function LeadForm({ sourcePage = "/contact" }: { sourcePage?: string }) {
+  return (
+    <Suspense fallback={<div className="h-96 w-full animate-pulse bg-bg-subtle rounded-control" />}>
+      <LeadFormFields sourcePage={sourcePage} />
+    </Suspense>
   );
 }
