@@ -92,7 +92,7 @@ export default function AboutPage() {
                     Kode yang terstruktur, cara rilis yang bisa diulang siapa saja, dan dokumentasi yang cukup untuk dipegang tim lain. Itu ukuran selesai buat kami.
                   </p>
                 </div>
-                <div className="mt-8 border-t border-border/40 pt-4 font-mono text-[9px] uppercase tracking-widest text-text-faint">
+                <div className="mt-8 border-t border-border/40 pt-4 font-mono text-[10px] uppercase tracking-widest text-text-faint">
                   STANDAR SERAH TERIMA
                 </div>
               </div>
@@ -111,7 +111,7 @@ export default function AboutPage() {
                     Starter kit, template, dan perkakas yang kami rapikan dari project sendiri, supaya orang lain tidak mengulang setup yang sama dari nol.
                   </p>
                 </div>
-                <div className="mt-8 border-t border-border/40 pt-4 font-mono text-[9px] uppercase tracking-widest text-text-faint">
+                <div className="mt-8 border-t border-border/40 pt-4 font-mono text-[10px] uppercase tracking-widest text-text-faint">
                   DIBUAT UNTUK DEVELOPER
                 </div>
               </div>

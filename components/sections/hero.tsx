@@ -60,7 +60,7 @@ export function Hero() {
           links below re-enable it for themselves. */}
       <Container className="pointer-events-none flex flex-col items-center text-center">
         <KineticHeading
-          text="Website, Dashboard, dan AI Automation untuk Bisnis Modern."
+          text="Website, Dashboard, dan AI Automation untuk Bisnis Anda."
           accentFrom={5}
           className="font-mono text-[1.85rem] font-semibold leading-[1.16] tracking-[-0.035em] sm:text-[2.5rem] lg:text-[3.5rem]"
         />

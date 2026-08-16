@@ -82,17 +82,17 @@ export function Differentiators() {
                 <span className="block size-2.5 rounded-full bg-red-500/60"></span>
                 <span className="block size-2.5 rounded-full bg-yellow-500/60"></span>
                 <span className="block size-2.5 rounded-full bg-green-500/60"></span>
-                <span className="ml-2 text-text-faint text-[0.6rem]">clean-architecture/src</span>
+                <span className="ml-2 text-text-faint text-[0.625rem]">clean-architecture/src</span>
               </div>
               <div className="flex-1 pt-3.5 space-y-2.5 text-text-muted">
                 <div className="flex items-center gap-2">
-                  <span className="text-accent">dir</span> <span className="text-text">entities/</span> <span className="text-[0.55rem] text-text-faint">(Business Domain)</span>
+                  <span className="text-accent">dir</span> <span className="text-text">entities/</span> <span className="text-[0.625rem] text-text-faint">(Business Domain)</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-accent">dir</span> <span className="text-text">usecases/</span> <span className="text-[0.55rem] text-text-faint">(Application Logic)</span>
+                  <span className="text-accent">dir</span> <span className="text-text">usecases/</span> <span className="text-[0.625rem] text-text-faint">(Application Logic)</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-accent">dir</span> <span className="text-text">frameworks/</span> <span className="text-[0.55rem] text-text-faint">(UI & DB Setup)</span>
+                  <span className="text-accent">dir</span> <span className="text-text">frameworks/</span> <span className="text-[0.625rem] text-text-faint">(UI & DB Setup)</span>
                 </div>
               </div>
             </div>
@@ -122,17 +122,17 @@ export function Differentiators() {
                 <div className="flex items-center gap-2.5">
                   <span className="block h-fit rounded border border-border bg-surface-solid px-2 py-0.5 text-xs text-text shadow-sm">README.md</span>
                   <span className="block h-1.5 w-1.5 rounded-full bg-accent" />
-                  <span className="text-[0.58rem] text-text-faint">Panduan inisiasi</span>
+                  <span className="text-[0.625rem] text-text-faint">Panduan inisiasi</span>
                 </div>
                 <div className="flex items-center gap-2.5">
                   <span className="block h-fit rounded border border-border bg-surface-solid px-2 py-0.5 text-xs text-text shadow-sm">DEPLOY.md</span>
                   <span className="block h-1.5 w-1.5 rounded-full bg-accent" />
-                  <span className="text-[0.58rem] text-text-faint">Langkah hosting otomatis</span>
+                  <span className="text-[0.625rem] text-text-faint">Langkah hosting otomatis</span>
                 </div>
                 <div className="flex items-center gap-2.5">
                   <span className="block h-fit rounded border border-border bg-surface-solid px-2 py-0.5 text-xs text-text shadow-sm">SETUP.md</span>
                   <span className="block h-1.5 w-1.5 rounded-full bg-accent" />
-                  <span className="text-[0.58rem] text-text-faint">Konfigurasi env keys</span>
+                  <span className="text-[0.625rem] text-text-faint">Konfigurasi env keys</span>
                 </div>
               </div>
             </div>

@@ -63,7 +63,7 @@ export function BlogExplorer({ posts }: { posts: PostItem[] }) {
               <span>{cat.name}</span>
               <span
                 className={cn(
-                  "inline-flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[9px] font-mono font-semibold",
+                  "inline-flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-mono font-semibold",
                   isActive ? "bg-bg text-text" : "bg-bg-subtle text-text-muted"
                 )}
               >
@@ -97,10 +97,10 @@ export function BlogExplorer({ posts }: { posts: PostItem[] }) {
               {/* Card Content details */}
               <div className="flex flex-1 flex-col p-6">
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-[9px] uppercase tracking-[0.15em] text-accent-text font-bold">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-accent-text font-bold">
                     {post.meta.category}
                   </span>
-                  <span className="font-mono text-[9px] text-text-faint flex items-center gap-1">
+                  <span className="font-mono text-[10px] text-text-faint flex items-center gap-1">
                     <ClockIcon className="size-3.5" />
                     {post.meta.readingMinutes} min read
                   </span>

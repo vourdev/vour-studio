@@ -103,7 +103,7 @@ function BentoGrid({ items = itemsSample }: BentoGridProps) {
                                 </div>
                                 <span
                                     className={cn(
-                                        "text-[9px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-control border border-border/40 text-text-muted bg-surface/50 backdrop-blur-sm"
+                                        "text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-control border border-border/40 text-text-muted bg-surface/50 backdrop-blur-sm"
                                     )}
                                 >
                                     {item.status || "Active"}
