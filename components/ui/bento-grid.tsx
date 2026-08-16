@@ -67,7 +67,7 @@ const itemsSample: BentoItem[] = [
 
 function BentoGrid({ items = itemsSample }: BentoGridProps) {
     return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4.5 p-4 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4.5 max-w-7xl mx-auto">
             {items.map((item, index) => {
                 const CardWrapper = (item.href ? Link : "div") as any;
                 return (

@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 const buttonVariants = cva(
   // `whitespace-nowrap` is deliberate: a CTA label that wraps to two lines is a
   // layout bug, and silently wrapping hides it. Keep labels short instead.
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-control font-medium transition-[transform,background-color,border-color,color] duration-200 ease-out-expo active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-control font-medium cursor-pointer transition-[transform,background-color,border-color,color] duration-200 ease-out-expo active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
