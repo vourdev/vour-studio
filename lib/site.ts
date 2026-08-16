@@ -18,7 +18,7 @@
  */
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
-  "https://vour-studio.vercel.app";
+  "https://vour.dev";
 
 /**
  * Whether this deployment is the one search engines should index.
