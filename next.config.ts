@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
+  productionBrowserSourceMaps: true,
   images: {
     remotePatterns: [
       // TODO: replace Picsum placeholders with real project/article imagery.

@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 
 import { Container, Section } from "@/components/ui/container";
+import { LENIS_SCROLL_EVENT } from "@/components/layout/lenis-provider";
 import { workflowSteps } from "@/lib/data/services";
 
 export function Workflow() {
@@ -33,6 +34,10 @@ export function Workflow() {
       if (cancelled) return;
 
       gsap.registerPlugin(ScrollTrigger);
+
+      // Lenis scrolls the page on its own schedule; keep ScrollTrigger in sync.
+      const onLenisScroll = () => ScrollTrigger.update();
+      window.addEventListener(LENIS_SCROLL_EVENT, onLenisScroll);
 
       const ctx = gsap.context(() => {
         const lineH = root.querySelector<HTMLElement>("[data-progress-line]");
@@ -72,7 +77,10 @@ export function Workflow() {
         });
       }, root);
 
-      cleanup = () => ctx.revert();
+      cleanup = () => {
+        window.removeEventListener(LENIS_SCROLL_EVENT, onLenisScroll);
+        ctx.revert();
+      };
     })();
 
     return () => {

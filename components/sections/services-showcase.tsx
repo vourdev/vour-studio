@@ -6,6 +6,7 @@ import {
 import { Reveal } from "@/components/motion/reveal";
 import { Container, Section } from "@/components/ui/container";
 import { BentoGrid, type BentoItem } from "@/components/ui/bento-grid";
+import { PRIMARY_CTA, PRODUCTS_CTA } from "@/lib/site";
 
 const services = [
   {
@@ -19,7 +20,7 @@ const services = [
       "Desain responsif & konsisten di semua layar",
       "Struktur kode bersih & asisten SEO bawaan",
     ],
-    ctaLabel: "Mulai Project",
+    ctaLabel: PRIMARY_CTA,
     ctaHref: "/contact?service=website-development",
     learnMoreHref: "/solutions#website-development",
     metric: "01",
@@ -35,7 +36,7 @@ const services = [
       "Monitoring server 24/7 & mitigasi berkala",
       "Struktur server stabil & efisiensi biaya VPS/Cloud",
     ],
-    ctaLabel: "Mulai Project",
+    ctaLabel: PRIMARY_CTA,
     ctaHref: "/contact?service=infrastructure",
     learnMoreHref: "/solutions#infrastructure",
     metric: "02",
@@ -51,7 +52,7 @@ const services = [
       "Update rutin lisensi dependency terbaru",
       "Lisensi komersial bebas pasang di klien mana saja",
     ],
-    ctaLabel: "Lihat Produk",
+    ctaLabel: PRODUCTS_CTA,
     ctaHref: "/#products",
     learnMoreHref: "/solutions#digital-products",
     metric: "03",
