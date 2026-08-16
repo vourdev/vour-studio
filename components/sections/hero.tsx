@@ -65,7 +65,7 @@ export function Hero() {
       {/* Owns the whole backdrop: lattice, wave band, accent glow, edge
           falloff. Fully transparent to the pointer — the waves track the cursor
           from a window listener, so nothing above has to opt out. */}
-      <GlowyWavesBackground className="pointer-events-none absolute inset-0 -top-10 md:-top-20 -z-10 overflow-hidden" />
+      <GlowyWavesBackground className="pointer-events-none absolute inset-0 -z-10 overflow-hidden" />
 
       <Container className="flex flex-1 flex-col items-center justify-center text-center">
         {/* Same accent dot as the wordmark, so the pill reads as the studio
