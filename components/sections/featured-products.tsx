@@ -63,7 +63,7 @@ export function FeaturedProducts({ products }: { products: Product[] }) {
                 Produk digital siap pakai
               </h2>
               <p className="mt-3 max-w-[54ch] text-sm leading-relaxed text-text-muted">
-                Solusi dan komponen teruji untuk mempercepat peluncuran project Anda tanpa mengorbankan kualitas.
+                Template dan starter kit yang kami pakai sendiri di project klien, lalu dirapikan supaya bisa dipakai siapa saja.
               </p>
             </div>
 
@@ -108,10 +108,10 @@ export function FeaturedProducts({ products }: { products: Product[] }) {
                 <PackageIcon weight="duotone" className="size-6" />
               </div>
               <h3 className="mt-4 text-base font-semibold text-text">
-                Belum Ada Produk dalam Kategori Ini
+                Kategori ini masih kosong
               </h3>
               <p className="mt-2 max-w-[42ch] text-sm text-text-muted">
-                Produk untuk kategori &ldquo;{activeCategory}&rdquo; sedang dalam tahap persiapan dan akan segera rilis.
+                Produk untuk kategori &ldquo;{activeCategory}&rdquo; masih kami kerjakan.
               </p>
               <button
                 type="button"

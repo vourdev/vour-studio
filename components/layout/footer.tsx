@@ -33,8 +33,8 @@ export function Footer({ settings = defaultSiteSettings }: { settings?: SiteSett
         <div className="max-w-sm">
           <Logo />
           <p className="mt-4 text-sm leading-relaxed text-text-muted">
-            {siteConfig.tagline}. Membantu bisnis membangun produk digital yang
-            benar-benar dipakai.
+            Website, dashboard internal, dan urusan server untuk bisnis yang sudah
+            jalan. Berbasis di Indonesia.
           </p>
           <ul className="mt-6 flex items-center gap-3">
             {socials.map((social) => {

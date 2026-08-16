@@ -10,7 +10,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Projects",
   description:
-    "Project yang sudah diselesaikan Vour, lengkap dengan tantangan, pengerjaan, dan hasil yang dicapai untuk setiap klien.",
+    "Project yang sudah kami selesaikan, ditulis dari masalah yang dikeluhkan klien sampai apa yang berubah setelah sistemnya jalan.",
   path: "/projects",
 });
 
@@ -23,12 +23,12 @@ export default async function ProjectsPage() {
         <Container>
           <Reveal>
             <h1 className="max-w-[24ch] font-mono text-[1.8rem] font-semibold tracking-[-0.03em] md:text-[2.5rem] text-balance">
-              Project pilihan yang telah kami selesaikan
+              Apa yang berubah setelah sistemnya jalan
             </h1>
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mt-4 max-w-[58ch] text-sm leading-relaxed text-text-muted md:text-base">
-              Setiap studi kasus dijelaskan lewat masalah nyata yang dihadapi bisnis klien dan dampak terukur setelah sistem dirilis.
+              Tiap catatan di bawah dimulai dari keluhan yang kami dengar di pertemuan pertama, bukan dari tangkapan layarnya.
             </p>
           </Reveal>
         </Container>
@@ -86,7 +86,7 @@ export default async function ProjectsPage() {
                       <div className="mt-5 rounded-control border border-accent/30 bg-accent/10 p-4">
                         <div className="flex items-center gap-2 font-mono text-xs font-semibold text-accent-text">
                           <SparkleIcon className="size-4 shrink-0" />
-                          <span>HASIL & DAMPAK UTAMA</span>
+                          <span>SETELAH RILIS</span>
                         </div>
                         <p className="mt-2 text-xs leading-relaxed text-text font-medium">
                           {project.result}
@@ -97,7 +97,7 @@ export default async function ProjectsPage() {
                       <div className="mt-6 grid gap-4 sm:grid-cols-2 text-xs">
                         <div className="rounded-control border border-border bg-bg p-3.5">
                           <p className="font-mono uppercase tracking-wider text-text-faint text-[0.65rem]">
-                            Tantangan Klien
+                            Sebelumnya
                           </p>
                           <p className="mt-1.5 leading-relaxed text-text-muted">
                             {project.challenge}
@@ -106,7 +106,7 @@ export default async function ProjectsPage() {
 
                         <div className="rounded-control border border-border bg-bg p-3.5">
                           <p className="font-mono uppercase tracking-wider text-accent-text text-[0.65rem]">
-                            Solusi Vour
+                            Yang kami kerjakan
                           </p>
                           <p className="mt-1.5 leading-relaxed text-text-muted">
                             {project.solution}

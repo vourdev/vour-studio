@@ -93,10 +93,10 @@ export function Workflow() {
     <Section id="workflow" className="relative border-t border-border bg-bg-subtle/50">
       <Container>
         <h2 className="max-w-[20ch] text-3xl font-semibold tracking-tight text-balance md:text-4xl">
-          Cara kami mengerjakan project
+          Enam tahap, urutannya selalu sama
         </h2>
         <p className="mt-4 max-w-[54ch] text-text-muted">
-          Enam tahap yang sama untuk setiap project, supaya Anda selalu tahu sedang ada di posisi mana.
+          Supaya Anda tahu sedang ada di posisi mana tanpa perlu bertanya lebih dulu.
         </p>
 
         <div ref={rootRef} className="relative mt-16">

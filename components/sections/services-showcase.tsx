@@ -14,11 +14,11 @@ const services = [
     title: "Website & Dashboard Development",
     tagline: "Custom Web Applications",
     description:
-      "Kami membangun website profesional, landing page konversi tinggi, web app modular, dan dashboard internal yang cepat, responsif, dan siap meluncur ke production.",
+      "Landing page, company profile, web app, sampai dashboard internal. Dibangun supaya cepat dibuka, enak dipakai di layar kecil, dan tidak menyusahkan saat ditambah fitur.",
     outcomes: [
-      "Performa loading cepat (Lighthouse >95)",
-      "Desain responsif & konsisten di semua layar",
-      "Struktur kode bersih & asisten SEO bawaan",
+      "Halaman terbuka cepat, termasuk di koneksi seluler",
+      "Tetap rapi dari layar HP sampai monitor lebar",
+      "Struktur kode yang bisa dilanjutkan developer lain",
     ],
     ctaLabel: PRIMARY_CTA,
     ctaHref: "/contact?service=website-development",
@@ -30,11 +30,11 @@ const services = [
     title: "Infrastructure & Deployment",
     tagline: "Cloud Architecture & Devops",
     description:
-      "Penyusunan arsitektur server, pipeline deployment otomatis (CI/CD), setup reverse proxy aman, ssl gratis, monitoring performa realtime, dan optimasi efisiensi biaya cloud.",
+      "Server disiapkan, rilis dijalankan otomatis, sertifikat keamanan dipasang, dan pemakaian dipantau sebelum tagihannya membengkak.",
     outcomes: [
-      "Pipeline CI/CD untuk rilis tanpa downtime",
-      "Monitoring server 24/7 & mitigasi berkala",
-      "Struktur server stabil & efisiensi biaya VPS/Cloud",
+      "Rilis versi baru tanpa menurunkan situs",
+      "Gangguan ketahuan dari monitoring, bukan dari keluhan pengguna",
+      "Biaya server ditinjau ulang, bukan dibiarkan jalan sendiri",
     ],
     ctaLabel: PRIMARY_CTA,
     ctaHref: "/contact?service=infrastructure",
@@ -46,11 +46,11 @@ const services = [
     title: "Premium Digital Products",
     tagline: "Production-ready Starters",
     description:
-      "Template siap pakai, starter kit terstruktur, dan component library modular untuk melewati setup dasar yang membosankan dan langsung fokus membangun fitur produk.",
+      "Template, starter kit, dan component library yang sudah melewati tahap setup membosankan, jadi hari pertama Anda dipakai menulis fitur.",
     outcomes: [
-      "Folder architecture bersih & dokumentasi hosting",
-      "Update rutin lisensi dependency terbaru",
-      "Lisensi komersial bebas pasang di klien mana saja",
+      "Struktur folder dan petunjuk hosting ikut di dalamnya",
+      "Diperbarui mengikuti versi dependency terbaru",
+      "Lisensi komersial, boleh dipasang di klien mana pun",
     ],
     ctaLabel: PRODUCTS_CTA,
     ctaHref: "/#products",
@@ -85,10 +85,11 @@ export function ServicesShowcase() {
         <Reveal>
           <div className="max-w-2xl text-left mb-12">
             <h2 className="font-mono text-2xl font-semibold tracking-tight text-balance md:text-3xl leading-tight">
-              Layanan Development & Infrastructure Vour
+              Yang paling sering diminta klien
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-text-muted md:text-base">
-              Kami siap bermitra untuk merancang, membangun, dan men-deploy produk digital Anda dengan standar performa engineering terbaik.
+              Dari halaman pertama yang dibuka pengunjung sampai server yang menampungnya.
+              Tiga hal di bawah ini yang biasanya jadi titik mulai.
             </p>
           </div>
         </Reveal>

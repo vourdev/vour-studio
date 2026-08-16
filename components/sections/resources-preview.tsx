@@ -32,7 +32,7 @@ export async function ResourcesPreview() {
       <Container>
         <div className="flex flex-wrap items-end justify-between gap-4">
           <h2 className="max-w-[18ch] text-3xl font-semibold tracking-tight text-balance md:text-4xl">
-            Catatan dari ruang kerja kami
+            Tulisan terbaru
           </h2>
           <Link
             href="/resources"

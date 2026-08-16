@@ -60,9 +60,9 @@ export function Hero() {
           links below re-enable it for themselves. */}
       <Container className="pointer-events-none flex flex-col items-center text-center">
         <KineticHeading
-          text="Website, Dashboard, dan AI Automation untuk Bisnis Modern."
-          accentFrom={6}
-          className="font-mono text-[1.85rem] font-semibold leading-[1.16] tracking-[-0.035em] sm:text-[2.5rem] lg:text-[3.25rem]"
+          text="Kami bangun website dan dashboard untuk bisnis Anda."
+          accentFrom={5}
+          className="font-mono text-[1.85rem] font-semibold leading-[1.16] tracking-[-0.035em] sm:text-[2.5rem] lg:text-[3.5rem]"
         />
 
         <Reveal
@@ -70,8 +70,8 @@ export function Hero() {
           delay={0.45}
           className="mt-7 max-w-[58ch] text-base leading-relaxed text-text-muted md:text-lg"
         >
-          Vour adalah AI-Powered Product Engineering Studio yang membantu bisnis dan
-          developer membangun produk digital yang cepat, rapi, dan siap dikembangkan.
+          Dari halaman untuk pelanggan sampai sistem untuk tim Anda. Kode dan
+          dokumentasinya jadi milik Anda.
         </Reveal>
 
         <Reveal
@@ -94,7 +94,7 @@ export function Hero() {
             the scene. Only the logos themselves opt back in. */}
         <Reveal delay={0.65} className="mt-16 w-full max-w-3xl">
           <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-text-faint mb-6 text-center">
-            {"BUILT ON THE TECH STACK TRUSTED BY DEVELOPERS AT THE WORLD'S MOST INNOVATIVE COMPANIES"}
+            PERKAKAS YANG KAMI PAKAI SEHARI-HARI
           </p>
           <Marquee className="[--duration:40s]" pauseOnHover>
             {logos.map((logo) => (

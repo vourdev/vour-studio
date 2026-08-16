@@ -25,11 +25,11 @@ export const services: Service[] = [
     icon: "browsers",
     title: "Website Development",
     summary:
-      "Pembuatan landing page, company profile, web application, dan dashboard internal yang cepat, responsif, dan mudah dikembangkan.",
+      "Landing page, company profile, web application, sampai dashboard internal. Dibangun supaya cepat dibuka, enak dipakai di layar kecil, dan tidak menyusahkan saat ditambah fitur.",
     outcomes: [
-      "Performa loading cepat di berbagai perangkat",
-      "Desain adaptif dan konsisten di segala layar",
-      "Struktur kode yang ramah SEO dan mudah dirawat",
+      "Halaman terbuka cepat, termasuk di koneksi seluler",
+      "Tetap rapi dari layar HP sampai monitor lebar",
+      "Struktur kode yang bisa dilanjutkan developer lain",
     ],
     scope: [
       "Landing page & Campaign page",
@@ -45,11 +45,11 @@ export const services: Service[] = [
     icon: "robot",
     title: "AI Automation",
     summary:
-      "Otomasi alur kerja dan integrasi sistem operasional bisnis untuk meminimalkan beban kerja repetitif. Layanan ini sedang dalam persiapan.",
+      "Menyambungkan sistem yang sudah Anda pakai supaya pekerjaan salin-tempel harian berhenti. Layanan ini masih kami siapkan.",
     outcomes: [
-      "Perancangan alur kerja otomatis",
-      "Integrasi antar-dashboard operasional",
-      "Riset implementasi teknologi cerdas",
+      "Alur kerja berulang dipetakan lalu dijalankan otomatis",
+      "Data antar-tool operasional berhenti dicatat dua kali",
+      "Uji coba terbatas dulu sebelum dipakai satu tim",
     ],
     scope: [
       "Workflow Automation (Coming Soon)",
@@ -64,11 +64,11 @@ export const services: Service[] = [
     icon: "cloud",
     title: "Infrastructure & Deployment",
     summary:
-      "Penyusunan arsitektur server, pipeline rilis otomatis (CI/CD), monitoring performa realtime, dan optimasi efisiensi biaya cloud.",
+      "Server disiapkan, rilis dijalankan otomatis, sertifikat keamanan dipasang, dan pemakaian dipantau sebelum tagihannya membengkak.",
     outcomes: [
-      "Pipeline CI/CD untuk rilis tanpa kendala",
-      "Sistem pemantauan server dan mitigasi berkala",
-      "Efisiensi dan skalabilitas penggunaan server",
+      "Rilis versi baru tanpa menurunkan situs",
+      "Gangguan ketahuan dari monitoring, bukan dari laporan pengguna",
+      "Biaya server ditinjau ulang, bukan dibiarkan jalan sendiri",
     ],
     scope: [
       "Setup server & Reverse proxy",
@@ -84,11 +84,11 @@ export const services: Service[] = [
     icon: "storefront",
     title: "Premium Digital Products",
     summary:
-      "Template kode, starter kit terstruktur, dan developer toolkit siap pakai untuk mempercepat fase awal pembangunan aplikasi.",
+      "Template dan starter kit yang sudah melewati tahap setup membosankan, jadi hari pertama Anda dipakai menulis fitur.",
     outcomes: [
-      "Inisiasi project dengan tata struktur bersih",
-      "Dokumentasi lengkap petunjuk konfigurasi",
-      "Pembaruan berkala mengikuti update dependency",
+      "Struktur folder yang sudah ditata dari awal",
+      "Petunjuk konfigurasi dan hosting ikut di dalamnya",
+      "Diperbarui mengikuti versi dependency terbaru",
     ],
     scope: [
       "Template & Starter kit",
@@ -104,45 +104,45 @@ export const services: Service[] = [
 export const differentiators = [
   {
     title: "AI-Powered Development",
-    body: "Kami memakai AI di dalam proses kerja, bukan sebagai jargon. Hasilnya siklus pengerjaan yang lebih pendek tanpa mengorbankan ketelitian.",
+    body: "AI kami pakai untuk pekerjaan yang berulang. Keputusan arsitektur dan review kode tetap dipegang orang.",
   },
   {
     title: "Modern Tech Stack",
-    body: "Pilihan teknologi ditentukan oleh kebutuhan project, bukan tren. Yang penting: cepat dibuka, aman, dan tidak menyulitkan saat ditambah fitur.",
+    body: "Teknologi dipilih karena cocok dengan masalahnya, bukan karena sedang ramai dibicarakan.",
   },
   {
     title: "Clean Architecture",
-    body: "Struktur kode yang bisa dibaca developer lain. Anda tidak terkunci pada satu orang untuk melanjutkan pengembangan.",
+    body: "Developer lain bisa membaca struktur kode ini tanpa perlu menelepon kami dulu.",
   },
   {
     title: "Documentation",
-    body: "Setiap penyerahan project dilengkapi dokumentasi cara menjalankan, mengubah, dan merilis ulang. Tidak ada bagian yang hanya ada di kepala kami.",
+    body: "Cara menjalankan, mengubah, dan merilis ulang ditulis di repo. Tidak ada langkah yang cuma ada di kepala kami.",
   },
 ];
 
 export const workflowSteps = [
   {
     title: "Consultation",
-    body: "Kami dengarkan masalahnya dulu, bukan langsung menawarkan solusi.",
+    body: "Kami dengar masalahnya sampai selesai, sebelum menyebut solusi apa pun.",
   },
   {
     title: "Planning",
-    body: "Ruang lingkup, jadwal, dan biaya disepakati tertulis sebelum pengerjaan.",
+    body: "Lingkup, jadwal, dan biaya ditulis dan disepakati sebelum baris pertama dikerjakan.",
   },
   {
     title: "Development",
-    body: "Progress bisa Anda lihat berkala, bukan hanya di akhir.",
+    body: "Progress bisa dilihat tiap minggu, jadi tidak ada kejutan di akhir.",
   },
   {
     title: "Testing",
-    body: "Diuji di berbagai perangkat dan ukuran layar sebelum dianggap selesai.",
+    body: "Dicoba di HP lama, layar lebar, dan koneksi lambat sebelum dinyatakan selesai.",
   },
   {
     title: "Deployment",
-    body: "Rilis ke domain Anda, lengkap dengan pengamanan dasar dan monitoring.",
+    body: "Dipasang di domain Anda, lengkap dengan sertifikat keamanan dan pemantauan.",
   },
   {
     title: "Support",
-    body: "Masa pendampingan setelah rilis untuk memastikan semuanya berjalan.",
+    body: "Masa pendampingan setelah rilis, saat masalah kecil biasanya baru muncul.",
   },
 ];

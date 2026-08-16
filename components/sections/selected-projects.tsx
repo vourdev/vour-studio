@@ -28,7 +28,7 @@ export function SelectedProjects({ projects }: { projects: Project[] }) {
       <Container>
         <Reveal>
           <h2 className="max-w-[20ch] text-3xl font-semibold tracking-tight text-balance md:text-4xl">
-            Hasil yang dicapai, bukan sekadar tampilan
+            Apa yang berubah setelah project selesai
           </h2>
         </Reveal>
       </Container>

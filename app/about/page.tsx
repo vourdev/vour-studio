@@ -10,15 +10,15 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "About",
   description:
-    "Vour adalah AI-Powered Product Engineering Studio. Kami membangun website, dashboard, dan setup infrastructure yang benar-benar siap pakai.",
+    "Vour mengerjakan website, dashboard internal, dan urusan server untuk bisnis yang sudah jalan dan startup yang baru mulai.",
   path: "/about",
 });
 
 const stats = [
-  { value: "25+", label: "Project Production", desc: "Berjalan aktif di server klien" },
-  { value: "2018", label: "Tahun Berdiri", desc: "Mulai melayani kebutuhan digital" },
-  { value: "2 Mgg", label: "Rilis Fase MVP", desc: "Kecepatan rilis iterasi pertama" },
-  { value: "100%", label: "Ownership Kode", desc: "Lisensi penuh milik Anda" },
+  { value: "25+", label: "Project Production", desc: "Masih berjalan di server klien" },
+  { value: "2018", label: "Tahun Berdiri", desc: "Sejak project berbayar pertama" },
+  { value: "2 Mgg", label: "Rilis Fase MVP", desc: "Jarak kick-off ke rilis pertama" },
+  { value: "100%", label: "Ownership Kode", desc: "Diserahkan penuh di akhir project" },
 ];
 
 export default function AboutPage() {
@@ -31,12 +31,12 @@ export default function AboutPage() {
             <div>
               <Reveal>
                 <h1 className="font-mono text-[1.85rem] font-semibold leading-[1.16] tracking-[-0.035em] sm:text-[2.5rem] lg:text-[3rem] text-balance">
-                  Kami membangun produk digital yang bekerja secara nyata
+                  Studio kecil yang memegang sedikit project dalam satu waktu
                 </h1>
               </Reveal>
               <Reveal delay={0.1}>
                 <p className="mt-6 max-w-[50ch] text-sm leading-relaxed text-text-muted md:text-base">
-                  Vour berpartner dengan bisnis dan startup untuk merancang website handal, dashboard operasional internal, serta setup workflow deployment otomatis (DevOps).
+                  Kami menangani website, dashboard internal, dan urusan server. Satu tim mengerjakan dari perencanaan sampai rilis, jadi tidak ada estafet ke pihak lain di tengah jalan.
                 </p>
               </Reveal>
             </div>
@@ -86,14 +86,14 @@ export default function AboutPage() {
                     <RocketIcon weight="light" className="size-5" />
                   </span>
                   <h2 className="text-xl font-bold tracking-tight text-white mb-3">
-                    Mendorong Kualitas Produk Digital
+                    Menaikkan standar barang yang diserahkan
                   </h2>
                   <p className="text-sm leading-relaxed text-text-muted">
-                    Meningkatkan standar kualitas software developer lokal lewat penulisan kode terstruktur, arsitektur deployment optimal, dan dokumentasi operasional yang serah terima lengkap.
+                    Kode yang terstruktur, cara rilis yang bisa diulang siapa saja, dan dokumentasi yang cukup untuk dipegang tim lain. Itu ukuran selesai buat kami.
                   </p>
                 </div>
                 <div className="mt-8 border-t border-border/40 pt-4 font-mono text-[9px] uppercase tracking-widest text-text-faint">
-                  ENGINEERING QUALITY FIRST
+                  STANDAR SERAH TERIMA
                 </div>
               </div>
             </Reveal>
@@ -105,14 +105,14 @@ export default function AboutPage() {
                     <CompassIcon weight="light" className="size-5" />
                   </span>
                   <h2 className="text-xl font-bold tracking-tight text-white mb-3">
-                    Brand Pendukung Developer Terpercaya
+                    Jadi tempat pertama developer mencari fondasi
                   </h2>
                   <p className="text-sm leading-relaxed text-text-muted">
-                    Menjadi studio rujukan utama di Indonesia untuk penyediaan starter kit, otomasi workflow handal, template kode siap rilis, serta jasa kustomisasi platform modern.
+                    Starter kit, template, dan perkakas yang kami rapikan dari project sendiri, supaya orang lain tidak mengulang setup yang sama dari nol.
                   </p>
                 </div>
                 <div className="mt-8 border-t border-border/40 pt-4 font-mono text-[9px] uppercase tracking-widest text-text-faint">
-                  GOAL: DEVCENTRIC ARCHITECTURE
+                  DIBUAT UNTUK DEVELOPER
                 </div>
               </div>
             </Reveal>
@@ -126,10 +126,10 @@ export default function AboutPage() {
           <Reveal>
             <div className="max-w-2xl mb-12">
               <h2 className="text-2xl font-bold tracking-tight text-white md:text-3xl">
-                Prinsip kerja & pengambilan keputusan
+                Cara kami mengambil keputusan
               </h2>
               <p className="mt-3 text-sm text-text-muted leading-relaxed">
-                Kami menetapkan acuan disiplin engineering agar project tetap berjalan lancar jangka panjang.
+                Tiga aturan yang dipakai saat pilihannya tidak jelas hitam putihnya.
               </p>
             </div>
           </Reveal>

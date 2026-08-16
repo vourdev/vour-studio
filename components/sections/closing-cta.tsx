@@ -25,13 +25,13 @@ export function ClosingCta() {
       <Container className="flex flex-col items-center text-center">
         <Reveal>
           <h2 className="max-w-[16ch] text-3xl font-semibold tracking-tight text-balance md:text-5xl">
-            Punya ide produk digital?
+            Mulai dari obrolan dulu
           </h2>
         </Reveal>
         <Reveal index={1}>
           <p className="mt-5 max-w-[46ch] text-text-muted md:text-lg">
-            Diskusikan kebutuhan project Anda bersama Vour. Konsultasi awal tidak
-            dipungut biaya.
+            Konsultasi pertama gratis dan tidak wajib berlanjut. Kalau ternyata bukan
+            kami yang cocok, kami bilang.
           </p>
         </Reveal>
         <Reveal index={2} className="mt-9">

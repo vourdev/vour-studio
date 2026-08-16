@@ -34,9 +34,9 @@ export const IS_INDEXABLE =
 export const siteConfig = {
   name: "Vour",
   legalName: "Vour Studio",
-  tagline: "AI-Powered Product Engineering Studio",
+  tagline: "Studio pengembangan web dan sistem internal",
   description:
-    "Vour membangun website, dashboard internal, dan workflow AI untuk bisnis modern. Juga menyediakan template dan starter kit untuk developer.",
+    "Vour mengerjakan website, dashboard internal, dan otomasi alur kerja untuk bisnis di Indonesia. Kode dan dokumentasinya diserahkan di akhir project.",
   url: SITE_URL,
   locale: "id-ID",
 } as const;
@@ -52,7 +52,7 @@ export const CONTACT_EMAIL =
 export function whatsappLink(message?: string, number = WHATSAPP_NUMBER) {
   const text =
     message ??
-    "Halo Vour, saya ingin mendiskusikan sebuah project. Boleh minta informasinya?";
+    "Halo Vour, saya mau tanya soal sebuah project. Boleh minta waktunya sebentar?";
   return `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
 }
 

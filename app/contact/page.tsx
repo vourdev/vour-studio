@@ -19,7 +19,7 @@ import { whatsappLink } from "@/lib/site";
 export const metadata = buildMetadata({
   title: "Kontak",
   description:
-    "Diskusikan kebutuhan project Anda bersama Vour. Hubungi lewat WhatsApp prioritaskan respon cepat, atau gunakan form proposal di bawah.",
+    "Ceritakan masalah yang mau dibereskan. Konsultasi pertama tidak dipungut biaya dan tidak wajib berlanjut jadi project.",
   path: "/contact",
 });
 
@@ -46,10 +46,10 @@ export default async function ContactPage() {
         <Container className="max-w-3xl text-center">
           <Reveal>
             <h1 className="font-mono text-3xl font-semibold tracking-tighter sm:text-[2.25rem] lg:text-[2.75rem]">
-              Mulai hubungkan ide & deployment Anda
+              Ceritakan dulu masalahnya
             </h1>
             <p className="mt-4 text-sm text-text-muted leading-relaxed md:text-base">
-              Konsultasi awal gratis. Kirim rincian kebutuhan Anda lewat salah satu opsi pengiriman pesan tercepat di bawah.
+              Konsultasi pertama gratis dan tidak wajib berlanjut jadi project. Pilih jalur yang paling gampang buat Anda.
             </p>
           </Reveal>
         </Container>
@@ -73,7 +73,7 @@ export default async function ContactPage() {
                   </span>
                   <h3 className="text-lg font-bold text-white mb-2">WhatsApp Prioritas</h3>
                   <p className="text-xs leading-relaxed text-text-muted">
-                    Gunakan saluran ini untuk respon dalam hitungan jam (09.00 - 18.00 WIB pada hari kerja).
+                    Paling cepat dibalas. Hari kerja 09.00–18.00 WIB, biasanya dalam hitungan jam.
                   </p>
                 </div>
                 <div className="mt-8 flex items-center gap-2 font-mono text-xs font-bold text-accent-text group-hover:translate-x-1 transition-transform">
@@ -95,7 +95,7 @@ export default async function ContactPage() {
                   </span>
                   <h3 className="text-lg font-bold text-white mb-2">Email Proposal</h3>
                   <p className="text-xs leading-relaxed text-text-muted">
-                    Kirim request for proposal formal atau kerja sama bisnis lainnya melalui surel resmi.
+                    Untuk RFP, dokumen tender, atau apa pun yang butuh jejak tertulis.
                   </p>
                 </div>
                 <div className="mt-8 font-mono text-xs text-text-muted group-hover:text-accent-text transition-colors">
@@ -108,7 +108,7 @@ export default async function ContactPage() {
           {/* Social Platform shortcuts */}
           <Reveal y={16} className="mt-12 flex flex-col items-center gap-4">
             <span className="font-mono text-[10px] tracking-wider uppercase text-text-faint">
-              Atau ikuti media sosial kami:
+              Kami juga ada di sini
             </span>
             <div className="flex items-center gap-4">
               {socials.map((social) => (
@@ -138,7 +138,7 @@ export default async function ContactPage() {
               <div className="relative z-10">
                 <h2 className="text-2xl font-bold tracking-tight text-white mb-2">Kirim brief project</h2>
                 <p className="text-xs text-text-muted mb-8 leading-normal">
-                  Punya detail arsitektur atau spec tertulis? Jelaskan langsung melalui form proposal aman berikut.
+                  Sudah punya gambaran lingkup atau dokumen spek? Tempel saja di sini.
                 </p>
                 <LeadForm sourcePage="/contact" />
               </div>
@@ -153,9 +153,9 @@ export default async function ContactPage() {
                     Proses Konsultasi
                   </h3>
                   <ol className="space-y-3 font-mono text-[11px] text-text-muted list-decimal list-inside">
-                    <li>Kirim rincian kebutuhan Anda</li>
-                    <li>Rapat klarifikasi teknis (15-30 menit jika perlu)</li>
-                    <li>Penyusunan estimasi budget & milestones resmi</li>
+                    <li>Anda kirim rincian kebutuhan</li>
+                    <li>Obrolan klarifikasi 15–30 menit, kalau perlu</li>
+                    <li>Estimasi biaya dan tahapan dikirim tertulis</li>
                   </ol>
                 </div>
               </Reveal>
@@ -164,10 +164,10 @@ export default async function ContactPage() {
               <Reveal index={2}>
                 <div className="rounded-surface border border-accent/20 bg-accent-soft/20 p-6">
                   <h3 className="text-sm font-semibold uppercase tracking-wider font-mono text-accent-text mb-2">
-                    Gambaran Investasi
+                    Kisaran Biaya
                   </h3>
                   <p className="text-[11px] leading-relaxed text-text-muted">
-                    Sebagian besar project custom web development kami dimulai dari range Rp 15 - Rp 30 Juta. Setup infrastruktur, monitoring, dan pipeline CI/CD tersendiri berbiaya mulai dari Rp 8 Juta.
+                    Sebagian besar project web custom mulai di angka Rp 15–30 juta. Pekerjaan infrastruktur dan pipeline rilis dihitung terpisah, mulai Rp 8 juta. Angka pastinya menyesuaikan lingkup.
                   </p>
                 </div>
               </Reveal>

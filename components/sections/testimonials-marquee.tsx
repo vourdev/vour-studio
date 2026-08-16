@@ -9,63 +9,63 @@ const reviews = [
     name: "Ahmad Rizki",
     username: "Founder",
     company: "TechStart Indonesia",
-    body: "Pengalaman kerja sama dengan Vour sangat memuaskan. Website kami selesai lebih cepat dari deadline, dan hasil akhirnya melebihi ekspektasi.",
+    body: "Website kami selesai sepuluh hari sebelum tenggat, dan revisi terakhir dikerjakan di hari yang sama saat kami minta.",
     profile: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=faces",
   },
   {
     name: "Sarah Wijaya",
     username: "Operations Manager",
     company: "LogistikPro",
-    body: "Dashboard internal yang dibangun Vour membantu tim kami mengelola operasional dengan lebih efisien. Strukturnya rapi dan mudah dikembangkan.",
+    body: "Laporan harian yang dulu disusun manual sekarang sudah jadi sebelum kami masuk kantor.",
     profile: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=faces",
   },
   {
     name: "Budi Santoso",
     username: "CTO",
     company: "EduTech Asia",
-    body: "Tim Vour sangat responsif dan profesional. Mereka tidak hanya mengerjakan apa yang diminta, tapi juga memberikan saran teknis yang valuable.",
+    body: "Beberapa kali mereka menolak permintaan kami dan menjelaskan alasannya. Belakangan terbukti benar.",
     profile: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=faces",
   },
   {
     name: "Dewi Lestari",
     username: "Product Manager",
     company: "FinanceApp",
-    body: "Dokumentasi lengkap dan pendampingan pasca-launch sangat membantu tim internal kami untuk maintain website sendiri. Highly recommended!",
+    body: "Seminggu setelah serah terima, tim kami sudah bisa mengubah isi halaman sendiri cuma bermodal dokumentasinya.",
     profile: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=faces",
   },
   {
     name: "Agus Pratama",
     username: "CEO",
     company: "RetailHub",
-    body: "Kualitas kode yang rapi dan performa loading yang cepat membuat website kami mendapat feedback positif dari user. Worth every penny.",
+    body: "Halaman produk terbuka jauh lebih cepat dari versi lama. Keluhan soal loading berhenti masuk.",
     profile: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=faces",
   },
   {
     name: "Linda Kusuma",
     username: "Tech Lead",
     company: "CloudSolutions",
-    body: "Setup infrastructure dan CI/CD yang dikerjakan Vour membuat deployment jadi jauh lebih smooth. No more manual deployment headaches.",
+    body: "Rilis yang dulu makan waktu setengah hari sekarang selesai sambil kami rapat.",
     profile: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=faces",
   },
   {
     name: "Andi Setiawan",
     username: "Director",
     company: "MediaKreasi",
-    body: "Dari konsultasi awal sampai rilis, prosesnya transparan dan terstruktur. Update progress rutin membuat kami selalu tahu posisi project.",
+    body: "Tiap Jumat ada catatan progress. Kami tidak pernah harus menanyakan kabar project.",
     profile: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop&crop=faces",
   },
   {
     name: "Maya Putri",
     username: "Engineering Manager",
     company: "DataCorp",
-    body: "Template yang kami beli dari Vour sangat membantu mempercepat development internal tools kami. Clean code dan well-documented.",
+    body: "Starter kit-nya memangkas sekitar dua minggu setup di internal tools kami.",
     profile: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=100&h=100&fit=crop&crop=faces",
   },
   {
     name: "Rudi Hermawan",
     username: "Co-Founder",
     company: "StartupHub",
-    body: "Partner yang tepat untuk bisnis yang butuh solusi teknis berkualitas. Vour understand both technical and business requirements.",
+    body: "Mereka menanyakan kenapa fiturnya kami minta, bukan cuma mencatat apa yang diminta.",
     profile: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&h=100&fit=crop&crop=faces",
   },
 ];
@@ -117,10 +117,10 @@ export function TestimonialsMarquee() {
         <Reveal>
           <div className="mx-auto flex max-w-2xl flex-col items-center justify-center gap-4">
             <h2 className="text-center text-3xl font-semibold tracking-tight text-balance md:text-4xl">
-              Testimoni dari klien kami
+              Kata klien setelah project selesai
             </h2>
             <p className="text-center text-sm text-text-muted md:text-base">
-              Pengalaman kerja sama dari berbagai bisnis yang telah mempercayakan project mereka kepada Vour.
+              Beberapa catatan dari bisnis yang pernah bekerja dengan kami.
             </p>
           </div>
         </Reveal>

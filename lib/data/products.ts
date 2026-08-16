@@ -22,11 +22,11 @@ export const products: Product[] = [
     name: "Portfolio Template",
     category: "Template",
     tagline:
-      "Portfolio siap pakai untuk developer dan desainer yang ingin tampil rapi tanpa membangun dari nol.",
+      "Untuk developer dan desainer yang butuh portfolio layak dikirim minggu ini juga.",
     features: [
-      "Halaman project dengan studi kasus",
+      "Halaman project dengan format studi kasus",
       "Mode gelap dan terang",
-      "Siap ditemukan mesin pencari",
+      "Judul dan preview link sudah diatur",
     ],
     price: null,
     status: "soon",
@@ -37,11 +37,11 @@ export const products: Product[] = [
     name: "Landing Page Template",
     category: "Template",
     tagline:
-      "Landing page yang fokus pada satu tujuan: mengubah pengunjung menjadi calon pelanggan.",
+      "Satu halaman, satu tujuan: pengunjung meninggalkan nomor atau emailnya sebelum menutup tab.",
     features: [
-      "Section yang bisa disusun ulang",
-      "Form kontak yang sudah terhubung",
-      "Animasi yang bisa dimatikan",
+      "Section bisa disusun ulang tanpa merusak layout",
+      "Form kontak sudah tersambung, tinggal isi tujuannya",
+      "Animasi bisa dimatikan lewat satu pengaturan",
     ],
     price: null,
     status: "soon",
@@ -52,11 +52,11 @@ export const products: Product[] = [
     name: "Dashboard Template",
     category: "Template",
     tagline:
-      "Panel internal dengan tabel, filter, dan grafik yang sudah tertata sejak awal.",
+      "Tabel, filter, dan grafik yang sudah tertata, tinggal disambungkan ke data Anda.",
     features: [
-      "Tabel dengan pencarian dan filter",
-      "Grafik yang terbaca di dua mode warna",
-      "Struktur peran pengguna",
+      "Tabel dengan pencarian, filter, dan urutan kolom",
+      "Grafik yang tetap terbaca di mode gelap",
+      "Pembagian hak akses per peran pengguna",
     ],
     price: null,
     status: "soon",
@@ -67,11 +67,11 @@ export const products: Product[] = [
     name: "Developer Starter Kit",
     category: "Starter Kit",
     tagline:
-      "Fondasi project yang sudah dipasang dan diuji, supaya Anda mulai dari fitur, bukan dari konfigurasi.",
+      "Setup awal yang biasanya makan dua hari, sudah dikerjakan dan diuji lebih dulu.",
     features: [
-      "Struktur folder yang konsisten",
-      "Pengaturan kualitas kode",
-      "Dokumentasi cara merilis",
+      "Struktur folder yang konsisten antar-project",
+      "Pemeriksa kualitas kode sudah terpasang",
+      "Langkah rilis ditulis di README",
     ],
     price: null,
     status: "soon",

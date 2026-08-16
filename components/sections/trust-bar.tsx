@@ -9,28 +9,28 @@ const stats = [
     padZero: 0,
     suffix: "+",
     description:
-      "Aplikasi web, dashboard internal, dan sistem otomasi yang berjalan di production klien kami.",
+      "Aplikasi web, dashboard, dan sistem otomasi yang hari ini berjalan di server klien.",
   },
   {
     value: 8,
     padZero: 0,
     suffix: " tahun",
     description:
-      "Pengalaman gabungan tim membangun produk digital untuk kebutuhan bisnis nyata.",
+      "Pengalaman gabungan tim, dihitung sejak project berbayar pertama, bukan sejak belajar.",
   },
   {
     value: 2,
     padZero: 0,
     suffix: " minggu",
     description:
-      "Rentang khas dari kick-off hingga rilis pertama untuk lingkup MVP yang terdefinisi.",
+      "Jarak dari kick-off ke rilis pertama, untuk lingkup MVP yang sudah disepakati di awal.",
   },
   {
     value: 100,
     padZero: 0,
     suffix: "%",
     description:
-      "Kode dan dokumentasi kami serahkan ke klien. Anda pemilik penuh apa yang dibangun.",
+      "Kode dan dokumentasi diserahkan di akhir. Tidak ada bagian yang kami tahan.",
   },
 ];
 
@@ -41,14 +41,13 @@ export function TrustBar() {
         <div className="max-w-2xl mb-12">
           <Reveal>
             <h2 className="text-3xl font-semibold tracking-tight text-balance md:text-4xl">
-              Angka yang bisa dibuktikan
+              Ringkasan kerja sampai hari ini
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mt-3 text-sm leading-relaxed text-text-muted max-w-lg">
-              Bukan janji pemasaran. Ini gambaran ruang lingkup kerja kami sampai
-              hari ini, mulai dari sistem yang berjalan sampai cara kami menyerahkan
-              hasilnya.
+              Empat angka yang paling sering ditanyakan sebelum orang memutuskan
+              bekerja sama dengan kami.
             </p>
           </Reveal>
         </div>

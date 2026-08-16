@@ -71,7 +71,7 @@ export function organizationJsonLd() {
           "@type": "Service",
           name: "Website Development",
           description:
-            "Landing page, company profile, web application, dan dashboard yang modern dan responsif.",
+            "Landing page, company profile, web application, dan dashboard internal yang cepat dibuka dan mudah ditambah fitur.",
         },
       },
       {
@@ -80,7 +80,7 @@ export function organizationJsonLd() {
           "@type": "Service",
           name: "AI Automation",
           description:
-            "Workflow AI, automation, dan internal tools untuk memangkas pekerjaan manual.",
+            "Otomasi alur kerja dan penyambungan sistem operasional untuk memangkas pekerjaan salin-tempel harian.",
         },
       },
       {
@@ -89,7 +89,7 @@ export function organizationJsonLd() {
           "@type": "Service",
           name: "Infrastructure and Deployment",
           description:
-            "Deployment yang stabil, aman, dan mudah dipelihara, lengkap dengan monitoring.",
+            "Setup server, pipeline rilis otomatis, sertifikat keamanan, dan pemantauan performa.",
         },
       },
     ],

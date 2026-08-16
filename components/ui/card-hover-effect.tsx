@@ -7,17 +7,17 @@ const values = [
   {
     icon: LeafIcon,
     title: "Tidak ada pekerjaan yang terbuang",
-    description: "Setiap baris kode dan setup infrastruktur terdokumentasi dengan baik, memudahkan proses hand-over atau penambahan fitur di masa depan.",
+    description: "Setiap keputusan setup ditulis di repo. Saat tim Anda menambah fitur enam bulan lagi, jejaknya masih ada.",
   },
   {
     icon: LightbulbIcon,
     title: "Masalah dulu, solusi kemudian",
-    description: "Kami tidak merekomendasikan teknologi sebelum benar-benar memahami masalah operasional bisnis Anda. Sederhana sering kali lebih baik.",
+    description: "Kami tidak menyebut teknologi di pertemuan pertama. Yang dicari dulu bagian mana yang paling memakan waktu Anda.",
   },
   {
     icon: ShieldCheckIcon,
     title: "Bukan bersaing di harga termurah",
-    description: "Ketelitian arsitektur keamanan, kecepatan loading, dan kebersihan kode menjadi fokus utama yang menentukan efisiensi biaya jangka panjang.",
+    description: "Ada studio yang bisa memberi angka lebih murah. Yang kami jaga adalah biaya setahun sesudahnya, bukan angka di penawaran.",
   },
 ];
 

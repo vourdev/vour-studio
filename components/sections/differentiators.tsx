@@ -9,13 +9,13 @@ export function Differentiators() {
         <div className="max-w-2xl mb-16">
           <Reveal>
             <h2 className="text-3xl font-semibold tracking-tight text-balance md:text-4xl text-left">
-              Mengapa memilih Vour?
+              Yang menentukan project masih enak dipegang setahun kemudian
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mt-5 text-base text-text-muted leading-relaxed max-w-lg">
-              Hal-hal yang biasanya ditanyakan klien sebelum memutuskan mulai
-              kerja sama, kami jawab di sini.
+              Lima hal ini jarang terlihat di hasil akhirnya, tapi paling terasa
+              saat Anda ingin menambah fitur.
             </p>
           </Reveal>
         </div>
@@ -37,7 +37,7 @@ export function Differentiators() {
             <div className="space-y-2">
               <h3 className="text-base font-semibold">Modern Tech Stack</h3>
               <p className="text-[13px] text-text-muted leading-relaxed">
-                Pilihan teknologi difokuskan pada kecepatan load, pengamanan website, dan kemudahan dalam penambahan fitur baru.
+                Teknologi dipilih karena cocok dengan masalahnya, bukan karena sedang ramai dibicarakan.
               </p>
             </div>
           </div>
@@ -70,7 +70,7 @@ export function Differentiators() {
             <div className="space-y-2">
               <h3 className="text-base font-semibold">AI-Powered Development</h3>
               <p className="text-[13px] text-text-muted leading-relaxed">
-                Pemanfaatan AI untuk asisten coding demi memangkas durasi pengerjaan, tanpa mengabaikan aspek kualitas kode program.
+                AI kami pakai untuk pekerjaan yang berulang. Keputusan arsitektur dan review kode tetap dipegang orang.
               </p>
             </div>
           </div>
@@ -99,7 +99,7 @@ export function Differentiators() {
             <div className="space-y-2">
               <h3 className="text-base font-semibold">Clean Architecture</h3>
               <p className="text-[13px] text-text-muted leading-relaxed">
-                Struktur kode rapi, modular, mudah dipelajari oleh developer lain untuk jaminan kelanjutan pengembangan jangka panjang.
+                Developer lain bisa membaca struktur kode ini tanpa perlu menelepon kami dulu.
               </p>
             </div>
           </div>
@@ -114,7 +114,7 @@ export function Differentiators() {
                 <div className="space-y-2">
                   <h3 className="text-base font-semibold">Dokumentasi Lengkap</h3>
                   <p className="text-[13px] text-text-muted leading-relaxed">
-                    Menyediakan pedoman teknis menyeluruh tentang instalasi, alur, dan langkah hosting agar project dipegang mandiri dengan aman.
+                    Cara menjalankan, mengubah, dan merilis ulang ditulis di repo. Tidak ada langkah yang cuma ada di kepala kami.
                   </p>
                 </div>
               </div>
@@ -148,7 +148,7 @@ export function Differentiators() {
                 <div className="space-y-2">
                   <h3 className="text-base font-semibold">Pendampingan Rilis</h3>
                   <p className="text-[13px] text-text-muted leading-relaxed">
-                    Bantuan teknis intensif pasca-rilis untuk menjamin transisi sistem baru berjalan lancar dan bebas kendala operasional.
+                    Minggu-minggu pertama setelah rilis biasanya paling ribut. Kami temani sampai keadaan tenang.
                   </p>
                 </div>
               </div>

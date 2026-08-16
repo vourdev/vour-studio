@@ -14,8 +14,8 @@ export default function NotFound() {
           Halaman ini tidak ditemukan
         </h1>
         <p className="mt-5 leading-relaxed text-text-muted">
-          Tautannya mungkin sudah berubah atau salah ketik. Coba mulai dari beranda,
-          atau lihat langsung apa saja yang kami tangani.
+          Alamatnya mungkin sudah berubah, atau ada salah ketik. Mulai lagi dari beranda,
+          atau lihat dulu apa saja yang kami kerjakan.
         </p>
         <div className="mt-9 flex flex-wrap gap-3">
           <Button asChild>

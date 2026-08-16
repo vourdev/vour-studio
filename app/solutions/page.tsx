@@ -22,7 +22,7 @@ import { PRIMARY_CTA, PRODUCTS_CTA } from "@/lib/site";
 export const metadata = buildMetadata({
   title: "Solutions",
   description:
-    "Website development, AI automation, infrastructure dan deployment, serta produk digital untuk developer. Empat layanan Vour dan hasil yang Anda dapatkan.",
+    "Website development, AI automation, infrastructure dan deployment, serta produk digital untuk developer. Empat layanan Vour, lengkap dengan cakupan pekerjaannya.",
   path: "/solutions",
 });
 
@@ -34,13 +34,13 @@ export default function SolutionsPage() {
         <Container>
           <Reveal>
             <h1 className="max-w-[24ch] font-mono text-[1.8rem] font-semibold tracking-[-0.03em] md:text-[2.5rem] text-balance">
-              Solusi teknis yang fokus pada hasil nyata
+              Empat hal yang kami kerjakan
             </h1>
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mt-4 max-w-[58ch] text-sm leading-relaxed text-text-muted md:text-base">
-              Setiap layanan dijelaskan lewat dampak dan hasil yang Anda dapatkan lebih dulu.
-              Pilih layanan di bawah untuk melihat rincian cakupan pekerjaannya.
+              Halaman ini boleh teknis. Tiap layanan di bawah disertai cakupan pekerjaannya,
+              bukan cuma janji hasil akhirnya.
             </p>
           </Reveal>
 
@@ -79,8 +79,8 @@ export default function SolutionsPage() {
                     Website Development
                   </h2>
                   <p className="mt-3 leading-relaxed text-text-muted text-sm md:text-base">
-                    Pembuatan landing page, company profile, web application, dan dashboard internal
-                    yang cepat, responsif, dan mudah dikembangkan.
+                    Landing page, company profile, web application, sampai dashboard internal.
+                    Dibangun supaya cepat dibuka, enak dipakai di layar kecil, dan tidak menyusahkan saat ditambah fitur.
                   </p>
 
                   <div className="mt-8 grid gap-6 sm:grid-cols-2">
@@ -91,15 +91,15 @@ export default function SolutionsPage() {
                       <ul className="mt-3 space-y-2.5 text-sm text-text-muted">
                         <li className="flex gap-2">
                           <CheckIcon weight="bold" className="mt-1 size-3.5 shrink-0 text-accent-text" />
-                          <span>Performa loading cepat di berbagai perangkat</span>
+                          <span>Halaman terbuka cepat, termasuk di koneksi seluler</span>
                         </li>
                         <li className="flex gap-2">
                           <CheckIcon weight="bold" className="mt-1 size-3.5 shrink-0 text-accent-text" />
-                          <span>Desain adaptif dan konsisten di segala layar</span>
+                          <span>Tetap rapi dari layar HP sampai monitor lebar</span>
                         </li>
                         <li className="flex gap-2">
                           <CheckIcon weight="bold" className="mt-1 size-3.5 shrink-0 text-accent-text" />
-                          <span>Struktur kode yang ramah SEO dan mudah dirawat</span>
+                          <span>Struktur kode yang bisa dilanjutkan developer lain</span>
                         </li>
                       </ul>
                     </div>
@@ -182,7 +182,7 @@ export default function SolutionsPage() {
                     AI Automation
                   </h2>
                   <p className="mt-2 text-sm leading-relaxed text-text-muted">
-                    Otomasi alur kerja dan integrasi sistem operasional bisnis untuk meminimalkan beban kerja repetitif.
+                    Menyambungkan sistem yang sudah Anda pakai supaya pekerjaan salin-tempel harian berhenti.
                   </p>
 
                   <div className="mt-6 space-y-2">
@@ -192,15 +192,15 @@ export default function SolutionsPage() {
                     <ul className="space-y-2 text-xs text-text-muted">
                       <li className="flex gap-2">
                         <CheckIcon weight="bold" className="mt-0.5 size-3 shrink-0 text-accent-text" />
-                        <span>Perancangan alur kerja otomatis (Workflow Automation)</span>
+                        <span>Alur kerja berulang dipetakan lalu dijalankan otomatis</span>
                       </li>
                       <li className="flex gap-2">
                         <CheckIcon weight="bold" className="mt-0.5 size-3 shrink-0 text-accent-text" />
-                        <span>Integrasi antar-dashboard operasional bisnis</span>
+                        <span>Data antar-tool operasional berhenti dicatat dua kali</span>
                       </li>
                       <li className="flex gap-2">
                         <CheckIcon weight="bold" className="mt-0.5 size-3 shrink-0 text-accent-text" />
-                        <span>Riset implementasi teknologi cerdas</span>
+                        <span>Uji coba terbatas dulu sebelum dipakai satu tim</span>
                       </li>
                     </ul>
                   </div>
@@ -238,7 +238,7 @@ export default function SolutionsPage() {
                     Infrastructure & Deployment
                   </h2>
                   <p className="mt-2 text-sm leading-relaxed text-text-muted">
-                    Arsitektur server, pipeline rilis otomatis (CI/CD), monitoring performa realtime, dan optimasi efisiensi biaya cloud.
+                    Arsitektur server, pipeline rilis otomatis (CI/CD), pemantauan performa, dan peninjauan ulang biaya cloud.
                   </p>
 
                   <div className="mt-6 space-y-2">
@@ -293,7 +293,7 @@ export default function SolutionsPage() {
                     Premium Digital Products
                   </h2>
                   <p className="mt-2 text-sm leading-relaxed text-text-muted">
-                    Template kode, starter kit terstruktur, dan developer toolkit siap pakai untuk mempercepat fase awal pembangunan aplikasi.
+                    Template, starter kit, dan toolkit yang sudah melewati tahap setup membosankan, jadi hari pertama Anda dipakai menulis fitur.
                   </p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     <span className="rounded-control border border-border bg-bg px-2.5 py-1 font-mono text-xs text-text-muted">
@@ -310,7 +310,7 @@ export default function SolutionsPage() {
 
                 <div className="flex flex-col items-start md:items-end justify-center gap-4 border-t border-border pt-6 md:border-t-0 md:pt-0">
                   <p className="font-mono text-xs text-text-faint md:text-right">
-                    Mulai dari fitur, bukan konfigurasi dasar.
+                    Hari pertama dipakai menulis fitur.
                   </p>
                   <Button asChild variant="secondary" size="sm">
                     <Link href="/#products">{PRODUCTS_CTA}</Link>
@@ -327,7 +327,7 @@ export default function SolutionsPage() {
         <Container>
           <Reveal>
             <h2 className="text-2xl font-semibold tracking-tight text-balance md:text-3xl">
-              Mengapa bekerja bersama Vour
+              Empat hal yang menentukan hasil akhirnya
             </h2>
           </Reveal>
 
@@ -367,7 +367,7 @@ export default function SolutionsPage() {
             </Reveal>
             <Reveal delay={0.1}>
               <p className="mt-4 max-w-[54ch] text-sm leading-relaxed text-text-muted">
-                Sebagian project yang kami kerjakan adalah gabungan dari beberapa layanan, atau sesuatu yang sepenuhnya baru. Kalau masalahnya jelas, solusinya bisa dirancang.
+                Sebagian project yang kami ambil adalah gabungan beberapa layanan, atau sesuatu yang belum pernah kami kerjakan sebelumnya. Selama masalahnya jelas, rancangannya bisa disusun.
               </p>
             </Reveal>
             <Reveal delay={0.2}>
