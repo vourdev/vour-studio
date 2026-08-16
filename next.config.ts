@@ -1,8 +1,30 @@
 import type { NextConfig } from "next";
 
+/**
+ * Applied to every response. No Content-Security-Policy here on purpose: the
+ * hero's Spline runtime pulls WebAssembly, spawns workers and reaches several
+ * spline.design origins plus unpkg, so an enforcing policy has to be validated
+ * against real traffic before it ships. See docs/security-headers.md.
+ */
+const securityHeaders = [
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "X-Frame-Options", value: "DENY" },
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  {
+    key: "Permissions-Policy",
+    value: "camera=(), microphone=(), geolocation=(), browsing-topics=()",
+  },
+];
+
 const nextConfig: NextConfig = {
   reactCompiler: true,
-  productionBrowserSourceMaps: true,
+  // Vercel answers 403 for every `.map` under /_next/static, so emitting them
+  // only costs build time and leaves each chunk advertising a sourceMappingURL
+  // that nothing can fetch.
+  productionBrowserSourceMaps: false,
+  async headers() {
+    return [{ source: "/:path*", headers: securityHeaders }];
+  },
   images: {
     remotePatterns: [
       // TODO: replace Picsum placeholders with real project/article imagery.
