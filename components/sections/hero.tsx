@@ -94,7 +94,7 @@ export function Hero() {
             the scene. Only the logos themselves opt back in. */}
         <Reveal delay={0.65} className="mt-16 w-full max-w-3xl">
           <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-text-faint mb-6 text-center">
-            PERKAKAS YANG KAMI PAKAI SEHARI-HARI
+            TOOLS YANG KAMI PAKAI SEHARI-HARI
           </p>
           <Marquee className="[--duration:40s]" pauseOnHover>
             {logos.map((logo) => (
