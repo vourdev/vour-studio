@@ -9,7 +9,7 @@ export function Container<T extends ElementType = "div">({
 }: {
   as?: T;
 } & Omit<ComponentPropsWithoutRef<T>, "as">) {
-  const Tag = (as || "div") as any;
+  const Tag = (as || "div") as ElementType;
   return (
     <Tag className={cn("mx-auto w-full max-w-7xl px-4 md:px-8", className)} {...props} />
   );
@@ -23,6 +23,6 @@ export function Section<T extends ElementType = "section">({
 }: {
   as?: T;
 } & Omit<ComponentPropsWithoutRef<T>, "as">) {
-  const Tag = (as || "section") as any;
+  const Tag = (as || "section") as ElementType;
   return <Tag className={cn("py-20 md:py-28", className)} {...props} />;
 }
