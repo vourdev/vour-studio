@@ -1,102 +1,137 @@
 import {
   BrowsersIcon,
+  CpuIcon,
   CloudArrowUpIcon,
-  PackageIcon,
+  CheckIcon,
+  ArrowRightIcon,
 } from "@phosphor-icons/react/ssr";
+import Link from "next/link";
+
 import { Reveal } from "@/components/motion/reveal";
 import { Container, Section } from "@/components/ui/container";
-import { BentoGrid, type BentoItem } from "@/components/ui/bento-grid";
-import { PRIMARY_CTA, PRODUCTS_CTA } from "@/lib/site";
+import { PRIMARY_CTA } from "@/lib/site";
 
 const services = [
   {
+    category: "WEB DEVELOPMENT",
     icon: BrowsersIcon,
-    title: "Website & Dashboard Development",
-    tagline: "Custom Web Applications",
+    title: "Website & Aplikasi",
     description:
-      "Landing page, company profile, web app, sampai dashboard internal. Dibangun supaya cepat dibuka, enak dipakai di layar kecil, dan tidak menyusahkan saat ditambah fitur.",
-    outcomes: [
-      "Halaman terbuka cepat, termasuk di koneksi seluler",
-      "Tetap rapi dari layar HP sampai monitor lebar",
-      "Struktur kode yang bisa dilanjutkan developer lain",
+      "Website company profile, landing page, dashboard internal, hingga aplikasi web yang dibuat sesuai kebutuhan bisnis.",
+    benefits: [
+      "Responsive di berbagai perangkat",
+      "Cepat dan mudah digunakan",
+      "Bisa dikembangkan sesuai kebutuhan",
+      "Source code dan dokumentasi tersedia",
     ],
-    ctaLabel: PRIMARY_CTA,
     ctaHref: "/contact?service=website-development",
-    learnMoreHref: "/solutions#website-development",
-    metric: "01",
   },
   {
+    category: "AI & AUTOMATION",
+    icon: CpuIcon,
+    title: "AI & Automation",
+    description:
+      "Otomatisasi pekerjaan dan workflow dengan AI untuk mengurangi pekerjaan manual dan membuat proses bisnis lebih efisien.",
+    benefits: [
+      "Workflow lebih otomatis",
+      "Integrasi dengan tools yang sudah digunakan",
+      "Mengurangi pekerjaan berulang",
+      "Bisa disesuaikan dengan kebutuhan bisnis",
+    ],
+    ctaHref: "/contact?service=ai-automation",
+  },
+  {
+    category: "INFRASTRUCTURE",
     icon: CloudArrowUpIcon,
     title: "Infrastructure & Deployment",
-    tagline: "Cloud Architecture & Devops",
     description:
-      "Server disiapkan, rilis dijalankan otomatis, sertifikat keamanan dipasang, dan pemakaian dipantau sebelum tagihannya membengkak.",
-    outcomes: [
-      "Rilis versi baru tanpa menurunkan situs",
-      "Gangguan ketahuan dari monitoring, bukan dari keluhan pengguna",
-      "Biaya server ditinjau ulang, bukan dibiarkan jalan sendiri",
+      "Setup server, Docker, deployment, dan infrastruktur yang membantu aplikasi berjalan stabil di production.",
+    benefits: [
+      "Deployment lebih terstruktur",
+      "Docker & server configuration",
+      "Monitoring dan maintenance",
+      "Infrastruktur siap dikembangkan",
     ],
-    ctaLabel: PRIMARY_CTA,
     ctaHref: "/contact?service=infrastructure",
-    learnMoreHref: "/solutions#infrastructure",
-    metric: "02",
-  },
-  {
-    icon: PackageIcon,
-    title: "Premium Digital Products",
-    tagline: "Production-ready Starters",
-    description:
-      "Template, starter kit, dan component library yang sudah melewati tahap setup membosankan, jadi hari pertama Anda dipakai menulis fitur.",
-    outcomes: [
-      "Struktur folder dan petunjuk hosting ikut di dalamnya",
-      "Diperbarui mengikuti versi dependency terbaru",
-      "Lisensi komersial, boleh dipasang di klien mana pun",
-    ],
-    ctaLabel: PRODUCTS_CTA,
-    ctaHref: "/#products",
-    learnMoreHref: "/solutions#digital-products",
-    metric: "03",
   },
 ];
 
 export function ServicesShowcase() {
-  const bentoServices: BentoItem[] = services.map((s, idx) => {
-    const Icon = s.icon;
-    return {
-      title: s.title,
-      description: s.description,
-      icon: <Icon weight="duotone" className="w-[18px] h-[18px] text-accent-text" />,
-      status: idx === 0 ? "Web" : idx === 1 ? "Cloud" : "Starters",
-      tagline: s.tagline,
-      meta: s.metric,
-      tags: s.outcomes,
-      cta: s.ctaLabel,
-      href: s.learnMoreHref,
-      colSpan: idx === 0 ? 2 : idx === 1 ? 1 : 3,
-    };
-  });
-
   return (
-    <Section id="services" className="relative border-t border-border bg-bg/80 backdrop-blur-sm overflow-hidden">
-      {/* Background ambient light */}
-      <div className="absolute top-1/4 left-1/2 -z-10 h-96 w-96 -translate-x-1/2 rounded-full bg-accent/5 blur-[120px] pointer-events-none" />
-
+    <Section id="services" className="border-t border-border bg-bg">
       <Container>
-        <Reveal>
-          <div className="max-w-2xl text-left mb-12">
-            <h2 className="font-mono text-2xl font-semibold tracking-tight text-balance md:text-3xl leading-tight">
-              Yang paling sering diminta
+        <div className="mb-14 max-w-2xl md:mb-16">
+          <Reveal>
+            <span className="font-mono text-xs font-medium uppercase tracking-[0.16em] text-text-faint">
+              Build <span className="text-accent-text">→</span> Automate{" "}
+              <span className="text-accent-text">→</span> Run
+            </span>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-balance text-text md:text-4xl">
+              Layanan Kami
             </h2>
-            <p className="mt-4 text-sm leading-relaxed text-text-muted md:text-base">
-              Dari halaman pertama yang dibuka pengunjung sampai server yang menampungnya.
-              Tiga hal di bawah ini yang biasanya jadi titik mulai.
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p className="mt-5 max-w-lg text-base leading-relaxed text-text-muted">
+              Dari website hingga sistem digital, kami membantu bisnis
+              membangun, menjalankan, dan mengembangkan kebutuhan digitalnya.
             </p>
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
 
-        <Reveal delay={0.1}>
-          <BentoGrid items={bentoServices} />
-        </Reveal>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {services.map((service, idx) => {
+            const Icon = service.icon;
+            return (
+              <Reveal key={service.category} index={idx} className="h-full">
+                <article className="group flex h-full flex-col rounded-surface border border-border bg-bg-subtle/50 p-7 transition-colors hover:border-border-strong">
+                  <div className="flex items-center justify-between border-b border-border pb-6">
+                    <span className="flex size-11 items-center justify-center rounded-control border border-accent/20 bg-accent-soft text-accent-text transition-colors group-hover:border-accent/40">
+                      <Icon weight="duotone" className="size-6" aria-hidden />
+                    </span>
+                    <span className="font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-text-faint">
+                      {service.category}
+                    </span>
+                  </div>
+
+                  <h3 className="mt-6 text-lg font-semibold tracking-tight text-text">
+                    {service.title}
+                  </h3>
+                  <p className="mt-3 text-[13px] leading-relaxed text-text-muted">
+                    {service.description}
+                  </p>
+
+                  <ul className="mt-6 space-y-3">
+                    {service.benefits.map((benefit) => (
+                      <li
+                        key={benefit}
+                        className="flex items-start gap-2.5 text-[13px] leading-snug text-text-muted"
+                      >
+                        <CheckIcon
+                          weight="bold"
+                          className="mt-0.5 size-3.5 shrink-0 text-accent-text"
+                          aria-hidden
+                        />
+                        <span>{benefit}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <Link
+                    href={service.ctaHref}
+                    className="mt-auto inline-flex items-center gap-2 self-start pt-8 font-mono text-xs font-medium text-accent-text transition-colors hover:text-accent-hover"
+                  >
+                    <span>{PRIMARY_CTA}</span>
+                    <ArrowRightIcon
+                      weight="bold"
+                      className="size-3.5 transition-transform duration-200 group-hover:translate-x-1"
+                      aria-hidden
+                    />
+                  </Link>
+                </article>
+              </Reveal>
+            );
+          })}
+        </div>
       </Container>
     </Section>
   );
