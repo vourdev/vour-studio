@@ -17,12 +17,10 @@ export function Nav({ settings = defaultSiteSettings }: { settings?: SiteSetting
   const [open, setOpen] = useState(false);
   const [lastPathname, setLastPathname] = useState(pathname);
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
-  const [pressedIdx, setPressedIdx] = useState<number | null>(null);
   const reduceMotion = useReducedMotion();
 
   const activeIdx = navLinks.findIndex((item) => item.href === pathname);
   const desktopIdx = hoveredIdx ?? (activeIdx >= 0 ? activeIdx : null);
-  const mobileIdx = pressedIdx ?? (activeIdx >= 0 ? activeIdx : null);
   const indicatorTransition = reduceMotion
     ? { duration: 0 }
     : { type: "spring" as const, stiffness: 420, damping: 34, mass: 0.7 };
@@ -60,7 +58,6 @@ export function Nav({ settings = defaultSiteSettings }: { settings?: SiteSetting
   if (lastPathname !== pathname) {
     setLastPathname(pathname);
     setOpen(false);
-    setPressedIdx(null);
   }
 
   useEffect(() => {
@@ -76,153 +73,158 @@ export function Nav({ settings = defaultSiteSettings }: { settings?: SiteSetting
   }, [open]);
 
   return (
-    <header
-      className={cn(
-        "fixed top-4 inset-x-4 max-w-7xl mx-auto z-50 h-14 rounded-full border border-border bg-bg/80 backdrop-blur-xl transition-[z-index,border-color,background-color] duration-300 flex items-center justify-between px-6 shadow-[0_4px_24px_rgba(0,0,0,0.5)] hover:border-border-strong",
-        open && "z-[99] border-transparent bg-transparent shadow-none backdrop-blur-none"
-      )}
-    >
-      <div className="relative z-10 flex items-center shrink-0">
-        <Link href="/" aria-label="Vour beranda">
-          <Logo />
-        </Link>
-      </div>
-
-      {/* Six items plus a CTA fit on one line from lg up; centered absolutely in middle */}
-      <nav
-        aria-label="Navigasi utama"
-        className="hidden lg:block absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10"
+    <>
+      <header
+        className={cn(
+          "fixed top-4 inset-x-4 max-w-7xl mx-auto z-50 h-14 rounded-full border border-border bg-surface/85 backdrop-blur-xl transition-[border-color,background-color] duration-300 flex items-center justify-between px-6 shadow-sm hover:border-border-strong",
+          open && "border-transparent bg-transparent shadow-none backdrop-blur-none"
+        )}
       >
-        <ul className="flex items-center gap-1" onMouseLeave={() => setHoveredIdx(null)}>
-          {navLinks.map((item, idx) => {
-            const active = pathname === item.href;
-            return (
-              <li key={item.href} className="relative py-1">
-                <Link
-                  href={item.href}
-                  onMouseEnter={() => setHoveredIdx(idx)}
-                  onFocus={() => setHoveredIdx(idx)}
-                  aria-current={active ? "page" : undefined}
-                  className={cn(
-                    "relative rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors duration-200 block z-10 font-mono",
-                    desktopIdx === idx ? "text-accent-text" : "text-text-muted hover:text-text"
-                  )}
-                >
-                  {item.label}
-                </Link>
-                {/* Single pill travels between items; rests on the active route */}
-                {desktopIdx === idx && (
-                  <motion.div
-                    layoutId="desktop-nav-indicator"
-                    className="absolute inset-0 rounded-full bg-surface border border-border/40 -z-0"
-                    transition={indicatorTransition}
-                  />
-                )}
-                {active && (
-                  <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 size-1 rounded-full bg-accent" />
-                )}
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
+        <div className="relative z-10 flex items-center shrink-0">
+          <Link href="/" aria-label="Vour beranda" onClick={() => setOpen(false)}>
+            <Logo />
+          </Link>
+        </div>
 
-      <div className="relative z-10 flex items-center gap-2 shrink-0">
-        <Button asChild size="sm" className="hidden sm:inline-flex rounded-full px-4">
-          <Link href="/contact">{PRIMARY_CTA}</Link>
-        </Button>
-        <button
-          type="button"
-          onClick={() => {
-            setPressedIdx(null);
-            setOpen((v) => !v);
-          }}
-          aria-expanded={open}
-          aria-controls="mobile-nav"
-          aria-label={open ? "Tutup menu" : "Buka menu"}
-          className="inline-flex size-9 items-center justify-center rounded-full border border-border text-text lg:hidden hover:border-text-muted hover:bg-surface-solid active:scale-90 transition-transform duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/15 cursor-pointer"
+        {/* Six items plus a CTA fit on one line from lg up; centered absolutely in middle */}
+        <nav
+          aria-label="Navigasi utama"
+          className="hidden lg:block absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10"
         >
-          <span className={cn("transition-transform duration-300 ease-out", open ? "rotate-90" : "")}>
-            {open ? (
-              <XIcon weight="light" className="size-5" aria-hidden />
-            ) : (
-              <ListIcon weight="light" className="size-5" aria-hidden />
-            )}
-          </span>
-        </button>
-      </div>
+          <ul className="flex items-center gap-1" onMouseLeave={() => setHoveredIdx(null)}>
+            {navLinks.map((item, idx) => {
+              const active = pathname === item.href;
+              return (
+                <li key={item.href} className="relative py-1">
+                  <Link
+                    href={item.href}
+                    onMouseEnter={() => setHoveredIdx(idx)}
+                    onFocus={() => setHoveredIdx(idx)}
+                    aria-current={active ? "page" : undefined}
+                    className={cn(
+                      "relative rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors duration-200 block z-10 font-mono",
+                      desktopIdx === idx ? "text-accent-text" : "text-text-muted hover:text-text"
+                    )}
+                  >
+                    {item.label}
+                  </Link>
+                  {/* Single pill travels between items; rests on the active route */}
+                  {desktopIdx === idx && (
+                    <motion.div
+                      layoutId="desktop-nav-indicator"
+                      className="absolute inset-0 rounded-full bg-surface border border-border/60 -z-0"
+                      transition={indicatorTransition}
+                    />
+                  )}
+                  {active && (
+                    <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 size-1 rounded-full bg-accent" />
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
 
+        <div className="relative z-10 flex items-center gap-2 shrink-0">
+          <Button asChild size="sm" className="hidden sm:inline-flex rounded-full px-4">
+            <Link href="/contact">{PRIMARY_CTA}</Link>
+          </Button>
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            aria-label={open ? "Tutup menu" : "Buka menu"}
+            className="inline-flex size-9 items-center justify-center rounded-full border border-border bg-surface text-text lg:hidden hover:border-border-strong hover:bg-bg-subtle active:scale-90 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/15 cursor-pointer"
+          >
+            <span className={cn("transition-transform duration-300 ease-out flex items-center justify-center", open ? "rotate-90" : "")}>
+              {open ? (
+                <XIcon weight="light" className="size-5" aria-hidden />
+              ) : (
+                <ListIcon weight="light" className="size-5" aria-hidden />
+              )}
+            </span>
+          </button>
+        </div>
+      </header>
+
+      {/* Mobile Drawer Menu (Outside header container for clean stacking and touch interaction) */}
       <AnimatePresence>
         {open ? (
           <motion.div
-            key="mobile-nav"
+            key="mobile-nav-overlay"
             id="mobile-nav"
             data-lenis-prevent
             variants={panelVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="fixed inset-0 z-0 flex flex-col bg-bg overscroll-contain overflow-y-auto lg:hidden"
+            className="fixed inset-0 z-40 flex flex-col bg-bg/98 backdrop-blur-2xl overscroll-contain overflow-y-auto lg:hidden"
           >
-            <div className="flex min-h-full flex-col justify-between px-6 pt-24 pb-10">
-              <nav aria-label="Navigasi seluler" className="flex flex-col">
+            <div className="flex min-h-full flex-col justify-between px-6 pt-24 pb-10 max-w-lg mx-auto w-full">
+              <nav aria-label="Navigasi seluler" className="flex flex-col space-y-1">
                 {navLinks.map((item, idx) => {
                   const active = pathname === item.href;
                   return (
                     <motion.div key={item.href} variants={itemVariants} className="relative">
-                      {/* Single marker travels between items on tap */}
-                      {mobileIdx === idx && (
-                        <motion.span
-                          layoutId="mobile-nav-indicator"
-                          className="absolute inset-y-4 left-0 w-0.5 rounded-full bg-accent"
-                          transition={indicatorTransition}
-                        />
-                      )}
                       <Link
                         href={item.href}
-                        onPointerDown={() => setPressedIdx(idx)}
+                        onClick={() => setOpen(false)}
                         aria-current={active ? "page" : undefined}
                         className={cn(
-                          "relative flex items-baseline gap-4 border-b border-border/40 py-5 pl-5 transition-colors duration-300",
-                          mobileIdx === idx ? "text-accent-text" : "text-text"
+                          "group relative flex items-center justify-between rounded-xl px-4 py-4 transition-all duration-200 border border-transparent",
+                          active
+                            ? "bg-accent-soft text-accent-text border-accent/20 font-semibold"
+                            : "text-text hover:bg-surface hover:border-border hover:translate-x-1"
                         )}
                       >
-                        <span className="font-mono text-[10px] tabular-nums text-text-faint">
-                          {String(idx + 1).padStart(2, "0")}
+                        <div className="flex items-baseline gap-4">
+                          <span className="font-mono text-xs tabular-nums text-text-faint group-hover:text-accent-text transition-colors">
+                            {String(idx + 1).padStart(2, "0")}
+                          </span>
+                          <span className="text-2xl font-bold tracking-tight group-hover:text-accent-text transition-colors">
+                            {item.label}
+                          </span>
+                        </div>
+                        <span className={cn(
+                          "font-mono text-xs opacity-0 -translate-x-2 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0 text-accent-text",
+                          active && "opacity-100 translate-x-0"
+                        )}>
+                          →
                         </span>
-                        <span className="text-3xl font-medium tracking-tight">{item.label}</span>
                       </Link>
                     </motion.div>
                   );
                 })}
               </nav>
 
-              <div className="mt-10 flex flex-col gap-6">
-                <motion.div variants={itemVariants} className="grid grid-cols-2 gap-4">
+              <div className="mt-10 flex flex-col gap-5 border-t border-border pt-6">
+                <motion.div variants={itemVariants} className="grid grid-cols-2 gap-3">
                   <a
                     href={`mailto:${settings.contactEmail}`}
-                    className="flex flex-col gap-1 rounded-control border border-border bg-surface-solid/40 p-4 hover:border-border-strong hover:bg-surface-solid transition-colors"
+                    className="flex flex-col gap-1 rounded-xl border border-border bg-surface p-4 hover:border-border-strong hover:bg-bg-subtle transition-all duration-200 group"
                   >
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-text-faint">Email</span>
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-text-faint group-hover:text-text transition-colors">Email</span>
                     <span className="text-xs font-mono text-text truncate">{settings.contactEmail}</span>
                   </a>
                   <a
                     href={whatsappLink(undefined, settings.whatsappNumber)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex flex-col gap-1 rounded-control border border-accent/20 bg-accent-soft/10 p-4 hover:border-accent/40 hover:bg-accent-soft/20 transition-colors"
+                    className="flex flex-col gap-1 rounded-xl border border-accent/30 bg-accent-soft p-4 hover:border-accent hover:bg-accent-soft/70 transition-all duration-200 group"
                   >
-                    <span className="text-[10px] font-mono tracking-wider text-accent-text uppercase">WhatsApp</span>
-                    <span className="text-xs font-mono text-accent-text truncate">Chat Prioritas</span>
+                    <span className="text-[10px] font-mono tracking-wider text-accent-text uppercase font-semibold">WhatsApp</span>
+                    <span className="text-xs font-mono text-accent-text truncate font-bold">Chat Prioritas</span>
                   </a>
                 </motion.div>
 
                 <motion.div variants={itemVariants}>
                   <Button
                     asChild
-                    className="w-full justify-center active:scale-95 transition-transform duration-100 rounded-full"
+                    size="lg"
+                    className="w-full justify-center rounded-xl"
                   >
-                    <Link href="/contact">{PRIMARY_CTA}</Link>
+                    <Link href="/contact" onClick={() => setOpen(false)}>{PRIMARY_CTA}</Link>
                   </Button>
                 </motion.div>
               </div>
@@ -230,6 +232,6 @@ export function Nav({ settings = defaultSiteSettings }: { settings?: SiteSetting
           </motion.div>
         ) : null}
       </AnimatePresence>
-    </header>
+    </>
   );
 }

@@ -40,7 +40,7 @@ export default function AboutPage() {
                 </p>
               </Reveal>
             </div>
-            
+
             {/* Visual Asset: Desktop Workspace View */}
             <Reveal delay={0.2} className="relative aspect-16/10 w-full overflow-hidden rounded-surface border border-border">
               <Image
