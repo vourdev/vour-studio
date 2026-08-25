@@ -117,7 +117,7 @@ export function TestimonialsMarquee() {
         <Reveal>
           <div className="mx-auto flex max-w-2xl flex-col items-center justify-center gap-4">
             <h2 className="text-center text-3xl font-semibold tracking-tight text-balance md:text-4xl">
-              Kata klien setelah project selesai
+              Apa Kata Mereka
             </h2>
             <p className="text-center text-sm text-text-muted md:text-base">
               Beberapa catatan dari bisnis yang pernah bekerja dengan kami.

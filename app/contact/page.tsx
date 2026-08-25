@@ -10,8 +10,7 @@ import {
 
 import { Reveal } from "@/components/motion/reveal";
 import { LeadForm } from "@/components/forms/lead-form";
-import { Container, Section } from "@/components/ui/container";
-import { BackgroundBeams } from "@/components/ui/background-beams";
+import { Container } from "@/components/ui/container";
 import { getSiteSettings } from "@/lib/cms";
 import { buildMetadata } from "@/lib/seo";
 import { whatsappLink } from "@/lib/site";
@@ -40,141 +39,136 @@ export default async function ContactPage() {
   }));
 
   return (
-    <>
+    <div className="pt-28 pb-20 md:pt-36 md:pb-28">
       {/* 1. Header Hero Area */}
-      <Section className="pt-32 pb-12">
-        <Container className="max-w-3xl text-center">
-          <Reveal>
-            <h1 className="font-mono text-3xl font-semibold tracking-tighter sm:text-[2.25rem] lg:text-[2.75rem]">
-              Ceritakan dulu masalahnya
-            </h1>
-            <p className="mt-4 text-sm text-text-muted leading-relaxed md:text-base">
-              Konsultasi pertama gratis dan tidak wajib berlanjut jadi project. Pilih jalur yang paling gampang buat Anda.
-            </p>
-          </Reveal>
-        </Container>
-      </Section>
+      <Container className="max-w-3xl text-center">
+        <Reveal>
+          <span className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-accent-text">
+            Mulai Konsultasi
+          </span>
+          <h1 className="mt-3 font-mono text-3xl font-bold tracking-tight text-text sm:text-4xl md:text-5xl">
+            Ceritakan Kebutuhan Anda
+          </h1>
+          <p className="mt-4 text-base text-text-muted leading-relaxed max-w-[54ch] mx-auto">
+            Konsultasi awal bebas biaya dan tidak wajib berlanjut jadi project. Pilih saluran komunikasi yang paling nyaman untuk Anda.
+          </p>
+        </Reveal>
+      </Container>
 
-      {/* 2. Visual Channel Cards Selection */}
-      <Section className="py-0">
-        <Container>
-          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {/* Primary Channel: WhatsApp */}
-            <Reveal>
+      {/* 2. Direct Channels Selection */}
+      <Container className="mt-12 md:mt-16 max-w-4xl">
+        <div className="grid gap-6 sm:grid-cols-2">
+          {/* Primary Channel: WhatsApp */}
+          <Reveal>
+            <a
+              href={whatsappLink(undefined, settings.whatsappNumber)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex h-full flex-col justify-between rounded-xl border border-accent/40 bg-accent-soft p-7 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-accent hover:shadow-md"
+            >
+              <div>
+                <div className="flex size-11 items-center justify-center rounded-lg border border-accent/30 bg-surface text-accent-text">
+                  <WhatsappLogoIcon weight="duotone" className="size-6" />
+                </div>
+                <h3 className="mt-5 text-lg font-bold text-text">WhatsApp Prioritas</h3>
+                <p className="mt-2 text-xs leading-relaxed text-text-muted">
+                  Jalur tercepat untuk diskusi awal. Tim merespons di hari kerja pukul 09.00–18.00 WIB.
+                </p>
+              </div>
+              <div className="mt-6 flex items-center gap-2 font-mono text-xs font-bold text-accent-text">
+                <span>Chat {settings.phoneNumber}</span>
+                <ArrowRightIcon weight="bold" className="size-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+              </div>
+            </a>
+          </Reveal>
+
+          {/* Secondary Channel: Email */}
+          <Reveal index={1}>
+            <a
+              href={`mailto:${settings.contactEmail}`}
+              className="group flex h-full flex-col justify-between rounded-xl border border-border bg-surface p-7 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-border-strong hover:shadow-md"
+            >
+              <div>
+                <div className="flex size-11 items-center justify-center rounded-lg border border-border bg-bg-subtle text-text-muted group-hover:text-accent-text transition-colors">
+                  <EnvelopeSimpleIcon weight="duotone" className="size-6" />
+                </div>
+                <h3 className="mt-5 text-lg font-bold text-text">Email Resmi</h3>
+                <p className="mt-2 text-xs leading-relaxed text-text-muted">
+                  Ideal untuk pengiriman dokumen RFP, spesifikasi teknis lengkap, atau penawaran kerjasama formal.
+                </p>
+              </div>
+              <div className="mt-6 font-mono text-xs text-text-muted transition-colors group-hover:text-accent-text">
+                {settings.contactEmail}
+              </div>
+            </a>
+          </Reveal>
+        </div>
+
+        {/* Social Platforms */}
+        <Reveal delay={0.2} className="mt-10 flex flex-wrap items-center justify-center gap-3">
+          <span className="font-mono text-xs text-text-faint">
+            Kanal lainnya:
+          </span>
+          <div className="flex items-center gap-2">
+            {socials.map((social) => (
               <a
-                href={whatsappLink(undefined, settings.whatsappNumber)}
+                key={social.href}
+                href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative flex flex-col justify-between rounded-surface border-2 border-accent/40 bg-accent-soft/30 p-8 hover:border-accent hover:bg-accent-soft/50 transition-all duration-300 h-full"
+                aria-label={social.label}
+                className="flex size-8 items-center justify-center rounded-lg border border-border bg-surface text-text-muted hover:border-accent hover:text-accent-text transition-colors"
               >
-                <div>
-                  <span className="flex size-12 items-center justify-center rounded-control bg-accent-soft border border-accent/30 text-accent-text mb-6">
-                    <WhatsappLogoIcon weight="duotone" className="size-6" />
-                  </span>
-                  <h3 className="text-lg font-bold text-white mb-2">WhatsApp Prioritas</h3>
-                  <p className="text-xs leading-relaxed text-text-muted">
-                    Paling cepat dibalas. Hari kerja 09.00–18.00 WIB, biasanya dalam hitungan jam.
-                  </p>
-                </div>
-                <div className="mt-8 flex items-center gap-2 font-mono text-xs font-bold text-accent-text group-hover:translate-x-1 transition-transform">
-                  <span>Chat ke {settings.phoneNumber}</span>
-                  <ArrowRightIcon weight="bold" className="size-3.5" />
-                </div>
+                <social.icon weight="light" className="size-4" />
               </a>
-            </Reveal>
-
-            {/* Secondary Channel: Email */}
-            <Reveal index={1}>
-              <a
-                href={`mailto:${settings.contactEmail}`}
-                className="group flex flex-col justify-between rounded-surface border border-border bg-surface-solid/40 p-8 hover:border-border-strong hover:bg-surface-solid/70 transition-all duration-300 h-full"
-              >
-                <div>
-                  <span className="flex size-12 items-center justify-center rounded-control bg-bg border border-border text-text-muted group-hover:text-accent-text transition-colors mb-6">
-                    <EnvelopeSimpleIcon weight="duotone" className="size-6" />
-                  </span>
-                  <h3 className="text-lg font-bold text-white mb-2">Email Proposal</h3>
-                  <p className="text-xs leading-relaxed text-text-muted">
-                    Untuk RFP, dokumen tender, atau apa pun yang butuh jejak tertulis.
-                  </p>
-                </div>
-                <div className="mt-8 font-mono text-xs text-text-muted group-hover:text-accent-text transition-colors">
-                  {settings.contactEmail}
-                </div>
-              </a>
-            </Reveal>
+            ))}
           </div>
+        </Reveal>
+      </Container>
 
-          {/* Social Platform shortcuts */}
-          <Reveal y={16} className="mt-12 flex flex-col items-center gap-4">
-            <span className="font-mono text-[10px] tracking-wider uppercase text-text-faint">
-              Kami juga ada di sini
-            </span>
-            <div className="flex items-center gap-4">
-              {socials.map((social) => (
-                <a
-                  key={social.href}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.label}
-                  className="flex size-9 items-center justify-center rounded-control border border-border bg-bg-subtle text-text-muted hover:border-accent hover:text-accent-text transition-colors"
-                >
-                  <social.icon weight="light" className="size-4" />
-                </a>
-              ))}
+      {/* 3. Form & Guidelines Block */}
+      <Container className="mt-16 md:mt-24 max-w-5xl">
+        <div className="grid lg:grid-cols-[1.5fr_1fr] gap-10 lg:gap-12 items-start">
+          {/* Left Column: Brief Form */}
+          <Reveal className="rounded-xl border border-border bg-surface p-7 sm:p-9 shadow-sm">
+            <div className="border-b border-border pb-6 mb-7">
+              <h2 className="text-xl font-bold tracking-tight text-text">Kirim Brief Project</h2>
+              <p className="mt-1 text-xs leading-relaxed text-text-muted">
+                Isi formulir berikut dan tim engineer kami akan mempelajari kebutuhan Anda sebelum menjadwalkan diskusi.
+              </p>
             </div>
+            <LeadForm sourcePage="/contact" />
           </Reveal>
-        </Container>
-      </Section>
 
-      {/* 3. Form & Guideline Split Block */}
-      <Section className="border-t border-border bg-bg-subtle/30 mt-20 pb-20">
-        <Container>
-          <div className="grid lg:grid-cols-[1.4fr_1fr] gap-12 lg:gap-16">
-            {/* Left Column (60%): Brief Form */}
-            <Reveal className="relative overflow-hidden rounded-surface border border-border bg-bg-subtle p-6 md:p-9">
-              <BackgroundBeams />
-              <div className="relative z-10">
-                <h2 className="text-2xl font-bold tracking-tight text-white mb-2">Kirim brief project</h2>
-                <p className="text-xs text-text-muted mb-8 leading-normal">
-                  Sudah punya gambaran lingkup atau dokumen spek? Tempel saja di sini.
-                </p>
-                <LeadForm sourcePage="/contact" />
+          {/* Right Column: Workflow Steps & Guidelines */}
+          <div className="space-y-6">
+            <Reveal index={1}>
+              <div className="rounded-xl border border-border bg-surface p-7 shadow-xs">
+                <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-accent-text">
+                  Tahapan Diskusi
+                </h3>
+                <ol className="mt-4 space-y-3 font-mono text-xs text-text-muted list-decimal list-inside leading-relaxed">
+                  <li>Pengiriman rincian &amp; cakupan kebutuhan</li>
+                  <li>Review arsitektur &amp; estimasi waktu 1-2 hari kerja</li>
+                  <li>Klarifikasi via meeting online singkat jika diperlukan</li>
+                  <li>Penyusunan proposal teknis &amp; jadwal rilis</li>
+                </ol>
               </div>
             </Reveal>
 
-            {/* Right Column (40%): Tech-guidelines & Steps Sidebar */}
-            <div className="space-y-6">
-              {/* Steps overview card */}
-              <Reveal index={1}>
-                <div className="rounded-surface border border-border bg-bg p-6">
-                  <h3 className="text-sm font-semibold uppercase tracking-wider font-mono text-accent-text mb-3">
-                    Proses Konsultasi
-                  </h3>
-                  <ol className="space-y-3 font-mono text-[11px] text-text-muted list-decimal list-inside">
-                    <li>Anda kirim rincian kebutuhan</li>
-                    <li>Obrolan klarifikasi 15–30 menit, kalau perlu</li>
-                    <li>Estimasi biaya dan tahapan dikirim tertulis</li>
-                  </ol>
-                </div>
-              </Reveal>
-
-              {/* Budget guidance card */}
-              <Reveal index={2}>
-                <div className="rounded-surface border border-accent/20 bg-accent-soft/20 p-6">
-                  <h3 className="text-sm font-semibold uppercase tracking-wider font-mono text-accent-text mb-2">
-                    Kisaran Biaya
-                  </h3>
-                  <p className="text-[11px] leading-relaxed text-text-muted">
-                    Sebagian besar project web custom mulai di angka Rp 15–30 juta. Pekerjaan infrastruktur dan pipeline rilis dihitung terpisah, mulai Rp 8 juta. Angka pastinya menyesuaikan lingkup.
-                  </p>
-                </div>
-              </Reveal>
-            </div>
+            <Reveal index={2}>
+              <div className="rounded-xl border border-border bg-surface p-7 shadow-xs">
+                <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-accent-text">
+                  Komitmen Transparansi
+                </h3>
+                <p className="mt-3 text-xs leading-relaxed text-text-muted">
+                  Setiap rincian estimasi biaya dan tahapan pengerjaan disampaikan secara tertulis dan terbuka. Tidak ada biaya tersembunyi.
+                </p>
+              </div>
+            </Reveal>
           </div>
-        </Container>
-      </Section>
-    </>
+        </div>
+      </Container>
+    </div>
   );
 }

@@ -85,7 +85,7 @@ export function ServicesShowcase() {
         <Reveal>
           <div className="max-w-2xl text-left mb-12">
             <h2 className="font-mono text-2xl font-semibold tracking-tight text-balance md:text-3xl leading-tight">
-              Yang paling sering diminta klien
+              Yang paling sering diminta
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-text-muted md:text-base">
               Dari halaman pertama yang dibuka pengunjung sampai server yang menampungnya.

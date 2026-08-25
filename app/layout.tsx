@@ -40,9 +40,9 @@ export const metadata: Metadata = {
   authors: [{ name: siteConfig.legalName }],
   creator: siteConfig.legalName,
   icons: {
-    icon: "/images/vourdev-logo.jpeg",
-    shortcut: "/images/vourdev-logo.jpeg",
-    apple: "/images/vourdev-logo.jpeg",
+    icon: "/images/favico.png",
+    shortcut: "/images/favico.png",
+    apple: "/images/favico.png",
   },
   openGraph: {
     type: "website",
