@@ -23,7 +23,7 @@ export async function GET() {
 
   const postLines = posts.map(
     (post) =>
-      `- [${post.meta.title}](${abs(`/resources/${post.slug}`)}): ${post.meta.description}`,
+      `- [${post.meta.title}](${abs(`/blog/${post.slug}`)}): ${post.meta.description}`,
   );
 
   const body = `# ${siteConfig.legalName}
@@ -43,7 +43,7 @@ ${serviceLines.join("\n")}
 - [Beranda](${abs("/")}): ringkasan layanan, cara kerja, dan pertanyaan yang sering masuk.
 - [Layanan](${abs("/solutions")}): rincian tiap layanan beserta cakupan pekerjaannya.
 - [Projects](${abs("/projects")}): studi kasus, ditulis dari masalah klien sampai hasil setelah rilis.
-- [Blog](${abs("/resources")}): catatan keputusan teknis dari project yang dikerjakan.
+- [Blog](${abs("/blog")}): catatan keputusan teknis dari project yang dikerjakan.
 - [Tentang](${abs("/about")}): profil studio dan prinsip kerja.
 - [Kontak](${abs("/contact")}): form brief project, WhatsApp, dan email.
 

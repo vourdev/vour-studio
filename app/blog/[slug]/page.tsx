@@ -22,7 +22,7 @@ export const dynamicParams = true;
 
 export async function generateMetadata({
   params,
-}: PageProps<"/resources/[slug]">): Promise<Metadata> {
+}: PageProps<"/blog/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPost(slug);
   if (!post) return {};
@@ -31,7 +31,7 @@ export async function generateMetadata({
     ...buildMetadata({
       title: post.title,
       description: post.description,
-      path: `/resources/${slug}`,
+      path: `/blog/${slug}`,
       image: post.image,
     }),
     openGraph: {
@@ -44,7 +44,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function ResourcePage({ params }: PageProps<"/resources/[slug]">) {
+export default async function ResourcePage({ params }: PageProps<"/blog/[slug]">) {
   const { slug } = await params;
   const post = await getPost(slug);
   if (!post) notFound();
@@ -54,7 +54,7 @@ export default async function ResourcePage({ params }: PageProps<"/resources/[sl
       {/* 1. Header Hero Area */}
       <Container className="max-w-3xl">
         <Link
-          href="/resources"
+          href="/blog"
           className="inline-flex items-center gap-2 font-mono text-xs text-text-muted hover:text-accent-text transition-colors duration-200"
         >
           <ArrowLeftIcon weight="bold" className="size-3.5" aria-hidden />

@@ -28,14 +28,14 @@ export async function ResourcesPreview() {
   const single = posts.length === 1;
 
   return (
-    <Section id="resources" className="border-t border-border">
+    <Section id="blog" className="border-t border-border">
       <Container>
         <div className="flex flex-wrap items-end justify-between gap-4">
           <h2 className="max-w-[18ch] text-3xl font-semibold tracking-tight text-balance md:text-4xl">
             Tulisan terbaru
           </h2>
           <Link
-            href="/resources"
+            href="/blog"
             className="inline-flex items-center gap-1.5 text-sm font-medium text-accent-text"
           >
             {RESOURCES_CTA}
@@ -48,7 +48,7 @@ export async function ResourcesPreview() {
             <Reveal key={post.slug} as="li" index={i}>
               <article className="group h-full">
                 <Link
-                  href={`/resources/${post.slug}`}
+                  href={`/blog/${post.slug}`}
                   className={cn("block", single && "grid gap-8 sm:grid-cols-2 sm:items-center")}
                 >
                   <div className="relative aspect-16/10 overflow-hidden rounded-surface border border-border">

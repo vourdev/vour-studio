@@ -82,7 +82,7 @@ export function BlogExplorer({ posts }: { posts: PostItem[] }) {
             key={post.slug}
             className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-surface shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-border-strong hover:shadow-md"
           >
-            <Link href={`/resources/${post.slug}`} className="flex flex-1 flex-col">
+            <Link href={`/blog/${post.slug}`} className="flex flex-1 flex-col">
               {/* Edge-to-edge Image Header */}
               <div className="relative aspect-16/10 w-full overflow-hidden border-b border-border bg-bg-subtle">
                 <Image

@@ -8,10 +8,10 @@ export const metadata = buildMetadata({
   title: "Blog",
   description:
     "Catatan soal keputusan teknis yang kami ambil di project sungguhan, ditulis supaya bisa dibaca developer maupun pemilik bisnis.",
-  path: "/resources",
+  path: "/blog",
 });
 
-export default async function ResourcesPage() {
+export default async function BlogPage() {
   const posts = await getPosts();
 
   return (

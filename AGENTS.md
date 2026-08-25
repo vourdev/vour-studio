@@ -25,14 +25,14 @@ Before completing tasks, verify with:
   - `PRIMARY_CTA` ("Mulai Project") -> `/contact`
   - `PRODUCTS_CTA` ("Lihat Produk") -> `/products`
   - `PROJECTS_CTA` ("Lihat Project") -> `/projects`
-  - `RESOURCES_CTA` ("Lihat Tulisan") -> `/resources`
+  - `BLOG_CTA` / `RESOURCES_CTA` ("Lihat Blog") -> `/blog`
   - `SERVICE_CTA` ("Pelajari") -> `/solutions#<slug>`
 
 ### Blog Posts (CMS)
 - Blog content lives in the admin CMS `posts` collection (Lexical rich text, draft/publish). Anonymous `read` only exposes `_status: 'published'`, so drafts never leak.
 - `lib/cms.ts` provides `getPosts()` (listings, `{ slug, meta }` shape) and `getPost(slug)` (full body). No MDX, no `lib/content.ts` — those were removed.
 - Article bodies are Lexical JSON: render with `components/blog/article-content.tsx` (`RichText` from `@payloadcms/richtext-lexical/react`) inside the `.article-prose` container styled in `app/globals.css`.
-- The article route (`app/resources/[slug]/page.tsx`) uses `dynamicParams = true` so newly published posts render on demand with ISR.
+- The article route (`app/blog/[slug]/page.tsx`) uses `dynamicParams = true` so newly published posts render on demand with ISR.
 
 ### Lead Forwarding (no local database)
 - This repo has **no database, ORM, or email code**. Storage + notification live in the sibling project `vour-studio-admin` (Payload CMS + Postgres).

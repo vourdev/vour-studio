@@ -20,7 +20,7 @@ const WARMUP_PATHS = [
   "/",
   "/products",
   "/projects",
-  "/resources",
+  "/blog",
   "/solutions",
   "/about",
   "/contact",

@@ -59,7 +59,7 @@ export function whatsappLink(message?: string, number = WHATSAPP_NUMBER) {
 export const mainNav = [
   { label: "Layanan", href: "/solutions" },
   { label: "Projects", href: "/projects" },
-  { label: "Blog", href: "/resources" },
+  { label: "Blog", href: "/blog" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ] as const;
@@ -75,7 +75,8 @@ export const PRIMARY_CTA = "Mulai Project"; // -> /contact
 export const SERVICES_CTA = "Lihat Layanan"; // -> /#services
 export const PRODUCTS_CTA = "Lihat Produk"; // -> /#products
 export const PROJECTS_CTA = "Lihat Project"; // -> /projects
-export const RESOURCES_CTA = "Lihat Blog"; // -> /resources
+export const BLOG_CTA = "Lihat Blog"; // -> /blog
+export const RESOURCES_CTA = BLOG_CTA; // backwards-compatibility alias
 export const SERVICE_CTA = "Pelajari"; // -> /solutions#<slug>
 
 /** Icon keys understood by the footer and contact page icon maps. */

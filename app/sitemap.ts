@@ -4,7 +4,7 @@ import { getPosts } from "@/lib/cms";
 import { siteConfig } from "@/lib/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const routes = ["", "/solutions", "/projects", "/resources", "/about", "/contact"];
+  const routes = ["", "/solutions", "/projects", "/blog", "/about", "/contact"];
   const now = new Date();
 
   const staticEntries: MetadataRoute.Sitemap = routes.map((route) => ({
@@ -16,7 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const posts = await getPosts();
   const postEntries: MetadataRoute.Sitemap = posts.map((post) => ({
-    url: new URL(`/resources/${post.slug}`, siteConfig.url).toString(),
+    url: new URL(`/blog/${post.slug}`, siteConfig.url).toString(),
     lastModified: new Date(post.meta.date),
     changeFrequency: "yearly",
     priority: 0.6,
