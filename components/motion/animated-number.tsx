@@ -31,9 +31,9 @@ export function AnimatedNumber({
 
     const controls = animate(0, value, {
       duration,
-      ease: [0.16, 1, 0.3, 1], // easeOutExpo
+      ease: [0.25, 1, 0.5, 1], // Natural smooth easeOut without abrupt stopping delay
       onUpdate(latest) {
-        element.textContent = Math.floor(latest)
+        element.textContent = Math.round(latest)
           .toString()
           .padStart(padZero, "0");
       },

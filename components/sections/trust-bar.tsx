@@ -8,29 +8,33 @@ const stats = [
     value: 30,
     padZero: 0,
     suffix: "+",
+    label: "Project Selesai",
     description:
-      "Aplikasi web, dashboard, dan sistem otomasi yang hari ini berjalan di server klien.",
+      "Website bisnis, dashboard operasional, dan aplikasi web modern yang sukses tayang di production server.",
   },
   {
-    value: 8,
+    value: 4,
     padZero: 0,
-    suffix: " tahun",
+    suffix: " Tahun",
+    label: "Pengalaman Industri",
     description:
-      "Pengalaman gabungan tim, dihitung sejak project berbayar pertama, bukan sejak belajar.",
+      "Teruji merancang arsitektur sistem tangguh, antarmuka responsif, serta automasi cloud infrastructure.",
   },
   {
-    value: 2,
+    value: 10,
     padZero: 0,
-    suffix: " minggu",
+    suffix: "+",
+    label: "Modern Tech Stack",
     description:
-      "Jarak dari kick-off ke rilis pertama, untuk lingkup MVP yang sudah disepakati di awal.",
+      "Next.js, TypeScript, Tailwind, Docker, hingga CI/CD pipeline untuk skalabilitas dan performa maksimal.",
   },
   {
-    value: 100,
+    value: 95,
     padZero: 0,
-    suffix: "%",
+    suffix: "+",
+    label: "Lighthouse Score",
     description:
-      "Kode dan dokumentasi diserahkan di akhir. Tidak ada bagian yang kami tahan.",
+      "Standar baku kecepatan rendering, aksesibilitas, optimasi SEO, dan efisiensi kode di semua peramban.",
   },
 ];
 
@@ -38,27 +42,13 @@ export function TrustBar() {
   return (
     <Section className="border-b border-border bg-bg/50">
       <Container>
-        <div className="max-w-2xl mb-12">
-          <Reveal>
-            <h2 className="text-3xl font-semibold tracking-tight text-balance md:text-4xl">
-              Ringkasan kerja sampai hari ini
-            </h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <p className="mt-3 text-sm leading-relaxed text-text-muted max-w-lg">
-              Empat angka yang paling sering ditanyakan sebelum orang memutuskan
-              bekerja sama dengan kami.
-            </p>
-          </Reveal>
-        </div>
-
         <Reveal delay={0.2}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border border-border rounded-surface overflow-hidden bg-bg-subtle">
             {stats.map((stat, i) => (
               <div
                 key={i}
                 className={cn(
-                  "flex flex-col p-6 md:p-7",
+                  "flex flex-col p-6 md:p-7 justify-between",
                   i > 0 ? "border-t border-border" : "",
                   "md:border-t-0",
                   i >= 2 ? "md:border-t md:border-border" : "",
@@ -67,14 +57,18 @@ export function TrustBar() {
                   i > 0 ? "lg:border-l lg:border-border" : ""
                 )}
               >
-                <div className="font-mono text-3xl md:text-4xl font-bold tracking-tight text-text flex items-baseline">
-                  <AnimatedNumber value={stat.value} padZero={stat.padZero} />
-                  <span className="font-mono text-lg md:text-xl font-medium text-accent-text ml-1">
-                    {stat.suffix}
-                  </span>
+                <div>
+                  <div className="font-mono text-3xl md:text-4xl font-bold tracking-tight text-text flex items-baseline">
+                    <AnimatedNumber value={stat.value} padZero={stat.padZero} />
+                    <span className="font-mono text-lg md:text-xl font-medium text-accent-text ml-1">
+                      {stat.suffix}
+                    </span>
+                  </div>
+                  <div className="mt-2 font-mono text-xs font-semibold uppercase tracking-wider text-accent-text">
+                    {stat.label}
+                  </div>
                 </div>
-                <div className="h-0.5 w-8 bg-accent mt-3 mb-4 rounded-full" />
-                <p className="text-xs leading-relaxed text-text-muted">
+                <p className="mt-3 text-xs leading-relaxed text-text-muted">
                   {stat.description}
                 </p>
               </div>
