@@ -162,7 +162,7 @@ export function Nav({ settings = defaultSiteSettings }: { settings?: SiteSetting
             className="fixed inset-0 z-40 flex flex-col bg-bg/98 backdrop-blur-2xl overscroll-contain overflow-y-auto lg:hidden"
           >
             <div className="flex min-h-full flex-col justify-between px-6 pt-24 pb-10 max-w-lg mx-auto w-full">
-              <nav aria-label="Navigasi seluler" className="flex flex-col space-y-1">
+              <nav aria-label="Navigasi seluler" className="flex flex-col">
                 {navLinks.map((item, idx) => {
                   const active = pathname === item.href;
                   return (
@@ -172,25 +172,17 @@ export function Nav({ settings = defaultSiteSettings }: { settings?: SiteSetting
                         onClick={() => setOpen(false)}
                         aria-current={active ? "page" : undefined}
                         className={cn(
-                          "group relative flex items-center justify-between rounded-xl px-4 py-4 transition-all duration-200 border border-transparent",
+                          "group flex items-baseline gap-4 border-b border-border/40 py-5 transition-colors duration-200",
                           active
-                            ? "bg-accent-soft text-accent-text border-accent/20 font-semibold"
-                            : "text-text hover:bg-surface hover:border-border hover:translate-x-1"
+                            ? "text-accent-text"
+                            : "text-text hover:text-accent-text"
                         )}
                       >
-                        <div className="flex items-baseline gap-4">
-                          <span className="font-mono text-xs tabular-nums text-text-faint group-hover:text-accent-text transition-colors">
-                            {String(idx + 1).padStart(2, "0")}
-                          </span>
-                          <span className="text-2xl font-bold tracking-tight group-hover:text-accent-text transition-colors">
-                            {item.label}
-                          </span>
-                        </div>
-                        <span className={cn(
-                          "font-mono text-xs opacity-0 -translate-x-2 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0 text-accent-text",
-                          active && "opacity-100 translate-x-0"
-                        )}>
-                          →
+                        <span className="font-mono text-xs tabular-nums text-text-faint group-hover:text-accent-text/70 transition-colors duration-200">
+                          {String(idx + 1).padStart(2, "0")}
+                        </span>
+                        <span className="text-3xl font-medium tracking-tight">
+                          {item.label}
                         </span>
                       </Link>
                     </motion.div>
