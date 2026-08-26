@@ -9,7 +9,7 @@ export function Differentiators() {
         <div className="max-w-2xl mb-16">
           <Reveal>
             <h2 className="text-3xl font-semibold tracking-tight text-balance md:text-4xl text-left">
-             Yang menentukan project tetap enak dikembangkan setahun kemudian.
+             Yang menentukan project tetap mudah dikembangkan setahun kemudian.
             </h2>
           </Reveal>
           <Reveal delay={0.1}>

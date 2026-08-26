@@ -1,3 +1,4 @@
+import { SparkleIcon } from "@phosphor-icons/react/ssr";
 import Link from "next/link";
 import {
   siDocker,
@@ -21,7 +22,6 @@ import { Marquee } from "@/components/ui/marquee-utils/marquee";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { PRIMARY_CTA, SERVICES_CTA } from "@/lib/site";
-import { Sparkles } from "lucide-react";
 
 /** Dissolve at both ends of the marquee track. Wide enough that a logo fades
     over roughly its own width plus the gap, so nothing pops out of existence. */
@@ -76,7 +76,7 @@ export function Hero() {
           className="mb-6 inline-flex max-w-full items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1.5 font-mono text-[10px] uppercase leading-none tracking-[0.16em] text-text-muted backdrop-blur-sm md:mb-7 md:tracking-[0.18em]"
         >
           {/* <span aria-hidden className="size-1.5 shrink-0 rounded-full bg-accent" /> */}
-          <Sparkles className="h-4 w-4 text-primary" aria-hidden="true" />
+          <SparkleIcon weight="fill" className="size-4 text-accent-text" aria-hidden />
           Studio web &amp; AI Automation 
         </Reveal>
 

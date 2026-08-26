@@ -21,8 +21,8 @@ export default async function Home() {
     <>
       <Hero />
       <TrustBar />
-      <ServicesShowcase />
       <Differentiators />
+      <ServicesShowcase />
       <FeaturedProducts products={products} />
       <Workflow />
       <TestimonialsMarquee />
