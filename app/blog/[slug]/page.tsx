@@ -1,4 +1,4 @@
-import { ArrowLeftIcon } from "@phosphor-icons/react/ssr";
+import { ArrowLeftIcon, ArrowRightIcon } from "@phosphor-icons/react/ssr";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,7 +7,6 @@ import { notFound } from "next/navigation";
 import { ArticleContent } from "@/components/blog/article-content";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import { TracingBeam } from "@/components/ui/tracing-beam";
 import { getPost, getPosts } from "@/lib/cms";
 import { buildMetadata } from "@/lib/seo";
 import { PRIMARY_CTA } from "@/lib/site";
@@ -50,65 +49,58 @@ export default async function ResourcePage({ params }: PageProps<"/blog/[slug]">
   if (!post) notFound();
 
   return (
-    <article className="pt-28 pb-20 md:pt-36 md:pb-28">
-      {/* 1. Header Hero Area */}
+    <article className="pt-28 pb-20 md:pt-32 md:pb-28">
       <Container className="max-w-3xl">
         <Link
           href="/blog"
-          className="inline-flex items-center gap-2 font-mono text-xs text-text-muted hover:text-accent-text transition-colors duration-200"
+          className="-my-2 inline-flex items-center gap-2 py-2 font-mono text-xs text-text-muted transition-colors duration-150 hover:text-accent-text"
         >
           <ArrowLeftIcon weight="bold" className="size-3.5" aria-hidden />
           Kembali ke Blog
         </Link>
 
-        <div className="mt-8 flex items-center gap-3">
-          <span className="rounded-md bg-accent-soft px-2.5 py-0.5 font-mono text-xs font-semibold text-accent-text">
-            {post.category}
-          </span>
-          <span className="font-mono text-xs text-text-faint">
-            <time dateTime={post.date}>{formatDate(post.date)}</time> · {post.readingMinutes} menit baca
-          </span>
-        </div>
-
-        <h1 className="mt-4 font-mono text-2.5xl font-bold leading-tight tracking-tight text-text sm:text-3xl md:text-4xl">
+        <h1 className="mt-8 font-mono text-3xl font-bold leading-[1.15] tracking-tight text-balance text-text sm:text-4xl">
           {post.title}
         </h1>
 
-        <p className="mt-4 text-base leading-relaxed text-text-muted md:text-lg">
+        <p className="mt-5 max-w-[60ch] text-base leading-relaxed text-pretty text-text-muted md:text-lg">
           {post.description}
         </p>
-      </Container>
 
-      {/* 2. Panoramic Cover Image */}
-      <Container className="mt-10 md:mt-14 max-w-4.5xl">
-        <div className="relative aspect-16/9 overflow-hidden rounded-xl border border-border bg-surface shadow-md">
-          <Image
-            src={post.image}
-            alt={`Gambar Cover ${post.title}`}
-            fill
-            priority
-            sizes="(max-width: 1024px) 100vw, 64rem"
-            className="object-cover"
-          />
+        <div className="mt-7 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-border pt-5">
+          <span className="inline-flex rounded-control bg-accent-soft px-2.5 py-1 font-mono text-[11px] font-semibold tracking-wide text-accent-text">
+            {post.category}
+          </span>
+          <span className="font-mono text-xs tabular-nums text-text-faint">
+            <time dateTime={post.date}>{formatDate(post.date)}</time>
+            <span className="px-1.5 text-border-strong">·</span>
+            {post.readingMinutes} menit baca
+          </span>
         </div>
       </Container>
 
-      {/* 3. Tracing Beam Article Body wrapper */}
-      <div className="mt-12 md:mt-16">
-        <TracingBeam>
-          <Container className="max-w-3xl">
-            <div className="article-prose">
-              <ArticleContent content={post.content} />
-            </div>
-          </Container>
-        </TracingBeam>
-      </div>
+      <Container className="mt-10 max-w-4xl md:mt-12">
+        <Image
+          src={post.image}
+          alt={`Gambar Cover ${post.title}`}
+          width={1200}
+          height={675}
+          priority
+          sizes="(max-width: 896px) 100vw, 896px"
+          className="aspect-16/9 w-full rounded-surface object-cover outline outline-white/10 -outline-offset-1"
+        />
+      </Container>
 
-      {/* 4. Related Posts Section */}
+      <Container className="mt-12 max-w-3xl md:mt-16">
+        <div className="article-prose">
+          <ArticleContent content={post.content} />
+        </div>
+      </Container>
+
       {post.related && post.related.length > 0 ? (
-        <Container className="max-w-3xl mt-16">
+        <Container className="mt-16 max-w-3xl">
           <div className="border-t border-border pt-8">
-            <h2 className="text-xs font-semibold uppercase tracking-wider font-mono text-text-faint">
+            <h2 className="font-mono text-xs font-semibold uppercase tracking-wider text-text-faint">
               Artikel Terkait
             </h2>
             <ul className="mt-4 flex flex-wrap gap-2.5">
@@ -116,7 +108,7 @@ export default async function ResourcePage({ params }: PageProps<"/blog/[slug]">
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="inline-flex rounded-lg border border-border bg-surface px-4 py-2 font-mono text-xs text-text-muted hover:border-accent hover:text-accent-text hover:bg-bg-subtle transition-all duration-200"
+                    className="inline-flex min-h-10 items-center rounded-control border border-border bg-surface px-4 font-mono text-xs text-text-muted transition-colors duration-150 hover:border-accent/40 hover:bg-bg-subtle hover:text-accent-text"
                   >
                     {item.label}
                   </Link>
@@ -127,23 +119,22 @@ export default async function ResourcePage({ params }: PageProps<"/blog/[slug]">
         </Container>
       ) : null}
 
-      {/* 5. In-context Interactive CTA */}
-      <Container className="max-w-3xl mt-16">
-        <div className="relative overflow-hidden rounded-xl border border-border bg-surface p-8 md:p-10 shadow-sm">
-          <div className="relative z-10">
-            <span className="font-mono text-xs font-semibold uppercase tracking-wider text-accent-text">
-              Konsultasi Engineering
-            </span>
-            <h2 className="mt-2 text-xl font-bold tracking-tight text-text md:text-2xl">
-              Butuh penyesuaian khusus untuk project Anda?
-            </h2>
-            <p className="mt-3 max-w-[52ch] text-sm leading-relaxed text-text-muted">
-              Jika situasi operasional atau arsitektur sistem bisnis Anda membutuhkan solusi kustom, diskusikan langsung bersama tim engineer kami.
-            </p>
-            <Button asChild size="sm" className="mt-6 rounded-lg px-5">
-              <Link href="/contact">{PRIMARY_CTA}</Link>
-            </Button>
-          </div>
+      <Container className="mt-16 max-w-3xl">
+        <div className="rounded-surface border border-border bg-bg-subtle/60 p-8 md:p-10">
+          <h2 className="text-xl font-semibold tracking-tight text-balance text-text md:text-2xl">
+            Butuh penyesuaian khusus untuk project Anda?
+          </h2>
+          <p className="mt-3 max-w-[52ch] text-sm leading-relaxed text-pretty text-text-muted">
+            Jika situasi operasional atau arsitektur sistem bisnis Anda
+            membutuhkan solusi kustom, diskusikan langsung bersama tim engineer
+            kami.
+          </p>
+          <Button asChild size="sm" className="mt-7">
+            <Link href="/contact">
+              {PRIMARY_CTA}
+              <ArrowRightIcon weight="bold" className="size-3.5" aria-hidden />
+            </Link>
+          </Button>
         </div>
       </Container>
     </article>
