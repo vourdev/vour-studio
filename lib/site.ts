@@ -78,6 +78,7 @@ export const PROJECTS_CTA = "Lihat Project"; // -> /projects
 export const BLOG_CTA = "Lihat Blog"; // -> /blog
 export const RESOURCES_CTA = BLOG_CTA; // backwards-compatibility alias
 export const SERVICE_CTA = "Pelajari"; // -> /solutions#<slug>
+export const CONSULT_CTA = "Konsultasi Gratis"; // -> /contact
 
 /** Icon keys understood by the footer and contact page icon maps. */
 export type SocialIcon = "github" | "linkedin" | "instagram" | "tiktok";
