@@ -4,7 +4,7 @@ import { getPosts } from "@/lib/cms";
 import { siteConfig } from "@/lib/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const routes = ["", "/solutions", "/projects", "/blog", "/about", "/contact"];
+  const routes = ["", "/solutions", "/estimate", "/projects", "/blog", "/about", "/contact"];
   const now = new Date();
 
   const staticEntries: MetadataRoute.Sitemap = routes.map((route) => ({

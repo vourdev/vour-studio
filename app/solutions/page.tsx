@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Container, Section } from "@/components/ui/container";
 import { differentiators, services } from "@/lib/data/services";
 import { buildMetadata } from "@/lib/seo";
-import { PRIMARY_CTA, PRODUCTS_CTA } from "@/lib/site";
+import { ESTIMATE_CTA, PRIMARY_CTA, PRODUCTS_CTA } from "@/lib/site";
 
 export const metadata = buildMetadata({
   title: "Solutions",
@@ -371,9 +371,14 @@ export default function SolutionsPage() {
               </p>
             </Reveal>
             <Reveal delay={0.2}>
-              <Button asChild className="mt-8">
-                <Link href="/contact">{PRIMARY_CTA}</Link>
-              </Button>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Button asChild>
+                  <Link href="/contact">{PRIMARY_CTA}</Link>
+                </Button>
+                <Button asChild variant="secondary">
+                  <Link href="/estimate">{ESTIMATE_CTA}</Link>
+                </Button>
+              </div>
             </Reveal>
           </div>
         </Container>
