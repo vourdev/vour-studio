@@ -25,6 +25,20 @@ const nextConfig: NextConfig = {
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
+  async redirects() {
+    return [
+      {
+        source: "/resources",
+        destination: "/blog",
+        permanent: true,
+      },
+      {
+        source: "/resources/:slug*",
+        destination: "/blog/:slug*",
+        permanent: true,
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       // TODO: replace Picsum placeholders with real project/article imagery.
