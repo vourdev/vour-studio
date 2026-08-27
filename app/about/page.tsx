@@ -31,12 +31,12 @@ export default function AboutPage() {
             <div>
               <Reveal>
                 <h1 className="font-mono text-[1.85rem] font-semibold leading-[1.16] tracking-[-0.035em] sm:text-[2.5rem] lg:text-[3rem] text-balance">
-                  Studio kecil yang memegang sedikit project dalam satu waktu
+                  Satu tim untuk kebutuhan digital Anda
                 </h1>
               </Reveal>
               <Reveal delay={0.1}>
                 <p className="mt-6 max-w-[50ch] text-sm leading-relaxed text-text-muted md:text-base">
-                  Kami menangani website, dashboard internal, dan urusan server. Satu tim mengerjakan dari perencanaan sampai rilis, jadi tidak ada estafet ke pihak lain di tengah jalan.
+                  Dari website dan web app hingga server, deployment, dan network infrastructure. VOUR menangani setiap tahap secara terintegrasi agar produk dapat dibangun, dirilis, dan dikembangkan dengan lebih mudah.
                 </p>
               </Reveal>
             </div>
