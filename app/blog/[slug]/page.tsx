@@ -5,9 +5,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { ArticleContent } from "@/components/blog/article-content";
+import { RelatedArticles } from "@/components/blog/related-articles";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import { getPost, getPosts } from "@/lib/cms";
+import { getPost, getPosts, getRelatedPosts } from "@/lib/cms";
 import { buildMetadata } from "@/lib/seo";
 import { PRIMARY_CTA } from "@/lib/site";
 import { formatDate } from "@/lib/utils";
@@ -47,6 +48,8 @@ export default async function ResourcePage({ params }: PageProps<"/blog/[slug]">
   const { slug } = await params;
   const post = await getPost(slug);
   if (!post) notFound();
+
+  const relatedPosts = await getRelatedPosts(post, 2);
 
   return (
     <article className="pt-28 pb-20 md:pt-32 md:pb-28">
@@ -97,27 +100,7 @@ export default async function ResourcePage({ params }: PageProps<"/blog/[slug]">
         </div>
       </Container>
 
-      {post.related && post.related.length > 0 ? (
-        <Container className="mt-16 max-w-3xl">
-          <div className="border-t border-border pt-8">
-            <h2 className="font-mono text-xs font-semibold uppercase tracking-wider text-text-faint">
-              Artikel Terkait
-            </h2>
-            <ul className="mt-4 flex flex-wrap gap-2.5">
-              {post.related.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="inline-flex min-h-10 items-center rounded-control border border-border bg-surface px-4 font-mono text-xs text-text-muted transition-colors duration-150 hover:border-accent/40 hover:bg-bg-subtle hover:text-accent-text"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Container>
-      ) : null}
+      <RelatedArticles posts={relatedPosts} />
 
       <Container className="mt-16 max-w-3xl">
         <div className="rounded-surface border border-border bg-bg-subtle/60 p-8 md:p-10">

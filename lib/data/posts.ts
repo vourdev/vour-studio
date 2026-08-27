@@ -15,6 +15,17 @@ export type PostCategory = "Tutorial" | "Case Study" | "Dev Notes";
 /** Lexical editor state as stored by Payload's richText field. */
 export type RichTextContent = SerializedEditorState;
 
+export type RelatedPost = {
+  id?: number | string;
+  title: string;
+  slug: string;
+  description?: string | null;
+  category?: PostCategory | string | null;
+  date?: string | null;
+  readingMinutes?: number | null;
+  image?: string | null;
+};
+
 export type Post = {
   slug: string;
   title: string;
@@ -24,8 +35,8 @@ export type Post = {
   category: PostCategory;
   readingMinutes: number;
   image: string;
-  /** Internal links back to the relevant service or product page. */
-  related?: { label: string; href: string }[];
+  /** Related published articles from the CMS relation field. */
+  related?: RelatedPost[];
   /** Lexical JSON body, rendered by the shared RichText component. */
   content: RichTextContent;
 };
@@ -44,19 +55,17 @@ export const fallbackPosts: Post[] = [
     readingMinutes: 6,
     image: "https://picsum.photos/seed/vour-article-website-dashboard/1200/675",
     related: [
-  {
-    "label": "Website Development",
-    "href": "/solutions#website-development"
-  },
-  {
-    "label": "AI Automation",
-    "href": "/solutions#ai-automation"
-  },
-  {
-    "label": "Dashboard Template",
-    "href": "/products"
-  }
-],
+      {
+        id: 1,
+        slug: "memilih-antara-website-dan-dashboard",
+        title: "Website atau Dashboard: Panduan Menentukan Kebutuhan Digital",
+        description: "Pelajari kriteria praktis sebelum berinvestasi pada pembuatan website atau dashboard operasional bisnis.",
+        category: "Dev Notes",
+        date: "2026-07-14T00:00:00.000Z",
+        readingMinutes: 6,
+        image: "https://picsum.photos/seed/vour-article-website-dashboard/1200/675",
+      },
+    ],
     // The Lexical JSON comes verbatim from the CMS, so the cast is honest.
     content: {
   "root": {

@@ -27,7 +27,9 @@ import {
 import {
   fallbackPosts,
   type Post,
+  type PostCategory,
   type PostMeta,
+  type RelatedPost,
   type RichTextContent,
 } from "@/lib/data/posts";
 import { defaultSiteSettings, type SiteSettings } from "@/lib/site";
@@ -214,6 +216,25 @@ export async function getProjects(): Promise<Project[]> {
  * Posts (blog)
  * ------------------------------------------------------------------------ */
 
+type PayloadRelatedMedia = {
+  url?: string;
+  sizes?: {
+    card?: { url?: string };
+    og?: { url?: string };
+  };
+};
+
+type PayloadRelatedPost = {
+  id?: number | string;
+  title: string;
+  slug: string;
+  description?: string | null;
+  category?: Post["category"] | string | null;
+  date?: string | null;
+  readingMinutes?: number | null;
+  image?: PayloadRelatedMedia | number | string | null;
+};
+
 /** Shape of a post doc from `GET /api/posts?depth=1`. Field names mirror the
  * marketing site's `PostMeta` type; only published posts are readable
  * anonymously, so drafts never leak into the site. */
@@ -228,8 +249,8 @@ type PayloadPost = {
   image?: { url?: string; sizes?: { og?: { url?: string } } } | number | null;
   /** Lexical JSON body. */
   content: RichTextContent;
-  /** Per-row `id` is present in the API response but meaningless on the site. */
-  related?: ({ id?: string } & { label: string; href: string })[];
+  /** Hydrated related articles from Payload relationship field. */
+  related?: (PayloadRelatedPost | number | string)[];
   _status?: string;
 };
 
@@ -238,11 +259,36 @@ const POST_IMAGE_SEEDS: Record<string, string> = {
   "memilih-antara-website-dan-dashboard": "vour-article-website-dashboard",
 };
 
+function toRelatedPost(item: PayloadRelatedPost | number | string): RelatedPost | null {
+  if (!item || typeof item !== "object") return null;
+  if (!item.title || !item.slug) return null;
+
+  const media = item.image && typeof item.image === "object" ? item.image : undefined;
+  const imageUrl = media?.sizes?.card?.url ?? media?.sizes?.og?.url ?? media?.url;
+
+  return {
+    id: item.id,
+    title: item.title,
+    slug: item.slug,
+    description: item.description ?? null,
+    category: (item.category as PostCategory) ?? "Dev Notes",
+    date: item.date ?? null,
+    readingMinutes: item.readingMinutes ?? null,
+    image: imageUrl
+      ? absolutizeMediaUrl(imageUrl)
+      : `https://picsum.photos/seed/${POST_IMAGE_SEEDS[item.slug] ?? `vour-article-${item.slug}`}/1200/675`,
+  };
+}
+
 function toPostMeta(doc: PayloadPost): PostMeta {
   const media = doc.image && typeof doc.image === "object" ? doc.image : undefined;
   // Covers display large, so prefer the `og` size (1200x630) over the full
   // upload when the admin has generated it.
   const imageUrl = media?.sizes?.og?.url ?? media?.url;
+  const relatedItems = doc.related
+    ?.map(toRelatedPost)
+    .filter((item): item is RelatedPost => item !== null);
+
   return {
     title: doc.title,
     description: doc.description,
@@ -252,7 +298,7 @@ function toPostMeta(doc: PayloadPost): PostMeta {
     image: imageUrl
       ? absolutizeMediaUrl(imageUrl)
       : `https://picsum.photos/seed/${POST_IMAGE_SEEDS[doc.slug] ?? `vour-article-${doc.slug}`}/1200/675`,
-    related: doc.related?.map((item) => ({ label: item.label, href: item.href })),
+    related: relatedItems && relatedItems.length > 0 ? relatedItems : undefined,
   };
 }
 
@@ -314,6 +360,57 @@ export async function getPost(slug: string): Promise<Post | null> {
     console.warn("[cms] CMS tidak dapat dihubungi. Memakai data statis.", error);
     return fallbackPosts.find((post) => post.slug === slug) ?? null;
   }
+}
+
+/**
+ * Resolves related posts for a given article.
+ * Uses manual relations from `post.related` first; if empty, automatically falls
+ * back to newest posts in the same category, backfilling with other categories if needed.
+ */
+export async function getRelatedPosts(
+  currentPost: Post,
+  limit = 2,
+): Promise<RelatedPost[]> {
+  if (currentPost.related && currentPost.related.length > 0) {
+    return currentPost.related.slice(0, limit);
+  }
+
+  const allPosts = await getPosts();
+  const sameCategory = allPosts
+    .filter(
+      (p) => p.slug !== currentPost.slug && p.meta.category === currentPost.category,
+    )
+    .map((p) => ({
+      slug: p.slug,
+      title: p.meta.title,
+      description: p.meta.description,
+      category: p.meta.category,
+      date: p.meta.date,
+      readingMinutes: p.meta.readingMinutes,
+      image: p.meta.image,
+    }));
+
+  if (sameCategory.length >= limit) {
+    return sameCategory.slice(0, limit);
+  }
+
+  const otherPosts = allPosts
+    .filter(
+      (p) =>
+        p.slug !== currentPost.slug &&
+        !sameCategory.some((sc) => sc.slug === p.slug),
+    )
+    .map((p) => ({
+      slug: p.slug,
+      title: p.meta.title,
+      description: p.meta.description,
+      category: p.meta.category,
+      date: p.meta.date,
+      readingMinutes: p.meta.readingMinutes,
+      image: p.meta.image,
+    }));
+
+  return [...sameCategory, ...otherPosts].slice(0, limit);
 }
 
 /* ---------------------------------------------------------------------------
