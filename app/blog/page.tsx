@@ -21,13 +21,13 @@ export default async function BlogPage() {
         <Reveal>
           <div className="max-w-2xl">
             <span className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-accent-text">
-              Engineering Notes &amp; Insights
+              From the VOUR Studio
             </span>
             <h1 className="mt-3 font-mono text-3xl font-bold tracking-tight text-text sm:text-4xl md:text-5xl">
-              Catatan dari Ruang Kerja
+              Insights for Builders
             </h1>
             <p className="mt-4 text-base text-text-muted leading-relaxed max-w-[56ch]">
-              Keputusan arsitektur, pola rekayasa, dan studi kasus teknis yang kami temukan saat membangun produk digital sungguhan.
+              Tutorial, insight, dan pembelajaran seputar web development, teknologi, dan cara membangun produk digital yang lebih baik.
             </p>
           </div>
         </Reveal>
