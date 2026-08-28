@@ -40,10 +40,41 @@ function renderLink({ node, nodesToJSX, converters }: JSXConverterArgs) {
   );
 }
 
+/**
+ * Custom converter for `code` blocks (fenced code blocks from Markdown).
+ * These are not natively supported by Payload's defaultJSXConverters.
+ */
+function renderCodeBlock({ node }: JSXConverterArgs) {
+  const codeNode = node as {
+    language?: string;
+    children?: Array<{ text?: string; type?: string }>;
+  };
+  const lang = codeNode.language || "";
+  const codeText =
+    codeNode.children?.map((child) => child.text || "").join("\n") || "";
+
+  return (
+    <pre data-language={lang || undefined}>
+      <code>{codeText}</code>
+    </pre>
+  );
+}
+
+/**
+ * Custom converter for `code-highlight` nodes (children of code blocks).
+ * Renders as plain text since the parent <pre> handles styling.
+ */
+function renderCodeHighlight({ node }: JSXConverterArgs) {
+  const textNode = node as { text?: string };
+  return <>{textNode.text || ""}</>;
+}
+
 const converters: JSXConverters = {
   ...defaultJSXConverters,
   link: renderLink,
   autolink: renderLink,
+  code: renderCodeBlock,
+  "code-highlight": renderCodeHighlight,
 };
 
 export function ArticleContent({ content }: { content: RichTextContent }) {
