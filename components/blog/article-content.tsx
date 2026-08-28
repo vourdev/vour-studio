@@ -7,6 +7,7 @@ import {
   type JSXConverters,
 } from "@payloadcms/richtext-lexical/react";
 
+import { CodeBlock } from "@/components/blog/code-block";
 import type { RichTextContent } from "@/lib/data/posts";
 
 /** Same link styling the old MDX renderer applied. */
@@ -42,7 +43,7 @@ function renderLink({ node, nodesToJSX, converters }: JSXConverterArgs) {
 
 /**
  * Custom converter for `code` blocks (fenced code blocks from Markdown).
- * These are not natively supported by Payload's defaultJSXConverters.
+ * Renders an interactive CodeBlock component with Copy button & language header.
  */
 function renderCodeBlock({ node }: JSXConverterArgs) {
   const codeNode = node as {
@@ -53,16 +54,12 @@ function renderCodeBlock({ node }: JSXConverterArgs) {
   const codeText =
     codeNode.children?.map((child) => child.text || "").join("\n") || "";
 
-  return (
-    <pre data-language={lang || undefined}>
-      <code>{codeText}</code>
-    </pre>
-  );
+  return <CodeBlock code={codeText} language={lang} />;
 }
 
 /**
  * Custom converter for `code-highlight` nodes (children of code blocks).
- * Renders as plain text since the parent <pre> handles styling.
+ * Renders as plain text since the parent CodeBlock handles styling.
  */
 function renderCodeHighlight({ node }: JSXConverterArgs) {
   const textNode = node as { text?: string };

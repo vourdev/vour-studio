@@ -250,7 +250,7 @@ function toPostMeta(doc: PayloadPost): PostMeta {
     readingMinutes: doc.readingMinutes,
     image: imageUrl
       ? absolutizeMediaUrl(imageUrl)
-      : `https://picsum.photos/seed/${POST_IMAGE_SEEDS[doc.slug] ?? `vour-article-${doc.slug}`}/1200/675`,
+      : `https://image.pollinations.ai/prompt/${encodeURIComponent(`3d minimalist dark mode tech illustration of ${doc.title}, software engineering architecture, glowing cyan accents, 8k render`)}?width=1200&height=675&nologo=true`,
   };
 }
 
