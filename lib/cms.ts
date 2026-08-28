@@ -250,7 +250,7 @@ function toPostMeta(doc: PayloadPost): PostMeta {
     readingMinutes: doc.readingMinutes,
     image: imageUrl
       ? absolutizeMediaUrl(imageUrl)
-      : `https://image.pollinations.ai/prompt/${encodeURIComponent(`3d minimalist dark mode tech illustration of ${doc.title}, software engineering architecture, glowing cyan accents, 8k render`)}?width=1200&height=675&nologo=true`,
+      : `https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&h=675&q=80`,
   };
 }
 
