@@ -1,7 +1,7 @@
 /**
  * Pricing configuration for the project estimator.
  *
- * TODO(Vour): every number here is a placeholder. Confirm the real commercial
+ * TODO(vour.dev): every number here is a placeholder. Confirm the real commercial
  * ranges before launch. Nothing in the UI or the calculation engine hardcodes a
  * price, so changing a value in this file is the only edit required.
  *

@@ -7,7 +7,7 @@ import { Footer } from "@/components/layout/footer";
 import { LenisProvider } from "@/components/layout/lenis-provider";
 import { Nav } from "@/components/layout/nav";
 import { ThemeProvider } from "@/components/layout/theme-provider";
-import { organizationJsonLd } from "@/lib/seo";
+import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 import { IS_INDEXABLE, siteConfig } from "@/lib/site";
 import "./globals.css";
 
@@ -26,16 +26,18 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: `${siteConfig.name} - Jasa Pembuatan Website, Dashboard, dan AI Automation`,
+    default: `${siteConfig.name} - Jasa Pembuatan Website, Web Application, dan Deployment`,
     template: `%s - ${siteConfig.name}`,
   },
   description: siteConfig.description,
   keywords: [
+    "vour.dev",
     "jasa pembuatan website",
-    "jasa pembuatan dashboard",
-    "ai automation",
-    "web development Indonesia",
-    "template developer",
+    "jasa pembuatan landing page",
+    "jasa pembuatan company profile",
+    "jasa pembuatan web application",
+    "jasa deployment dan konfigurasi server",
+    "template website",
   ],
   authors: [{ name: siteConfig.legalName }],
   creator: siteConfig.legalName,
@@ -131,7 +133,9 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <script
           type="application/ld+json"
           // Static, author-controlled object. No user input reaches this string.
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([organizationJsonLd(), websiteJsonLd()]),
+          }}
         />
       </body>
     </html>

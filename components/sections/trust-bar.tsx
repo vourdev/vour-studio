@@ -1,40 +1,43 @@
-import { AnimatedNumber } from "@/components/motion/animated-number";
+import {
+  CodeIcon,
+  CloudArrowUpIcon,
+  DeviceMobileIcon,
+  FileTextIcon,
+} from "@phosphor-icons/react/ssr";
+
 import { Reveal } from "@/components/motion/reveal";
 import { Container, Section } from "@/components/ui/container";
 import { cn } from "@/lib/utils";
 
-const stats = [
+/**
+ * Answers "apa yang saya dapat kalau kerja sama vour.dev?" in four lines,
+ * directly under the hero. Every item is a commitment about the deliverable,
+ * not a count of past work.
+ */
+const facts = [
   {
-    value: 30,
-    padZero: 0,
-    suffix: "+",
-    label: "Project Selesai",
+    icon: CodeIcon,
+    label: "Source Code Diserahkan",
     description:
-      "Website bisnis, dashboard operasional, dan aplikasi web modern yang sukses tayang di production server.",
+      "Seluruh kode dan dokumentasinya menjadi milik Anda di akhir project. Pengembangan berikutnya tidak harus lewat kami.",
   },
   {
-    value: 4,
-    padZero: 0,
-    suffix: " Tahun",
-    label: "Pengalaman Industri",
+    icon: CloudArrowUpIcon,
+    label: "Deployment Termasuk",
     description:
-      "Teruji merancang arsitektur sistem tangguh, antarmuka responsif, serta automasi cloud infrastructure.",
+      "Website dipasang sampai bisa diakses publik: konfigurasi server, domain, sertifikat HTTPS, dan pemantauan dasar.",
   },
   {
-    value: 10,
-    padZero: 0,
-    suffix: "+",
-    label: "Modern Tech Stack",
+    icon: DeviceMobileIcon,
+    label: "Rapi di Semua Layar",
     description:
-      "Next.js, TypeScript, Tailwind, Docker, hingga CI/CD pipeline untuk skalabilitas dan performa maksimal.",
+      "Tampilan diuji dari layar HP sampai monitor lebar, termasuk pada koneksi seluler yang lambat.",
   },
   {
-    value: 95,
-    padZero: 0,
-    suffix: "+",
-    label: "Lighthouse Score",
+    icon: FileTextIcon,
+    label: "Lingkup Ditulis di Awal",
     description:
-      "Standar baku kecepatan rendering, aksesibilitas, optimasi SEO, dan efisiensi kode di semua peramban.",
+      "Halaman, fitur, jadwal, dan biaya disepakati sebelum pengerjaan dimulai, jadi tidak ada tambahan di tengah jalan.",
   },
 ];
 
@@ -44,9 +47,9 @@ export function TrustBar() {
       <Container>
         <Reveal delay={0.2}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border border-border rounded-surface overflow-hidden bg-bg-subtle">
-            {stats.map((stat, i) => (
+            {facts.map((fact, i) => (
               <div
-                key={i}
+                key={fact.label}
                 className={cn(
                   "flex flex-col p-6 md:p-7 justify-between",
                   i > 0 ? "border-t border-border" : "",
@@ -58,18 +61,15 @@ export function TrustBar() {
                 )}
               >
                 <div>
-                  <div className="font-mono text-3xl md:text-4xl font-bold tracking-tight text-text flex items-baseline">
-                    <AnimatedNumber value={stat.value} padZero={stat.padZero} />
-                    <span className="font-mono text-lg md:text-xl font-medium text-accent-text ml-1">
-                      {stat.suffix}
-                    </span>
-                  </div>
-                  <div className="mt-2 font-mono text-xs font-semibold uppercase tracking-wider text-accent-text">
-                    {stat.label}
+                  <span className="flex size-10 items-center justify-center rounded-control border border-border bg-bg text-accent-text">
+                    <fact.icon weight="light" className="size-5" />
+                  </span>
+                  <div className="mt-4 font-mono text-xs font-semibold uppercase tracking-wider text-accent-text">
+                    {fact.label}
                   </div>
                 </div>
                 <p className="mt-3 text-xs leading-relaxed text-text-muted">
-                  {stat.description}
+                  {fact.description}
                 </p>
               </div>
             ))}
@@ -79,4 +79,3 @@ export function TrustBar() {
     </Section>
   );
 }
-

@@ -27,17 +27,17 @@ function LeadFormFields({ sourcePage }: { sourcePage: string }) {
 
   const [message, setMessage] = useState(() => {
     if (serviceParam === "website-development") {
-      return "Halo Vour, saya tertarik dengan layanan Website & Dashboard Development. ";
+      return "Halo vour.dev, saya tertarik dengan layanan Website & Web Application Development. ";
     }
     if (serviceParam === "infrastructure") {
-      return "Halo Vour, saya tertarik dengan layanan Infrastructure & Deployment. ";
+      return "Halo vour.dev, saya tertarik dengan layanan Deployment & Infrastructure. ";
     }
     if (productParam) {
       const productName = productParam
         .split("-")
         .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
         .join(" ");
-      return `Halo Vour, saya tertarik dengan produk ${productName}. `;
+      return `Halo vour.dev, saya tertarik dengan produk ${productName}. `;
     }
     return "";
   });

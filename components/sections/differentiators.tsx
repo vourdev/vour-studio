@@ -35,9 +35,9 @@ export function Differentiators() {
               </div>
             </div>
             <div className="space-y-2">
-              <h3 className="text-base font-semibold">Modern Tech Stack</h3>
+              <h3 className="text-base font-semibold">Kode 100% Milik Anda</h3>
               <p className="text-[13px] text-text-muted leading-relaxed">
-                Teknologi dipilih karena cocok dengan masalahnya, bukan karena sedang ramai dibicarakan.
+                Seluruh source code beserta dokumentasinya diserahkan di akhir project, jadi pengembangan berikutnya tidak harus lewat kami.
               </p>
             </div>
           </div>

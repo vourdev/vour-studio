@@ -6,7 +6,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ---------------------------------------------------------------------------
-   Vour design tokens.
+   vour.dev design tokens.
 
    Locked decisions, applied everywhere:
    - One accent: acid lime. No second accent colour appears anywhere on the site.

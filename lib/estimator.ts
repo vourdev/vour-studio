@@ -160,7 +160,7 @@ export function buildWhatsappMessage(
   );
 
   const lines = [
-    "Halo Vour, saya ingin mendiskusikan project.",
+    "Halo vour.dev, saya ingin mendiskusikan project.",
     "",
     "Jenis project:",
     type.label,

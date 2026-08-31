@@ -12,13 +12,13 @@ import { Reveal } from "@/components/motion/reveal";
 import { LeadForm } from "@/components/forms/lead-form";
 import { Container } from "@/components/ui/container";
 import { getSiteSettings } from "@/lib/cms";
-import { buildMetadata } from "@/lib/seo";
+import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 import { whatsappLink } from "@/lib/site";
 
 export const metadata = buildMetadata({
-  title: "Kontak",
+  title: "Cara Memulai Project dengan vour.dev",
   description:
-    "Ceritakan masalah yang mau dibereskan. Konsultasi pertama tidak dipungut biaya dan tidak wajib berlanjut jadi project.",
+    "Kirim kebutuhan lewat form atau WhatsApp, lanjut ke sesi konsultasi, lalu terima proposal berisi lingkup, jadwal, dan biaya. Konsultasi pertama tidak dipungut biaya.",
   path: "/contact",
 });
 
@@ -38,8 +38,18 @@ export default async function ContactPage() {
     href: social.href,
   }));
 
+  const breadcrumb = breadcrumbJsonLd([
+    { name: "Beranda", path: "/" },
+    { name: "Kontak", path: "/contact" },
+  ]);
+
   return (
     <div className="pt-28 pb-20 md:pt-36 md:pb-28">
+      <script
+        type="application/ld+json"
+        // Static, author-controlled object. No user input reaches this string.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+      />
       {/* 1. Header Hero Area */}
       <Container className="max-w-3xl text-center">
         <Reveal>
@@ -47,10 +57,13 @@ export default async function ContactPage() {
             Mulai Konsultasi
           </span>
           <h1 className="mt-3 font-mono text-3xl font-bold tracking-tight text-text sm:text-4xl md:text-5xl">
-            Ceritakan Kebutuhan Anda
+            Bagaimana Cara Memulai Project?
           </h1>
-          <p className="mt-4 text-base text-text-muted leading-relaxed max-w-[54ch] mx-auto">
-            Konsultasi awal bebas biaya dan tidak wajib berlanjut jadi project. Pilih saluran komunikasi yang paling nyaman untuk Anda.
+          <p className="mx-auto mt-4 max-w-[58ch] text-base leading-relaxed text-text-muted">
+            Kirim kebutuhan Anda lewat form di bawah atau langsung melalui
+            WhatsApp. Setelah sesi konsultasi, Anda menerima proposal berisi
+            lingkup, jadwal, dan biaya. Konsultasi awal bebas biaya dan tidak
+            wajib berlanjut jadi project.
           </p>
         </Reveal>
       </Container>

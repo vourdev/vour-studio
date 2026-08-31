@@ -81,7 +81,7 @@ export function Nav({ settings = defaultSiteSettings }: { settings?: SiteSetting
         )}
       >
         <div className="relative z-10 flex items-center shrink-0">
-          <Link href="/" aria-label="Vour beranda" onClick={() => setOpen(false)}>
+          <Link href="/" aria-label="vour.dev beranda" onClick={() => setOpen(false)}>
             <Logo />
           </Link>
         </div>

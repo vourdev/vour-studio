@@ -77,11 +77,11 @@ export function Hero() {
         >
           {/* <span aria-hidden className="size-1.5 shrink-0 rounded-full bg-accent" /> */}
           <SparkleIcon weight="fill" className="size-4 text-accent-text" aria-hidden />
-          Studio web &amp; AI Automation 
+          Studio digital di Indonesia
         </Reveal>
 
         <KineticHeading
-          text="Website, Dashboard, dan AI Automation untuk Bisnis Anda."
+          text="Website, Web Application, dan Deployment untuk Bisnis Anda."
           accentFrom={5}
           className="font-mono text-[1.85rem] font-semibold leading-[1.16] tracking-[-0.035em] sm:text-[2.5rem] lg:text-[3.5rem]"
         />
@@ -91,8 +91,8 @@ export function Hero() {
           delay={0.45}
           className="mt-5 max-w-[58ch] text-base leading-relaxed text-text-muted md:mt-6 md:text-lg"
         >
-          Dari halaman untuk pelanggan sampai sistem untuk tim Anda. Kode dan
-          dokumentasinya jadi milik Anda.
+          vour.dev membangun website, aplikasi web, dan kebutuhan deployment
+          untuk bisnis di Indonesia. Kode dan dokumentasinya jadi milik Anda.
         </Reveal>
 
         <Reveal

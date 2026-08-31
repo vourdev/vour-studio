@@ -1,6 +1,7 @@
 import { getPosts } from "@/lib/cms";
+import { faqs } from "@/lib/data/faq";
 import { services } from "@/lib/data/services";
-import { IS_INDEXABLE, siteConfig, CONTACT_EMAIL } from "@/lib/site";
+import { IS_INDEXABLE, siteConfig, CONTACT_EMAIL, SERVICE_AREA } from "@/lib/site";
 
 /**
  * https://llmstxt.org — a Markdown summary of the site for language models.
@@ -17,35 +18,49 @@ function abs(path: string) {
 export async function GET() {
   const posts = await getPosts();
 
-  const serviceLines = services.map(
-    (service) => `- [${service.title}](${abs(`/solutions#${service.slug}`)}): ${service.summary}`,
-  );
+  const serviceBlocks = services.map((service) => {
+    const status = service.status === "soon" ? " (belum tersedia)" : "";
+    const offerings = service.offerings
+      .map((offering) => `  - ${offering.name}: ${offering.description}`)
+      .join("\n");
+
+    return `### ${service.title}${status}\n\n${service.answer}\n\nCakupan:\n${offerings}\n\nHalaman: ${abs(`/solutions#${service.slug}`)}`;
+  });
+
+  const faqBlocks = faqs.map((faq) => `### ${faq.question}\n\n${faq.answer}`);
 
   const postLines = posts.map(
     (post) =>
       `- [${post.meta.title}](${abs(`/blog/${post.slug}`)}): ${post.meta.description}`,
   );
 
-  const body = `# ${siteConfig.legalName}
+  const body = `# ${siteConfig.name}
 
 > ${siteConfig.description}
 
-Situs ini berbahasa Indonesia dan melayani klien di Indonesia. Vour mengerjakan
-website, dashboard internal, dan otomasi alur kerja. Kode beserta dokumentasinya
-diserahkan ke klien di akhir project.
+vour.dev adalah studio digital kecil yang berbasis di ${SERVICE_AREA}, terdiri
+dari fullstack developer, UI/UX designer, dan DevOps engineer. Situs ini
+berbahasa Indonesia dan melayani klien di ${SERVICE_AREA}. Source code beserta
+dokumentasinya diserahkan ke klien di akhir project.
 
 ## Layanan
 
-${serviceLines.join("\n")}
+${serviceBlocks.join("\n\n")}
 
 ## Halaman utama
 
 - [Beranda](${abs("/")}): ringkasan layanan, cara kerja, dan pertanyaan yang sering masuk.
 - [Layanan](${abs("/solutions")}): rincian tiap layanan beserta cakupan pekerjaannya.
+- [Produk](${abs("/products")}): template website, portfolio, landing page, dan developer resources.
+- [Estimasi Biaya](${abs("/estimate")}): estimator untuk menghitung kisaran biaya project.
 - [Projects](${abs("/projects")}): studi kasus, ditulis dari masalah klien sampai hasil setelah rilis.
 - [Blog](${abs("/blog")}): catatan keputusan teknis dari project yang dikerjakan.
-- [Tentang](${abs("/about")}): profil studio dan prinsip kerja.
+- [Tentang](${abs("/about")}): profil studio, cara kerja, teknologi, dan FAQ lengkap.
 - [Kontak](${abs("/contact")}): form brief project, WhatsApp, dan email.
+
+## Pertanyaan yang sering diajukan
+
+${faqBlocks.join("\n\n")}
 
 ## Tulisan
 ${postLines.length > 0 ? `\n${postLines.join("\n")}` : "\nBelum ada tulisan yang terbit."}
@@ -58,7 +73,7 @@ ${postLines.length > 0 ? `\n${postLines.join("\n")}` : "\nBelum ada tulisan yang
 ## Catatan
 
 - Konsultasi pertama tidak dipungut biaya.
-- Harga tidak dicantumkan per layanan; kisaran biaya ada di halaman kontak dan angka pastinya menyesuaikan lingkup.
+- Harga tidak dicantumkan per layanan. Kisaran biaya dihitung lewat estimator di ${abs("/estimate")}, dan angka pastinya ditulis di proposal setelah lingkup disepakati.
 - Sitemap: ${abs("/sitemap.xml")}
 `;
 

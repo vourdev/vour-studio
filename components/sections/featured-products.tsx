@@ -21,7 +21,18 @@ import {
 } from "@/lib/data/products";
 import { PRODUCTS_CTA } from "@/lib/site";
 
-export function FeaturedProducts({ products }: { products: Product[] }) {
+export function FeaturedProducts({
+  products,
+  heading = "Produk digital siap pakai",
+  description = "Template dan starter kit yang kami pakai sendiri di project klien, lalu dirapikan supaya bisa dipakai siapa saja.",
+  showAllLink = true,
+}: {
+  products: Product[];
+  heading?: string;
+  description?: string;
+  /** Hidden on `/products` itself, where the link would point at the page you are on. */
+  showAllLink?: boolean;
+}) {
   const [activeCategory, setActiveCategory] = useState<string>("Semua");
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(
     null,
@@ -60,20 +71,22 @@ export function FeaturedProducts({ products }: { products: Product[] }) {
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div>
               <h2 className="text-3xl font-semibold tracking-tight text-balance md:text-4xl">
-                Produk digital siap pakai
+                {heading}
               </h2>
               <p className="mt-3 max-w-[54ch] text-sm leading-relaxed text-text-muted">
-                Template dan starter kit yang kami pakai sendiri di project klien, lalu dirapikan supaya bisa dipakai siapa saja.
+                {description}
               </p>
             </div>
 
-            <Link
-              href="/products"
-              className="inline-flex items-center gap-1.5 rounded-control border border-border bg-bg-subtle px-4 py-2 text-sm font-medium text-text transition-all hover:border-border-strong hover:bg-surface-solid hover:text-accent-text"
-            >
-              {PRODUCTS_CTA}
-              <ArrowRightIcon weight="bold" className="size-3.5" aria-hidden />
-            </Link>
+            {showAllLink && (
+              <Link
+                href="/products"
+                className="inline-flex items-center gap-1.5 rounded-control border border-border bg-bg-subtle px-4 py-2 text-sm font-medium text-text transition-all hover:border-border-strong hover:bg-surface-solid hover:text-accent-text"
+              >
+                {PRODUCTS_CTA}
+                <ArrowRightIcon weight="bold" className="size-3.5" aria-hidden />
+              </Link>
+            )}
           </div>
         </Reveal>
 

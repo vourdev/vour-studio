@@ -1,7 +1,7 @@
 /**
  * Single source of truth for brand, navigation and contact details.
  *
- * TODO(Vour): every value marked `placeholder` needs the real thing before launch.
+ * TODO(vour.dev): every value marked `placeholder` needs the real thing before launch.
  */
 
 /**
@@ -32,14 +32,24 @@ export const IS_INDEXABLE =
   process.env.VERCEL_ENV === "production" || process.env.VERCEL_ENV === undefined;
 
 export const siteConfig = {
-  name: "Vour",
-  legalName: "Vour Studio",
-  tagline: "Studio pengembangan web dan sistem internal",
+  name: "vour.dev",
+  legalName: "vour.dev",
+  tagline: "Studio digital untuk website, web application, dan deployment",
+  /**
+   * The one-sentence answer to "Apa itu vour.dev?".
+   *
+   * Reused verbatim in metadata, JSON-LD, `llms.txt`, the About page and the
+   * footer so every surface -- and every crawler -- reads the same definition
+   * of the entity.
+   */
   description:
-    "Vour mengerjakan website, dashboard internal, dan otomasi alur kerja untuk bisnis di Indonesia. Kode dan dokumentasinya diserahkan di akhir project.",
+    "vour.dev adalah studio digital yang membantu bisnis membangun website, aplikasi web, dan kebutuhan deployment. vour.dev juga menyediakan produk digital seperti template website dan developer resources.",
   url: SITE_URL,
   locale: "id-ID",
 } as const;
+
+/** Where vour.dev operates. Used in copy and in `Organization.areaServed`. */
+export const SERVICE_AREA = "Indonesia";
 
 export const WHATSAPP_NUMBER =
   process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "6287787388296";
@@ -52,12 +62,13 @@ export const CONTACT_EMAIL =
 export function whatsappLink(message?: string, number = WHATSAPP_NUMBER) {
   const text =
     message ??
-    "Halo Vour, saya mau tanya soal sebuah project. Boleh minta waktunya sebentar?";
+    "Halo vour.dev, saya mau tanya soal sebuah project. Boleh minta waktunya sebentar?";
   return `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
 }
 
 export const mainNav = [
   { label: "Layanan", href: "/solutions" },
+  { label: "Produk", href: "/products" },
   { label: "Projects", href: "/projects" },
   { label: "Blog", href: "/blog" },
   { label: "About", href: "/about" },
@@ -73,7 +84,7 @@ export const mainNav = [
  */
 export const PRIMARY_CTA = "Mulai Project"; // -> /contact
 export const SERVICES_CTA = "Lihat Layanan"; // -> /#services
-export const PRODUCTS_CTA = "Lihat Produk"; // -> /#products
+export const PRODUCTS_CTA = "Lihat Produk"; // -> /products
 export const PROJECTS_CTA = "Lihat Project"; // -> /projects
 export const BLOG_CTA = "Lihat Blog"; // -> /blog
 export const RESOURCES_CTA = BLOG_CTA; // backwards-compatibility alias

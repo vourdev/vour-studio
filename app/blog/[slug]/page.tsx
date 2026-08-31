@@ -8,7 +8,7 @@ import { ArticleContent } from "@/components/blog/article-content";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { getPost, getPosts } from "@/lib/cms";
-import { buildMetadata } from "@/lib/seo";
+import { articleJsonLd, breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 import { PRIMARY_CTA } from "@/lib/site";
 import { formatDate } from "@/lib/utils";
 
@@ -48,8 +48,28 @@ export default async function ResourcePage({ params }: PageProps<"/blog/[slug]">
   const post = await getPost(slug);
   if (!post) notFound();
 
+  const jsonLd = [
+    articleJsonLd({
+      title: post.title,
+      description: post.description,
+      slug,
+      date: post.date,
+      image: post.image,
+    }),
+    breadcrumbJsonLd([
+      { name: "Beranda", path: "/" },
+      { name: "Blog", path: "/blog" },
+      { name: post.title, path: `/blog/${slug}` },
+    ]),
+  ];
+
   return (
     <article className="pt-28 pb-20 md:pt-32 md:pb-28">
+      <script
+        type="application/ld+json"
+        // Author-controlled CMS content, serialised through JSON.stringify.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Container className="max-w-3xl">
         <Link
           href="/blog"
@@ -105,7 +125,21 @@ export default async function ResourcePage({ params }: PageProps<"/blog/[slug]">
           <p className="mt-3 max-w-[52ch] text-sm leading-relaxed text-pretty text-text-muted">
             Jika situasi operasional atau arsitektur sistem bisnis Anda
             membutuhkan solusi kustom, diskusikan langsung bersama tim engineer
-            kami.
+            kami. Anda juga bisa{" "}
+            <Link
+              href="/solutions"
+              className="text-accent-text underline underline-offset-4 hover:no-underline"
+            >
+              melihat rincian layanan vour.dev
+            </Link>{" "}
+            atau{" "}
+            <Link
+              href="/estimate"
+              className="text-accent-text underline underline-offset-4 hover:no-underline"
+            >
+              menghitung estimasi biaya project
+            </Link>{" "}
+            lebih dulu.
           </p>
           <Button asChild size="sm" className="mt-7">
             <Link href="/contact">

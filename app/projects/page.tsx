@@ -5,7 +5,7 @@ import { Reveal } from "@/components/motion/reveal";
 import { ClosingCta } from "@/components/sections/closing-cta";
 import { Container, Section } from "@/components/ui/container";
 import { getProjects } from "@/lib/cms";
-import { buildMetadata } from "@/lib/seo";
+import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "Projects",
@@ -17,9 +17,19 @@ export const metadata = buildMetadata({
 export default async function ProjectsPage() {
   const projects = await getProjects();
 
+  const breadcrumb = breadcrumbJsonLd([
+    { name: "Beranda", path: "/" },
+    { name: "Projects", path: "/projects" },
+  ]);
+
   return (
     <>
-      <Section className="pt-32 pb-8">
+      <script
+        type="application/ld+json"
+        // Static, author-controlled object. No user input reaches this string.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+      />
+      <Section spacing="header">
         <Container>
           <Reveal>
             <h1 className="max-w-[24ch] font-mono text-[1.8rem] font-semibold tracking-[-0.03em] md:text-[2.5rem] text-balance">
@@ -34,7 +44,7 @@ export default async function ProjectsPage() {
         </Container>
       </Section>
 
-      <Section>
+      <Section spacing="continued">
         <Container className="space-y-16">
           {projects.map((project, i) => {
             const isEven = i % 2 === 0;

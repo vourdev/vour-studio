@@ -92,7 +92,7 @@ function toProduct(doc: PayloadProduct): Product {
     features: doc.features.map((feature) => feature.feature),
     price: doc.price ?? null,
     status: doc.status,
-    // TODO(Vour): placeholder seed until a real image is uploaded per product.
+    // TODO(vour.dev): placeholder seed until a real image is uploaded per product.
     image: imageUrl
       ? absolutizeMediaUrl(imageUrl)
       : `https://picsum.photos/seed/${FALLBACK_IMAGE_SEEDS[doc.slug] ?? `vour-${doc.slug}`}/800/600`,
@@ -173,7 +173,7 @@ function toProject(doc: PayloadProject): Project {
     challenge: doc.challenge,
     solution: doc.solution,
     technology: doc.technology.map((tech) => tech.tech),
-    // TODO(Vour): placeholder seed until a real screenshot is uploaded.
+    // TODO(vour.dev): placeholder seed until a real screenshot is uploaded.
     image: imageUrl
       ? absolutizeMediaUrl(imageUrl)
       : `https://picsum.photos/seed/${fallback?.seed ?? `vour-project-${doc.slug}`}/${fallback?.size ?? "1200/800"}`,
