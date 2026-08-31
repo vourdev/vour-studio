@@ -85,7 +85,7 @@ export default async function ContactPage() {
                 </div>
                 <h3 className="mt-5 text-lg font-bold text-text">WhatsApp Prioritas</h3>
                 <p className="mt-2 text-xs leading-relaxed text-text-muted">
-                  Jalur tercepat untuk diskusi awal. Tim merespons di hari kerja pukul 09.00–18.00 WIB.
+                  Jalur tercepat untuk diskusi awal. Tim merespons di hari kerja pukul 09.00-18.00 WIB.
                 </p>
               </div>
               <div className="mt-6 flex items-center gap-2 font-mono text-xs font-bold text-accent-text">
