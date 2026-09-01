@@ -161,7 +161,12 @@ export function Nav({ settings = defaultSiteSettings }: { settings?: SiteSetting
             exit="exit"
             className="fixed inset-0 z-40 flex flex-col bg-bg/98 backdrop-blur-2xl overscroll-contain overflow-y-auto lg:hidden"
           >
-            <div className="flex min-h-full flex-col justify-between px-6 pt-24 pb-10 max-w-lg mx-auto w-full">
+            {/* `px-10` reproduces the header's own inset below `lg` (its
+                `inset-x-4` plus `px-6`), so the panel's rules and the logo above
+                them share one edge. From `md` the list and the contact block sit
+                side by side, vertically centred: stacked and top-aligned, four
+                links leave most of a tablet viewport empty. */}
+            <div className="mx-auto grid min-h-full w-full max-w-7xl content-between gap-10 px-10 pt-24 pb-10 md:grid-cols-[1fr_20rem] md:content-center md:items-start md:gap-16">
               <nav aria-label="Navigasi seluler" className="flex flex-col">
                 {navLinks.map((item, idx) => {
                   const active = pathname === item.href;
@@ -181,7 +186,7 @@ export function Nav({ settings = defaultSiteSettings }: { settings?: SiteSetting
                         <span className="font-mono text-xs tabular-nums text-text-faint group-hover:text-accent-text/70 transition-colors duration-200">
                           {String(idx + 1).padStart(2, "0")}
                         </span>
-                        <span className="text-3xl font-medium tracking-tight">
+                        <span className="text-3xl font-medium tracking-tight md:text-4xl">
                           {item.label}
                         </span>
                       </Link>
@@ -190,8 +195,10 @@ export function Nav({ settings = defaultSiteSettings }: { settings?: SiteSetting
                 })}
               </nav>
 
-              <div className="mt-10 flex flex-col gap-5 border-t border-border pt-6">
-                <motion.div variants={itemVariants} className="grid grid-cols-2 gap-3">
+              <div className="flex flex-col gap-5 border-t border-border pt-6 md:border-t-0 md:pt-0">
+                {/* One column from `md`: side by side inside a 20rem track the
+                    email address no longer fits and truncates. */}
+                <motion.div variants={itemVariants} className="grid grid-cols-2 gap-3 md:grid-cols-1">
                   <a
                     href={`mailto:${settings.contactEmail}`}
                     className="flex flex-col gap-1 rounded-xl border border-border bg-surface p-4 hover:border-border-strong hover:bg-bg-subtle transition-all duration-200 group"

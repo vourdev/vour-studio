@@ -120,7 +120,7 @@ export default async function ContactPage() {
         {/* Social Platforms */}
         <Reveal delay={0.2} className="mt-10 flex flex-wrap items-center justify-center gap-3">
           <span className="font-mono text-xs text-text-faint">
-            Kanal lainnya:
+            Channel lainnya:
           </span>
           <div className="flex items-center gap-2">
             {socials.map((social) => (

@@ -129,6 +129,18 @@
     border-color: var(--border);
   }
 
+  /* Swipeable strips (the blog category tabs) scroll by drag, not by scrollbar:
+     the visible track would otherwise sit permanently under the row on systems
+     set to always show scrollbars. Keyboard and pointer scrolling still work. */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
   /* Static engineering lattice behind the hero. Pure CSS, so it costs one paint
      and never repaints; the canvas on top animates only the lit blocks. */
   .dot-grid {

@@ -7,7 +7,6 @@ import { Differentiators } from "@/components/sections/differentiators";
 import { FaqSection } from "@/components/sections/faq-section";
 import { FeaturedProducts } from "@/components/sections/featured-products";
 import { Hero } from "@/components/sections/hero";
-import { TrustBar } from "@/components/sections/trust-bar";
 
 const Workflow = dynamic(() =>
   import("@/components/sections/workflow").then((m) => m.Workflow),
@@ -19,7 +18,6 @@ export default async function Home() {
   return (
     <>
       <Hero />
-      <TrustBar />
       <Differentiators />
       <ServicesShowcase />
       <FeaturedProducts products={products} />

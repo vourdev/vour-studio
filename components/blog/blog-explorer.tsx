@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ClockIcon } from "@phosphor-icons/react";
+import { ArrowUpRightIcon } from "@phosphor-icons/react";
 
 import { cn, formatDate } from "@/lib/utils";
 import { type PostCategory } from "@/lib/data/posts";
@@ -20,114 +20,124 @@ type PostItem = {
   };
 };
 
+const ALL = "Semua";
+
 export function BlogExplorer({ posts }: { posts: PostItem[] }) {
-  const [activeCategory, setActiveCategory] = useState<string>("Semua");
+  const [activeCategory, setActiveCategory] = useState<string>(ALL);
 
-  // Compute category counts
-  const categoriesWithCounts = useMemo(() => {
-    const counts: Record<string, number> = { Semua: posts.length };
+  const categories = useMemo(() => {
+    const seen: string[] = [];
     posts.forEach((post) => {
-      const cat = post.meta.category;
-      counts[cat] = (counts[cat] || 0) + 1;
+      if (!seen.includes(post.meta.category)) seen.push(post.meta.category);
     });
-
-    return Object.entries(counts).map(([name, count]) => ({
-      name,
-      count,
-    }));
+    return [ALL, ...seen];
   }, [posts]);
 
-  // Filter posts
   const filteredPosts = useMemo(() => {
-    if (activeCategory === "Semua") return posts;
+    if (activeCategory === ALL) return posts;
     return posts.filter((post) => post.meta.category === activeCategory);
   }, [posts, activeCategory]);
 
   return (
-    <div className="space-y-10">
-      {/* Category filters */}
-      <div className="flex flex-wrap items-center gap-2 border-b border-border pb-6">
-        {categoriesWithCounts.map((cat) => {
-          const isActive = activeCategory === cat.name;
-          return (
-            <button
-              key={cat.name}
-              type="button"
-              onClick={() => setActiveCategory(cat.name)}
-              className={cn(
-                "inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-mono transition-all duration-200 cursor-pointer",
-                isActive
-                  ? "bg-text text-bg border border-text font-bold shadow-xs"
-                  : "bg-surface text-text-muted border border-border hover:border-border-strong hover:text-text"
-              )}
-            >
-              <span>{cat.name}</span>
-              <span
+    <div>
+      {/* Tabs swipe horizontally on mobile instead of wrapping to a second row.
+          Above md the row always fits, so the scroll container is dropped
+          entirely rather than left in place with nothing to scroll. */}
+      <div className="no-scrollbar -mx-4 overflow-x-auto border-b border-border px-4 md:mx-0 md:overflow-x-visible md:px-0">
+        <div role="tablist" className="flex w-max min-w-full items-center gap-7 md:w-auto">
+          {categories.map((name) => {
+            const isActive = activeCategory === name;
+            return (
+              <button
+                key={name}
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                onClick={() => setActiveCategory(name)}
                 className={cn(
-                  "inline-flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-mono font-semibold",
-                  isActive ? "bg-bg text-text" : "bg-bg-subtle text-text-faint"
+                  "-mb-px cursor-pointer border-b-2 pb-4 text-sm whitespace-nowrap transition-colors duration-200",
+                  isActive
+                    ? "border-accent font-semibold text-text"
+                    : "border-transparent text-text-muted hover:text-text",
                 )}
               >
-                {cat.count}
-              </span>
-            </button>
-          );
-        })}
+                {name}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-      {/* Grid of articles */}
-      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {filteredPosts.map((post) => (
-          <article
-            key={post.slug}
-            className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-surface shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-border-strong hover:shadow-md"
+      {filteredPosts.length === 0 ? (
+        <div className="mt-16 rounded-surface border border-dashed border-border-strong px-6 py-16 text-center">
+          <p className="text-base font-semibold text-text">
+            Belum ada artikel di kategori ini
+          </p>
+          <p className="mx-auto mt-2 max-w-[46ch] text-sm leading-relaxed text-text-muted">
+            Artikel baru terbit secara berkala. Sementara itu, lihat semua
+            tulisan yang sudah tersedia.
+          </p>
+          <button
+            type="button"
+            onClick={() => setActiveCategory(ALL)}
+            className="mt-6 cursor-pointer font-mono text-xs font-semibold text-accent-text underline underline-offset-4 hover:no-underline"
           >
-            <Link href={`/blog/${post.slug}`} className="flex flex-1 flex-col">
-              {/* Edge-to-edge Image Header */}
-              <div className="relative aspect-16/10 w-full overflow-hidden border-b border-border bg-bg-subtle">
-                <Image
-                  src={post.meta.image}
-                  alt={post.meta.title}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-700 ease-out-expo group-hover:scale-105"
-                />
-              </div>
-
-              {/* Card Content details */}
-              <div className="flex flex-1 flex-col justify-between p-6">
-                <div>
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-accent-text">
-                      {post.meta.category}
-                    </span>
-                    <span className="flex items-center gap-1 font-mono text-[11px] text-text-faint">
-                      <ClockIcon className="size-3.5" />
+            Tampilkan semua artikel
+          </button>
+        </div>
+      ) : (
+        <div className="mt-12 grid gap-x-8 gap-y-14 md:grid-cols-2 lg:grid-cols-3">
+          {filteredPosts.map((post) => (
+            <article key={post.slug} className="group">
+              <Link href={`/blog/${post.slug}`} className="block">
+                <div className="relative aspect-16/10 w-full overflow-hidden rounded-surface border border-border bg-bg-subtle">
+                  <Image
+                    src={post.meta.image}
+                    alt={post.meta.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-700 ease-out-expo group-hover:scale-[1.03]"
+                  />
+                  {/* Metadata reads over the photo, so the strip carries its own
+                      scrim: it stays legible where backdrop-filter is unsupported
+                      or disabled by prefers-reduced-transparency. */}
+                  <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-4 border-t border-white/15 bg-black/55 px-4 py-3 font-mono text-[11px] text-white backdrop-blur-md">
+                    <span className="tabular-nums">
+                      <time dateTime={post.meta.date}>
+                        {formatDate(post.meta.date)}
+                      </time>
+                      <span className="px-1.5 text-white/40">·</span>
                       {post.meta.readingMinutes} menit baca
                     </span>
+                    <span className="shrink-0 font-semibold">
+                      {post.meta.category}
+                    </span>
                   </div>
-
-                  <h3 className="mt-3.5 text-lg font-bold leading-snug tracking-tight text-text transition-colors duration-200 group-hover:text-accent-text">
-                    {post.meta.title}
-                  </h3>
-
-                  <p className="mt-2 text-xs leading-relaxed text-text-muted line-clamp-3">
-                    {post.meta.description}
-                  </p>
                 </div>
 
-                <div className="mt-6 flex items-center justify-between border-t border-border pt-4 font-mono text-[11px] text-text-faint">
-                  <span>{formatDate(post.meta.date)}</span>
-                  <span className="inline-flex items-center gap-1 font-semibold text-accent-text transition-transform duration-200 group-hover:translate-x-0.5">
-                    Baca Artikel →
-                  </span>
-                </div>
-              </div>
-            </Link>
-          </article>
-        ))}
-      </div>
+                <h2 className="mt-6 text-xl font-semibold leading-snug tracking-tight text-balance text-text decoration-accent decoration-2 underline-offset-4 group-hover:underline">
+                  {post.meta.title}
+                </h2>
+
+                <p className="mt-3 line-clamp-2 max-w-[52ch] text-sm leading-relaxed text-text-muted">
+                  {post.meta.description}
+                </p>
+
+                <span className="mt-5 inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-accent-text">
+                  Baca artikel
+                  <ArrowUpRightIcon
+                    weight="bold"
+                    aria-hidden
+                    className="size-3.5 transition-transform duration-200 ease-out-expo group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  />
+                </span>
+              </Link>
+            </article>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
+
 export default BlogExplorer;

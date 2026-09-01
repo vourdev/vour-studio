@@ -55,7 +55,7 @@ export const projects: Project[] = [
     result:
       "Pesanan grosir masuk lewat satu jalur yang tercatat, bukan tercecer di beberapa aplikasi chat.",
     challenge:
-      "Pesanan datang dari berbagai kanal dan sesekali terlewat. Saat ada selisih, tidak ada satu catatan yang bisa dicek ulang.",
+      "Pesanan datang dari berbagai Channel dan sesekali terlewat. Saat ada selisih, tidak ada satu catatan yang bisa dicek ulang.",
     solution:
       "Halaman pemesanan dengan konfirmasi otomatis, plus notifikasi internal tiap pesanan baru masuk, jadi tidak ada pembeli yang menunggu tanpa jawaban.",
     technology: ["Web Application", "Automation"],

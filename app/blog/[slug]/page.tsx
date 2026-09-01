@@ -1,10 +1,16 @@
-import { ArrowLeftIcon, ArrowRightIcon } from "@phosphor-icons/react/ssr";
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  CalendarBlankIcon,
+  ClockIcon,
+} from "@phosphor-icons/react/ssr";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { ArticleContent } from "@/components/blog/article-content";
+import { Logo } from "@/components/layout/logo";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { getPost, getPosts } from "@/lib/cms";
@@ -79,39 +85,51 @@ export default async function ResourcePage({ params }: PageProps<"/blog/[slug]">
           Kembali ke Blog
         </Link>
 
-        <h1 className="mt-8 font-mono text-3xl font-bold leading-[1.15] tracking-tight text-balance text-text sm:text-4xl">
+        <p className="mt-9 font-mono text-xs font-semibold uppercase tracking-[0.16em] text-accent-text">
+          {post.category}
+        </p>
+
+        <h1 className="mt-4 font-mono text-2xl font-bold leading-[1.2] tracking-tight text-balance text-text sm:text-3xl md:text-4xl">
           {post.title}
         </h1>
 
-        <p className="mt-5 max-w-[60ch] text-base leading-relaxed text-pretty text-text-muted md:text-lg">
+        <p className="mt-6 max-w-[56ch] text-base leading-relaxed text-pretty text-text-muted md:text-lg">
           {post.description}
         </p>
+      </Container>
 
-        <div className="mt-7 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-border pt-5">
-          <span className="inline-flex rounded-control bg-accent-soft px-2.5 py-1 font-mono text-[11px] font-semibold tracking-wide text-accent-text">
-            {post.category}
+      {/* The cover breaks wider than the reading column: it is the article's
+          one full-scale visual, and the body returns to a 3xl measure below. */}
+      <Container className="mt-12 max-w-5xl md:mt-14">
+        <Image
+          src={post.image}
+          alt={`Gambar Cover ${post.title}`}
+          width={1600}
+          height={900}
+          priority
+          sizes="(max-width: 1088px) 100vw, 1088px"
+          className="aspect-16/9 w-full rounded-surface object-cover outline outline-white/10 -outline-offset-1"
+        />
+      </Container>
+
+      <Container className="mt-10 max-w-3xl">
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-b border-border pb-8 font-mono text-xs text-text-faint">
+          <span className="inline-flex items-center gap-2">
+            Ditulis oleh
+            <Logo className="text-sm text-text" />
           </span>
-          <span className="font-mono text-xs tabular-nums text-text-faint">
+          <span className="inline-flex items-center gap-2 tabular-nums">
+            <CalendarBlankIcon className="size-4" aria-hidden />
             <time dateTime={post.date}>{formatDate(post.date)}</time>
-            <span className="px-1.5 text-border-strong">·</span>
+          </span>
+          <span className="inline-flex items-center gap-2 tabular-nums">
+            <ClockIcon className="size-4" aria-hidden />
             {post.readingMinutes} menit baca
           </span>
         </div>
       </Container>
 
-      <Container className="mt-10 max-w-4xl md:mt-12">
-        <Image
-          src={post.image}
-          alt={`Gambar Cover ${post.title}`}
-          width={1200}
-          height={675}
-          priority
-          sizes="(max-width: 896px) 100vw, 896px"
-          className="aspect-16/9 w-full rounded-surface object-cover outline outline-white/10 -outline-offset-1"
-        />
-      </Container>
-
-      <Container className="mt-12 max-w-3xl md:mt-16">
+      <Container className="mt-12 max-w-3xl md:mt-14">
         <div className="article-prose">
           <ArticleContent content={post.content} />
         </div>

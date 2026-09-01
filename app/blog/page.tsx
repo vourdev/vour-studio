@@ -28,45 +28,41 @@ export default async function BlogPage() {
         // Static, author-controlled object. No user input reaches this string.
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
       />
-      {/* 1. Header Hero Area */}
-      <Container className="text-left">
+      <Container>
         <Reveal>
-          <div className="max-w-2xl">
-            <span className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-accent-text">
-              Blog & Insights
-            </span>
-            <h1 className="mt-3 font-mono text-3xl font-bold tracking-tight text-text sm:text-4xl md:text-5xl">
+          {/* Title and standfirst share one baseline on desktop and stack on
+              mobile, so the standfirst never floats loose in a corner. */}
+          <div className="grid items-end gap-6 md:grid-cols-12 md:gap-10">
+            <h1 className="font-mono text-4xl font-bold tracking-tight text-text sm:text-5xl md:col-span-7 md:text-6xl">
               Insights
             </h1>
-            <p className="mt-4 max-w-[60ch] text-base leading-relaxed text-text-muted">
-              Jawaban atas pertanyaan yang biasanya muncul sebelum sebuah website
-              dibuat: memilih jenis website, memperkirakan biaya, sampai urusan
-              deployment dan server. Ditulis supaya bisa dibaca pemilik bisnis
-              maupun developer.
-            </p>
-            <p className="mt-4 max-w-[60ch] text-sm leading-relaxed text-text-muted">
-              Sudah tahu yang dibutuhkan?{" "}
-              <Link
-                href="/solutions"
-                className="text-accent-text underline underline-offset-4 hover:no-underline"
-              >
-                Lihat layanan vour.dev
-              </Link>{" "}
-              atau{" "}
-              <Link
-                href="/estimate"
-                className="text-accent-text underline underline-offset-4 hover:no-underline"
-              >
-                hitung estimasi biaya project
-              </Link>
-              .
+            <p className="max-w-[46ch] text-base leading-relaxed text-text-muted md:col-span-5 md:justify-self-end md:text-right">
+              Panduan memilih jenis website, memperkirakan biaya, sampai urusan
+              deployment dan server.
             </p>
           </div>
+
+          <p className="mt-8 max-w-[60ch] text-sm leading-relaxed text-text-muted">
+            Sudah tahu yang dibutuhkan?{" "}
+            <Link
+              href="/solutions"
+              className="text-accent-text underline underline-offset-4 hover:no-underline"
+            >
+              Lihat layanan vour.dev
+            </Link>{" "}
+            atau{" "}
+            <Link
+              href="/estimate"
+              className="text-accent-text underline underline-offset-4 hover:no-underline"
+            >
+              hitung estimasi biaya project
+            </Link>
+            .
+          </p>
         </Reveal>
       </Container>
 
-      {/* 2. Main content grid */}
-      <Container className="mt-12 md:mt-16">
+      <Container className="mt-14 md:mt-20">
         <BlogExplorer posts={posts} />
       </Container>
     </div>

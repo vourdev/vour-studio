@@ -11,6 +11,7 @@ import { PRIMARY_CTA, PRODUCTS_CTA, SERVICE_CTA } from "@/lib/site";
  * Copy rule from the brief: `summary`, `answer` and `outcomes` sell the
  * outcome and never name a technology. `offerings` may be technical, because
  * it renders only on `/solutions`, where a technical buyer has asked for it.
+ * `indexSummary` is the one other exception, and says so at its declaration.
  */
 
 export type ServiceOffering = {
@@ -30,6 +31,16 @@ export type Service = {
   answer: string;
   /** One-line card summary for listings. */
   summary: string;
+  /**
+   * The line under each entry of the home service index.
+   *
+   * Held to a single length band (85-94 characters) so every entry wraps to
+   * the same two lines and the row keeps one baseline. Unlike `summary`, this
+   * line may name the technology the service is built on: it sits beside the
+   * service name where a visitor is comparing options, and the stack is part
+   * of that comparison.
+   */
+  indexSummary: string;
   /** What the client gets back, not what we do. */
   outcomes: string[];
   /** The concrete deliverables inside this service. */
@@ -51,6 +62,8 @@ export const services: Service[] = [
       "Jasa pembuatan website vour.dev mencakup landing page, company profile, website portfolio, dan website custom sesuai kebutuhan bisnis. Pengerjaannya dimulai dari perancangan struktur halaman dan tampilan, dilanjutkan pembuatan, lalu pemasangan sampai website bisa diakses publik di domain Anda.",
     summary:
       "Landing page, company profile, website portfolio, dan website custom. Dibuat supaya cepat dibuka, rapi di layar kecil, dan mudah ditambah halaman baru.",
+    indexSummary:
+      "Landing page, company profile, dan website custom. Dibangun dengan Next.js dan Tailwind CSS.",
     outcomes: [
       "Halaman terbuka cepat, termasuk di koneksi seluler",
       "Tetap rapi dari layar HP sampai monitor lebar",
@@ -94,6 +107,8 @@ export const services: Service[] = [
       "Bisnis membutuhkan web application ketika pengunjung atau tim tidak cukup hanya membaca halaman, tetapi harus login, mengisi, mengubah, dan melihat data. Contohnya dashboard operasional, panel admin, dan sistem pencatatan internal yang selama ini dikerjakan lewat spreadsheet.",
     summary:
       "Dashboard, panel internal, dan aplikasi web dengan alur login dan data. Untuk pekerjaan yang sudah tidak muat lagi di spreadsheet.",
+    indexSummary:
+      "Dashboard operasional, panel admin, dan sistem internal. React, Node.js, dan PostgreSQL.",
     outcomes: [
       "Data operasional tercatat di satu tempat, bukan di banyak file",
       "Akses tiap orang dibatasi sesuai perannya",
@@ -136,6 +151,8 @@ export const services: Service[] = [
       "Ya. vour.dev mengerjakan deployment, konfigurasi server, Docker, dan konfigurasi jaringan. Layanan ini bisa diambil sebagai bagian dari pembuatan website, atau berdiri sendiri untuk aplikasi yang sudah Anda miliki tetapi belum berjalan stabil di production.",
     summary:
       "Website atau aplikasi dipasang sampai bisa diakses publik: server, domain, sertifikat HTTPS, proses rilis, dan pemantauan.",
+    indexSummary:
+      "Deployment ke VPS atau Shared Hosting. Konfigurasi Nginx, Docker, SSL, sampai domain siap diakses.",
     outcomes: [
       "Website bisa diakses publik di domain Anda sendiri",
       "Versi baru bisa dirilis tanpa menurunkan situs",
@@ -178,6 +195,8 @@ export const services: Service[] = [
       "Produk digital vour.dev berupa template website, template portfolio, template landing page, developer resources, ebook, dan AI workflow. Semuanya dibeli sekali dan langsung bisa dipakai, tanpa proses pemesanan project.",
     summary:
       "Template dan bahan siap pakai yang sudah melewati tahap setup membosankan, jadi hari pertama Anda dipakai menulis fitur.",
+    indexSummary:
+      "Template website dan developer resources siap pakai. Next.js, Tailwind CSS, dokumentasi.",
     outcomes: [
       "Struktur folder dan konfigurasi sudah ditata dari awal",
       "Petunjuk pemasangan dan hosting ikut di dalamnya",
@@ -229,6 +248,8 @@ export const services: Service[] = [
       "Belum. AI automation masih kami siapkan dan belum dibuka sebagai layanan berbayar. Kalau kebutuhan Anda ke arah sana, silakan tetap hubungi kami supaya bisa kami kabari saat layanannya dibuka.",
     summary:
       "Menyambungkan sistem yang sudah Anda pakai supaya pekerjaan salin-tempel harian berhenti. Layanan ini masih kami siapkan.",
+    indexSummary:
+      "Otomasi alur kerja berulang. Integrasi n8n dan model bahasa ke sistem yang sudah berjalan.",
     outcomes: [
       "Alur kerja berulang dipetakan lalu dijalankan otomatis",
       "Data antar-tool operasional berhenti dicatat dua kali",
