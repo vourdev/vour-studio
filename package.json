@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/warm-cms.mjs && next build",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "warm-cms": "node scripts/warm-cms.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

@@ -37,11 +37,50 @@ import { defaultSiteSettings, type SiteSettings } from "@/lib/site";
 export const CMS_API_URL =
   process.env.CMS_API_URL ?? process.env.LEAD_API_URL ?? "http://localhost:3000";
 
-/** A stalled CMS must not hang a page render. Fall back after 10s. */
-const FETCH_TIMEOUT_MS = 10_000;
-
 /** Time-based revalidation (ISR). New products appear within this window. */
 const REVALIDATE_SECONDS = 60;
+
+/** A stalled CMS must not hang a page render, but 10s was too tight: the
+ * backend runs on a VPS whose outbound link stalls in bursts, and a cold Neon
+ * connection alone can take 10-20s. The 1 Sep 2026 production build timed out
+ * on all four fetches and prerendered every page from the static fallbacks. */
+const FETCH_TIMEOUT_MS = 25_000;
+
+/** One retry, because the failures are transient stalls rather than the CMS
+ * being down. Short pause so a cold container has a moment to warm up. */
+const RETRY_DELAY_MS = 1_500;
+
+/**
+ * Fetch JSON from the CMS and THROW on failure -- never resolve to degraded
+ * data. Retries once on a timeout or a 5xx; a 4xx is a real answer and is not
+ * worth repeating.
+ */
+async function cmsFetch<T>(path: string): Promise<T> {
+  let lastError: unknown;
+
+  for (let attempt = 0; attempt < 2; attempt++) {
+    if (attempt > 0) {
+      await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY_MS));
+    }
+    try {
+      const response = await fetch(`${CMS_API_URL}${path}`, {
+        next: { revalidate: REVALIDATE_SECONDS },
+        signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+      });
+      if (response.ok) return (await response.json()) as T;
+
+      const error = new Error(`[cms] ${path} gagal (${response.status}).`);
+      if (response.status < 500) throw error;
+      lastError = error;
+    } catch (error) {
+      // A 4xx is final; rethrow it instead of burning the retry on it.
+      if (error instanceof Error && /gagal \(4\d\d\)/.test(error.message)) throw error;
+      lastError = error;
+    }
+  }
+
+  throw lastError;
+}
 
 /** Shape of a product doc returned by `GET /api/products?depth=1`. Field names
  * mirror the marketing site's `Product` type by design (see the admin's
@@ -102,14 +141,9 @@ function toProduct(doc: PayloadProduct): Product {
 /** Fetch and THROW on failure — never resolve to degraded data. The caller
  * decides what to do with the error. */
 async function fetchProductsFromCms(): Promise<PayloadProduct[]> {
-  const response = await fetch(`${CMS_API_URL}/api/products?depth=1&limit=100`, {
-    next: { revalidate: REVALIDATE_SECONDS },
-    signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
-  });
-  if (!response.ok) {
-    throw new Error(`[cms] /api/products gagal (${response.status}).`);
-  }
-  const data = (await response.json()) as PayloadListResponse<PayloadProduct>;
+  const data = await cmsFetch<PayloadListResponse<PayloadProduct>>(
+    "/api/products?depth=1&limit=100",
+  );
   return data.docs;
 }
 
@@ -182,14 +216,9 @@ function toProject(doc: PayloadProject): Project {
 
 /** Fetch and THROW on failure — never resolve to degraded data. */
 async function fetchProjectsFromCms(): Promise<PayloadProject[]> {
-  const response = await fetch(`${CMS_API_URL}/api/projects?depth=1&limit=100`, {
-    next: { revalidate: REVALIDATE_SECONDS },
-    signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
-  });
-  if (!response.ok) {
-    throw new Error(`[cms] /api/projects gagal (${response.status}).`);
-  }
-  const data = (await response.json()) as PayloadListResponse<PayloadProject>;
+  const data = await cmsFetch<PayloadListResponse<PayloadProject>>(
+    "/api/projects?depth=1&limit=100",
+  );
   return data.docs;
 }
 
@@ -260,14 +289,9 @@ function toPost(doc: PayloadPost): Post {
 
 /** Fetch and THROW on failure — never resolve to degraded data. */
 async function fetchPostsFromCms(): Promise<PayloadPost[]> {
-  const response = await fetch(`${CMS_API_URL}/api/posts?depth=1&limit=100`, {
-    next: { revalidate: REVALIDATE_SECONDS },
-    signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
-  });
-  if (!response.ok) {
-    throw new Error(`[cms] /api/posts gagal (${response.status}).`);
-  }
-  const data = (await response.json()) as PayloadListResponse<PayloadPost>;
+  const data = await cmsFetch<PayloadListResponse<PayloadPost>>(
+    "/api/posts?depth=1&limit=100",
+  );
   return data.docs;
 }
 
@@ -326,14 +350,7 @@ type PayloadSiteSettings = {
 
 /** Fetch and THROW on failure — never resolve to degraded data. */
 async function fetchSiteSettingsFromCms(): Promise<PayloadSiteSettings> {
-  const response = await fetch(`${CMS_API_URL}/api/globals/site-settings`, {
-    next: { revalidate: REVALIDATE_SECONDS },
-    signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
-  });
-  if (!response.ok) {
-    throw new Error(`[cms] /api/globals/site-settings gagal (${response.status}).`);
-  }
-  return (await response.json()) as PayloadSiteSettings;
+  return cmsFetch<PayloadSiteSettings>("/api/globals/site-settings");
 }
 
 const getCachedSiteSettings = unstable_cache(
