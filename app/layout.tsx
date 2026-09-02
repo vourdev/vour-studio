@@ -98,7 +98,20 @@ export const viewport: Viewport = {
   ],
 };
 
-export const dynamic = "force-dynamic";
+/**
+ * ISR floor for every route beneath this layout.
+ *
+ * `force-dynamic` sat here and made all fourteen routes server-render on every
+ * request, `/contact` and `/about` included, even though nothing on the site
+ * reads cookies, headers or search params. Every navigation then paid a fresh
+ * render plus at least one round trip to the Jakarta VPS, because the root
+ * layout awaits `getSiteSettings()` on every page.
+ *
+ * Freshness does not depend on this number: the admin calls
+ * `POST /api/revalidate` after every write, which expires the CMS cache tags
+ * and this path. The window only matters if a webhook is lost.
+ */
+export const revalidate = 300;
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const settings = await getSiteSettings();

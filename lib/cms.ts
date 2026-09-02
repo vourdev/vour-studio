@@ -14,6 +14,8 @@
  * NOTE: server-only module. Import it from server components / server actions,
  * never from client components — it reads `process.env` and uses `fetch`.
  */
+import { unstable_cache } from "next/cache";
+
 import {
   products as fallbackProducts,
   type Product,
@@ -35,6 +37,17 @@ import { defaultSiteSettings, type SiteSettings } from "@/lib/site";
 export const CMS_API_URL =
   process.env.CMS_API_URL ?? process.env.LEAD_API_URL ?? "http://localhost:3000";
 
+/**
+ * Safety net, not the primary freshness mechanism.
+ *
+ * The admin calls `POST /api/revalidate` on every create, update and delete
+ * (see its `createCrudHandlers`), and that webhook expires these cache tags, so
+ * an edit is live within a second or two. This TTL only covers a webhook that
+ * never arrives -- the VPS link drops in bursts -- and stops content from
+ * sticking forever if one is lost.
+ */
+const REVALIDATE_SECONDS = 300;
+
 /** A stalled CMS must not hang a page render, but 10s was too tight: the
  * backend runs on a VPS whose outbound link stalls in bursts, and a cold Neon
  * connection alone can take 10-20s. The 1 Sep 2026 production build timed out
@@ -46,9 +59,9 @@ const FETCH_TIMEOUT_MS = 25_000;
 const RETRY_DELAY_MS = 1_500;
 
 /**
- * Fetch JSON from the CMS live (cache: no-store) and THROW on failure -- never
- * resolve to degraded data. Retries once on a timeout or a 5xx; a 4xx is a real
- * answer and is not worth repeating.
+ * Fetch JSON from the CMS and THROW on failure -- never resolve to degraded
+ * data. Retries once on a timeout or a 5xx; a 4xx is a real answer and is not
+ * worth repeating.
  */
 async function cmsFetch<T>(path: string): Promise<T> {
   let lastError: unknown;
@@ -59,7 +72,7 @@ async function cmsFetch<T>(path: string): Promise<T> {
     }
     try {
       const response = await fetch(`${CMS_API_URL}${path}`, {
-        cache: "no-store",
+        next: { revalidate: REVALIDATE_SECONDS },
         signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
       });
       if (response.ok) return (await response.json()) as T;
@@ -142,11 +155,17 @@ async function fetchProductsFromCms(): Promise<PayloadProduct[]> {
   return data.docs;
 }
 
+const getCachedProducts = unstable_cache(fetchProductsFromCms, ["cms-products"], {
+  revalidate: REVALIDATE_SECONDS,
+  tags: ["cms-products"],
+});
+
 /** Digital products from the CMS. Falls back to `lib/data/products.ts` only
- * when CMS is unreachable; an empty CMS renders the designed empty states. */
+ * when nothing good is cached; a failed fetch is never cached, so recovery is
+ * immediate once the CMS answers again. */
 export async function getProducts(): Promise<Product[]> {
   try {
-    const docs = await fetchProductsFromCms();
+    const docs = await getCachedProducts();
     return docs.map(toProduct);
   } catch (error) {
     console.warn("[cms] CMS tidak dapat dihubungi. Memakai data statis.", error);
@@ -208,11 +227,16 @@ async function fetchProjectsFromCms(): Promise<PayloadProject[]> {
   return data.docs;
 }
 
+const getCachedProjects = unstable_cache(fetchProjectsFromCms, ["cms-projects"], {
+  revalidate: REVALIDATE_SECONDS,
+  tags: ["cms-projects"],
+});
+
 /** Portfolio case studies from the CMS. Falls back to `lib/data/projects.ts`
- * only when CMS is unreachable; an empty CMS renders an empty list. */
+ * only when nothing good is cached; an empty CMS renders an empty list. */
 export async function getProjects(): Promise<Project[]> {
   try {
-    const docs = await fetchProjectsFromCms();
+    const docs = await getCachedProjects();
     return docs.map(toProject);
   } catch (error) {
     console.warn("[cms] CMS tidak dapat dihubungi. Memakai data statis.", error);
@@ -273,12 +297,17 @@ async function fetchPostsFromCms(): Promise<PayloadPost[]> {
   return data.docs;
 }
 
+const getCachedPosts = unstable_cache(fetchPostsFromCms, ["cms-posts"], {
+  revalidate: REVALIDATE_SECONDS,
+  tags: ["cms-posts"],
+});
+
 /** Post metadata for listings, newest first — same `{ slug, meta }` shape the
  * old MDX index returned, so consumers barely change. Falls back to the static
- * posts only when CMS is unreachable. */
+ * posts only when nothing good is cached. */
 export async function getPosts(): Promise<{ slug: string; meta: PostMeta }[]> {
   try {
-    const docs = await fetchPostsFromCms();
+    const docs = await getCachedPosts();
     return docs
       .map((doc) => ({ slug: doc.slug, meta: toPostMeta(doc) }))
       .sort((a, b) => new Date(b.meta.date).getTime() - new Date(a.meta.date).getTime());
@@ -299,10 +328,34 @@ export async function getPosts(): Promise<{ slug: string; meta: PostMeta }[]> {
 }
 
 /** Full post (including the Lexical body) for the article page, or null. */
+/**
+ * One article by slug.
+ *
+ * `GET /api/posts/:slug` returns ~16 KB. Reading the whole list and filtering
+ * in JS -- which is what this did -- pulled ~162 KB of Lexical bodies to render
+ * one page, and both `generateMetadata` and the page component call this.
+ */
+const getCachedPost = unstable_cache(
+  async (slug: string) => {
+    try {
+      return await cmsFetch<PayloadPost>(`/api/posts/${encodeURIComponent(slug)}`);
+    } catch (error) {
+      // A slug that does not exist is a real answer, not an outage. Returning
+      // null here keeps it out of the "CMS unreachable" path, so a stale link
+      // renders the 404 page instead of logging a false alarm.
+      if (error instanceof Error && /gagal \(404\)/.test(error.message)) return null;
+      throw error;
+    }
+  },
+  ["cms-post"],
+  // Shares the `cms-posts` tag so the existing webhook expires single articles
+  // too; without it an edit would clear the listing and leave the article stale.
+  { revalidate: REVALIDATE_SECONDS, tags: ["cms-posts"] },
+);
+
 export async function getPost(slug: string): Promise<Post | null> {
   try {
-    const docs = await fetchPostsFromCms();
-    const doc = docs.find((post) => post.slug === slug);
+    const doc = await getCachedPost(slug);
     return doc ? toPost(doc) : null;
   } catch (error) {
     console.warn("[cms] CMS tidak dapat dihubungi. Memakai data statis.", error);
@@ -326,11 +379,20 @@ async function fetchSiteSettingsFromCms(): Promise<PayloadSiteSettings> {
   return cmsFetch<PayloadSiteSettings>("/api/globals/site-settings");
 }
 
+const getCachedSiteSettings = unstable_cache(
+  fetchSiteSettingsFromCms,
+  ["cms-site-settings"],
+  { revalidate: REVALIDATE_SECONDS, tags: ["cms-site-settings"] },
+);
+
 /** Contact + nav settings from the admin global; falls back to `lib/site.ts`
- * defaults when the CMS is unreachable or the fields are empty. */
+ * defaults when the CMS is unreachable or the fields are empty.
+ *
+ * The root layout awaits this on every route, so an uncached call here is one
+ * Jakarta round trip added to every single page render. */
 export async function getSiteSettings(): Promise<SiteSettings> {
   try {
-    const doc = await fetchSiteSettingsFromCms();
+    const doc = await getCachedSiteSettings();
     const fallback = defaultSiteSettings;
     return {
       contactEmail: doc.contact?.contactEmail || fallback.contactEmail,

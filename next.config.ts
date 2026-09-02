@@ -18,6 +18,18 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
+  experimental: {
+    /**
+     * How long the client router reuses a page it already fetched.
+     *
+     * The default for dynamic entries is 0, so returning to a page you visited
+     * a moment ago re-fetched its RSC payload from the origin every time --
+     * about 350 ms per hop on this site. 5 minutes matches the ISR floor in the
+     * root layout, and the CMS webhook still expires the server cache, so a
+     * visitor who reloads sees fresh content immediately.
+     */
+    staleTimes: { dynamic: 300, static: 300 },
+  },
   // Vercel answers 403 for every `.map` under /_next/static, so emitting them
   // only costs build time and leaves each chunk advertising a sourceMappingURL
   // that nothing can fetch.
