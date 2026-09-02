@@ -2,9 +2,17 @@
 
 import { useRef } from "react";
 import { motion } from "motion/react";
-import DottedMap from "dotted-map";
 
-import { useTheme } from "next-themes";
+/**
+ * The dot grid is a static asset, built by `scripts/generate-world-map.mjs`.
+ *
+ * It used to be generated here on every render and inlined as a `data:` URI,
+ * which put 934 kB of SVG into the /contact HTML twice -- once in the
+ * server-rendered `<img>`, once in the hydration payload -- and shipped
+ * `dotted-map` to the browser for a grid that never changes. As a file the
+ * browser fetches 21 kB gzipped and caches it.
+ */
+const MAP_SRC = "/world-map.svg";
 
 interface MapProps {
   dots?: Array<{
@@ -19,26 +27,6 @@ export default function WorldMap({
   lineColor = "#0ea5e9",
 }: MapProps) {
   const svgRef = useRef<SVGSVGElement>(null);
-  const map = new DottedMap({ height: 100, grid: "diagonal" });
-
-  // `resolvedTheme` is what the page actually renders as; `theme` can be
-  // "system" and would fall through to the light colours on a dark page. It is
-  // undefined during SSR, so dark is the default rather than the fallback:
-  // branching the other way renders a different SVG on the server than on the
-  // client and trips a hydration mismatch.
-  const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme !== "light";
-
-  const svgMap = map.getSVG({
-    // Sized and weighted for a near-black ground: at radius 0.22 and 25% alpha
-    // the grid disappears against #0a0a0a and leaves the arcs floating.
-    radius: 0.3,
-    color: isDark ? "#FFFFFF66" : "#00000066",
-    shape: "circle",
-    // Transparent so the grid sits on the page's own ground rather than
-    // painting a near-match rectangle over it.
-    backgroundColor: "transparent",
-  });
 
   const projectPoint = (lat: number, lng: number) => {
     const x = (lng + 180) * (800 / 360);
@@ -57,10 +45,17 @@ export default function WorldMap({
 
   return (
     <div className="relative aspect-[2/1] w-full font-sans">
+      {/* Decorative: the arcs and copy around it carry the meaning, so an empty
+          alt keeps it out of the accessibility tree. `next/image` is skipped on
+          purpose -- this is a vector, and routing it through the optimizer
+          would rasterise it. */}
       <img
-        src={`data:image/svg+xml;utf8,${encodeURIComponent(svgMap)}`}
+        src={MAP_SRC}
         className="h-full w-full [mask-image:linear-gradient(to_bottom,transparent,white_10%,white_90%,transparent)] pointer-events-none select-none"
-        alt="world map"
+        alt=""
+        aria-hidden
+        loading="lazy"
+        decoding="async"
         height="495"
         width="1056"
         draggable={false}
