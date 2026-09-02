@@ -45,7 +45,7 @@ Before completing tasks, verify with:
 - Server components call the `get*()` fetchers and pass the result down as props. Client components must **not** import `lib/cms.ts` (it reads `process.env` and `fetch`s); they receive data via props.
 
 - **One Accent**: Cyan/Turquoise `#39d5f6` (`--accent`). Background: Deep Black `#0a0a0a`. Primary: White `#ffffff`. Style: Flat, clean, developer tools aesthetic (Vercel, Linear, Raycast, Warp).
-- **Display Font**: Monospace (Geist Mono) for H1 hero, numbers, and labels only. Sans (Geist Sans) for section headings/body.
+- **Fonts**: Plus Jakarta Sans (`--font-sans`) for body and headings; JetBrains Mono (`--font-mono`) for years, figures, stack labels, and code only. Headings use the `font-display` utility, never `font-mono` -- monospace at display size is hard to read and Indonesian copy runs long. `--font-display` currently points at the body family; change it there, not at the call sites.
 - **Radii**: Card/panels: `rounded-surface` (12px), buttons/inputs: `rounded-control` (8px).
 - Tailwind CSS v4 styles are configured directly in `app/globals.css` (no `tailwind.config.js`).
 

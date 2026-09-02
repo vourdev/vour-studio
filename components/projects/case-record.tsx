@@ -76,18 +76,23 @@ function CaseRow({ project, index }: { project: Project; index: number }) {
   return (
     <article
       id={project.slug}
-      className="scroll-mt-28 py-14 md:py-20 lg:grid lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-x-14"
+      className="flex scroll-mt-28 flex-col py-14 md:py-20 lg:grid lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-x-14"
     >
-      {/* Meta rail. `self-start` is what lets `sticky` work inside a grid cell:
-          a stretched cell is already the full row height and never scrolls. */}
-      <div className="lg:sticky lg:top-28 lg:self-start">
+      {/* Meta rail: sticky beside the case on desktop, a footer to it on mobile.
+          Ordered last on small screens so the client name opens the record
+          rather than the stack labels, which read as noise before you know
+          whose project this is.
+
+          `self-start` is what lets `sticky` work inside a grid cell: a stretched
+          cell is already the full row height and never scrolls. */}
+      <div className="order-last mt-8 lg:order-none lg:mt-0 lg:sticky lg:top-28 lg:self-start">
         <div className="flex items-center gap-3 font-mono text-xs tabular-nums text-text-faint lg:block">
           <span className="text-accent-text">{project.year}</span>
           <span className="lg:mt-1 lg:block">{project.industry}</span>
         </div>
 
         {project.technology.length > 0 && (
-          <ul className="mt-4 flex flex-wrap gap-1.5 lg:mt-6">
+          <ul className="mt-3 flex flex-wrap gap-1.5 lg:mt-6">
             {project.technology.map((tech) => (
               <li
                 key={tech}
@@ -100,7 +105,7 @@ function CaseRow({ project, index }: { project: Project; index: number }) {
         )}
       </div>
 
-      <div className="mt-8 lg:mt-0">
+      <div>
         <h2 className="text-pretty font-display text-2xl font-semibold tracking-[-0.02em] md:text-[1.75rem]">
           {project.name}
         </h2>
