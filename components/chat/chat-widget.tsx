@@ -2,9 +2,7 @@
 
 import {
   ArrowUpIcon,
-  ChatCircleDotsIcon,
   WhatsappLogoIcon,
-  XIcon,
 } from "@phosphor-icons/react/ssr";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
@@ -73,6 +71,49 @@ async function* readStream(body: ReadableStream<Uint8Array>) {
       if (text) yield text;
     }
   }
+}
+
+/**
+ * The launcher mark, built from CSS boxes rather than an icon-set glyph.
+ *
+ * A stock chat bubble makes the assistant look like a bolted-on plugin. This
+ * one borrows the wordmark's motif: the dots are punched out in the accent so
+ * they read as holes in the bubble, the way the dot sits inside `vour.dev`.
+ * On hover they lift in sequence, which is the only motion here and the only
+ * one that earns its place: it answers the press before the panel opens.
+ */
+function ChatMark() {
+  return (
+    <span aria-hidden className="relative block size-6">
+      <span className="absolute inset-x-0 top-0 h-[17px] rounded-[7px] bg-current" />
+      <span className="absolute top-[11px] left-[5px] size-[8px] rotate-45 rounded-[2px] bg-current" />
+
+      <span className="absolute top-[7px] left-1/2 flex -translate-x-1/2 gap-[3px]">
+        {[0, 1, 2].map((index) => (
+          <span
+            key={index}
+            style={{ transitionDelay: `${index * 60}ms` }}
+            className="size-[3px] rounded-full bg-accent transition-transform duration-300 ease-out-expo motion-safe:group-hover:-translate-y-[2px]"
+          />
+        ))}
+      </span>
+    </span>
+  );
+}
+
+/** Paired with ChatMark so both launcher states come from the same hand. */
+function CloseMark() {
+  return (
+    <span aria-hidden className="relative block size-6">
+      {[45, -45].map((angle) => (
+        <span
+          key={angle}
+          style={{ transform: `rotate(${angle}deg)` }}
+          className="absolute top-1/2 left-1/2 h-[2px] w-[15px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-current"
+        />
+      ))}
+    </span>
+  );
 }
 
 /** Three dots, offset in time. Reads as "thinking" where a spinner reads as "loading". */
@@ -202,9 +243,9 @@ export function ChatWidget() {
       <button
         type="button"
         onClick={() => setOpen((value) => !value)}
-        aria-label={open ? "Tutup asisten" : "Buka asisten vour.dev"}
+        aria-label={open ? "Tutup asisten vour.dev" : "Buka asisten vour.dev"}
         aria-expanded={open}
-        className="fixed right-5 bottom-5 z-50 flex size-14 cursor-pointer items-center justify-center rounded-full bg-accent text-accent-fg shadow-[0_1px_0_rgba(255,255,255,0.3)_inset,0_8px_24px_-6px_rgba(57,213,246,0.5),0_2px_8px_rgba(0,0,0,0.4)] transition-[scale,background-color] duration-200 ease-out-expo hover:bg-accent-hover focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg focus-visible:outline-none active:scale-[0.96] md:right-8 md:bottom-8"
+        className="group fixed right-5 bottom-5 z-50 flex size-14 cursor-pointer items-center justify-center rounded-full bg-accent text-accent-fg shadow-[0_1px_0_rgba(255,255,255,0.3)_inset,0_8px_24px_-6px_rgba(57,213,246,0.5),0_2px_8px_rgba(0,0,0,0.4)] transition-[scale,background-color] duration-200 ease-out-expo hover:bg-accent-hover focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg focus-visible:outline-none active:scale-[0.96] md:right-8 md:bottom-8"
       >
         {/* Both icons stay mounted and cross-fade, so the swap has an exit too. */}
         <span className="relative grid size-6 place-items-center">
@@ -225,11 +266,7 @@ export function ChatWidget() {
               transition={reduceMotion ? { duration: 0 } : ICON_SPRING}
               className="col-start-1 row-start-1"
             >
-              {open ? (
-                <XIcon weight="bold" className="size-5" />
-              ) : (
-                <ChatCircleDotsIcon weight="fill" className="size-6" />
-              )}
+              {open ? <CloseMark /> : <ChatMark />}
             </motion.span>
           </AnimatePresence>
         </span>
@@ -267,10 +304,12 @@ export function ChatWidget() {
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                aria-label="Tutup asisten"
+                aria-label="Tutup jendela asisten"
                 className="-mr-2 flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-control text-text-faint transition-colors duration-200 ease-out hover:bg-surface hover:text-text focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none active:scale-[0.96]"
               >
-                <XIcon weight="bold" className="size-4" />
+                <span className="scale-[0.7]">
+                  <CloseMark />
+                </span>
               </button>
             </header>
 
