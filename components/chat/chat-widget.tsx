@@ -8,6 +8,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
+import { findAnswer } from "@/lib/chat/match";
 import { whatsappLink } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -20,7 +21,11 @@ const GREETING =
   "Halo. Saya asisten vour.dev. Silakan tanya soal layanan, paket, atau cara mulai project.";
 
 const FALLBACK =
-  "Maaf, asisten sedang tidak tersedia. Silakan hubungi kami lewat WhatsApp.";
+  "Pertanyaan itu belum ada di daftar jawaban saya. Tim kami bisa menjawabnya langsung lewat WhatsApp.";
+
+/** A lookup returns instantly. Without a beat the reply lands in the same
+    frame as the question and reads as a glitch rather than an answer. */
+const THINKING_MS = 260;
 
 const STARTERS = [
   "Apa itu vour.dev?",
@@ -29,49 +34,6 @@ const STARTERS = [
 ];
 
 type Message = { role: "user" | "assistant"; content: string };
-
-/**
- * Reads the gateway's SSE body. Two shapes matter: the normal
- * `choices[].delta.content` chunk, and an `error` object that arrives inside an
- * otherwise-successful stream. Treating the latter as text would print a JSON
- * blob into the conversation, so it throws instead.
- */
-async function* readStream(body: ReadableStream<Uint8Array>) {
-  const reader = body.getReader();
-  const decoder = new TextDecoder();
-  let buffer = "";
-
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-
-    buffer += decoder.decode(value, { stream: true });
-    const lines = buffer.split("\n");
-    buffer = lines.pop() ?? "";
-
-    for (const line of lines) {
-      if (!line.startsWith("data:")) continue;
-
-      const payload = line.slice(5).trim();
-      if (!payload || payload === "[DONE]") continue;
-
-      let chunk: {
-        error?: unknown;
-        choices?: { delta?: { content?: string } }[];
-      };
-      try {
-        chunk = JSON.parse(payload);
-      } catch {
-        continue;
-      }
-
-      if (chunk.error) throw new Error("gateway error in stream");
-
-      const text = chunk.choices?.[0]?.delta?.content;
-      if (text) yield text;
-    }
-  }
-}
 
 /**
  * The launcher mark, built from CSS boxes rather than an icon-set glyph.
@@ -154,6 +116,9 @@ export function ChatWidget() {
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const timerRef = useRef<number | undefined>(undefined);
+
+  useEffect(() => () => window.clearTimeout(timerRef.current), []);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({
@@ -176,45 +141,31 @@ export function ChatWidget() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [open]);
 
-  async function send(text: string) {
+  function send(text: string) {
     const question = text.trim();
     if (!question || pending) return;
 
-    // The reply streams into the last slot, so it is created empty up front.
-    const history: Message[] = [...messages, { role: "user", content: question }];
-    setMessages([...history, { role: "assistant", content: "" }]);
+    setMessages((current) => [
+      ...current,
+      { role: "user", content: question },
+      { role: "assistant", content: "" },
+    ]);
     setInput("");
     setPending(true);
 
-    const write = (content: string) =>
+    const result = findAnswer(question);
+
+    timerRef.current = window.setTimeout(() => {
       setMessages((current) => {
         const next = [...current];
-        next[next.length - 1] = { role: "assistant", content };
+        next[next.length - 1] = {
+          role: "assistant",
+          content: result.kind === "answer" ? result.answer.a : FALLBACK,
+        };
         return next;
       });
-
-    try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        // The greeting is ours, not the model's, and the route caps history at 10.
-        body: JSON.stringify({ messages: history.slice(1).slice(-10) }),
-      });
-
-      if (!response.ok || !response.body) throw new Error(String(response.status));
-
-      let answer = "";
-      for await (const delta of readStream(response.body)) {
-        answer += delta;
-        write(answer);
-      }
-
-      if (!answer.trim()) write(FALLBACK);
-    } catch {
-      write(FALLBACK);
-    } finally {
       setPending(false);
-    }
+    }, THINKING_MS);
   }
 
   const lastFailed = messages.at(-1)?.content === FALLBACK;
@@ -286,7 +237,7 @@ export function ChatWidget() {
             aria-label="Asisten vour.dev"
             className="fixed right-4 bottom-24 left-4 z-50 flex max-h-[min(34rem,72dvh)] flex-col overflow-hidden rounded-surface border border-border bg-surface-solid shadow-[0_24px_60px_-12px_rgba(0,0,0,0.7),0_0_0_1px_rgba(255,255,255,0.04)] md:right-8 md:bottom-28 md:left-auto md:w-[25rem]"
           >
-            <header className="flex items-center gap-3 border-b border-border px-4 py-3">
+            <header className="flex shrink-0 items-center gap-3 border-b border-border bg-surface-solid px-4 py-3">
               <Image
                 src="/images/vourdev-logo.jpeg"
                 alt=""
@@ -313,7 +264,7 @@ export function ChatWidget() {
               </button>
             </header>
 
-            <div className="relative min-h-0 flex-1">
+            <div className="relative flex min-h-0 flex-1 flex-col">
               {/* Content passing under the header fades instead of hard-cutting. */}
               <div
                 aria-hidden
@@ -324,7 +275,11 @@ export function ChatWidget() {
                 ref={scrollRef}
                 aria-live="polite"
                 aria-atomic="false"
-                className="h-full space-y-3 overflow-y-auto px-4 py-4"
+                /* Lenis owns the page's wheel events; without this opt-out the
+                   panel cannot scroll at all. `overscroll-contain` then stops a
+                   scroll that reaches the end from moving the page behind it. */
+                data-lenis-prevent
+                className="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain px-4 py-4"
               >
                 {messages.map((message, index) => {
                   const isUser = message.role === "user";
@@ -395,7 +350,7 @@ export function ChatWidget() {
                 event.preventDefault();
                 send(input);
               }}
-              className="flex items-center gap-2 border-t border-border p-3"
+              className="flex shrink-0 items-center gap-2 border-t border-border bg-surface-solid p-3"
             >
               <input
                 ref={inputRef}
@@ -404,7 +359,7 @@ export function ChatWidget() {
                 maxLength={1000}
                 placeholder="Tulis pertanyaan..."
                 aria-label="Pertanyaan untuk asisten"
-                className="h-10 min-w-0 flex-1 rounded-control border border-transparent bg-surface px-3 text-sm text-text transition-colors duration-200 ease-out outline-none placeholder:text-text-faint focus:border-accent"
+                className="h-10 min-w-0 flex-1 rounded-control border border-border bg-bg px-3 text-sm text-text transition-colors duration-200 ease-out outline-none placeholder:text-text-faint focus:border-accent"
               />
               <button
                 type="submit"
