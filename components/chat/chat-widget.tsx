@@ -2,13 +2,19 @@
 
 import {
   ArrowUpIcon,
+  ListBulletsIcon,
   WhatsappLogoIcon,
 } from "@phosphor-icons/react/ssr";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
-import { findAnswer } from "@/lib/chat/match";
+import {
+  findAnswer,
+  listTopics,
+  questionsByTopic,
+  topicLabel,
+} from "@/lib/chat/match";
 import { whatsappLink } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -23,6 +29,13 @@ const GREETING =
 const FALLBACK =
   "Pertanyaan itu belum ada di daftar jawaban saya. Tim kami bisa menjawabnya langsung lewat WhatsApp.";
 
+const NEAR_MISS =
+  "Saya belum punya jawaban persis untuk itu. Mungkin salah satu ini yang Anda cari:";
+
+const TOPIC_PROMPT = "Pilih topik untuk melihat pertanyaan yang tersedia:";
+
+const BROWSE_LABEL = "Lihat semua pertanyaan";
+
 /** A lookup returns instantly. Without a beat the reply lands in the same
     frame as the question and reads as a glitch rather than an answer. */
 const THINKING_MS = 260;
@@ -33,7 +46,24 @@ const STARTERS = [
   "Bagaimana cara mulai project?",
 ];
 
-type Message = { role: "user" | "assistant"; content: string };
+/** A tappable follow-up. Every route into the answer bank is one of these, so
+    a visitor never has to guess the wording of a question we can answer. */
+type Chip =
+  | { kind: "ask"; label: string }
+  | { kind: "topic"; label: string; topic: string };
+
+/** Every tappable follow-up wears this, so a suggestion, a topic and a
+    starter are visibly the same kind of thing. */
+const chipClass =
+  "flex min-h-10 w-full cursor-pointer items-center rounded-control border border-border px-3.5 py-2 text-left text-[0.8125rem] leading-snug text-text-muted transition-[color,border-color,background-color] duration-200 ease-out hover:border-border-strong hover:bg-surface hover:text-text focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none active:scale-[0.96]";
+
+type Message = {
+  role: "user" | "assistant";
+  content: string;
+  chips?: Chip[];
+  /** Shown under the message as the way out when we have no answer. */
+  whatsapp?: boolean;
+};
 
 /**
  * The launcher mark, built from CSS boxes rather than an icon-set glyph.
@@ -155,21 +185,74 @@ export function ChatWidget() {
 
     const result = findAnswer(question);
 
+    let reply: Message;
+    if (result.kind === "answer") {
+      reply = {
+        role: "assistant",
+        content: result.answer.a,
+        chips: result.related.map((entry) => ({ kind: "ask", label: entry.q })),
+      };
+    } else if (result.kind === "suggestions") {
+      reply = {
+        role: "assistant",
+        content: NEAR_MISS,
+        chips: result.options.map((entry) => ({ kind: "ask", label: entry.q })),
+      };
+    } else {
+      reply = {
+        role: "assistant",
+        content: FALLBACK,
+        chips: [{ kind: "topic", label: BROWSE_LABEL, topic: "" }],
+        whatsapp: true,
+      };
+    }
+
     timerRef.current = window.setTimeout(() => {
-      setMessages((current) => {
-        const next = [...current];
-        next[next.length - 1] = {
-          role: "assistant",
-          content: result.kind === "answer" ? result.answer.a : FALLBACK,
-        };
-        return next;
-      });
+      setMessages((current) => [...current.slice(0, -1), reply]);
       setPending(false);
     }, THINKING_MS);
   }
 
-  const lastFailed = messages.at(-1)?.content === FALLBACK;
+  /** The topic index, delivered as a message so browsing lives in the
+      conversation rather than in a separate panel the visitor has to close. */
+  function browseTopics() {
+    if (pending) return;
+
+    setMessages((current) => [
+      ...current,
+      {
+        role: "assistant",
+        content: TOPIC_PROMPT,
+        chips: listTopics().map((topic) => ({
+          kind: "topic",
+          label: topicLabel(topic),
+          topic,
+        })),
+      },
+    ]);
+  }
+
+  function openTopic(topic: string) {
+    if (pending) return;
+    if (!topic) return browseTopics();
+
+    const questions = questionsByTopic(topic);
+
+    setMessages((current) => [
+      ...current,
+      {
+        role: "assistant",
+        content: `Pertanyaan seputar ${topicLabel(topic)}:`,
+        chips: [
+          ...questions.map((entry) => ({ kind: "ask" as const, label: entry.q })),
+          { kind: "topic" as const, label: "Kembali ke daftar topik", topic: "" },
+        ],
+      },
+    ]);
+  }
+
   const isFresh = messages.length === 1;
+  const lastMessage = messages.at(-1);
 
   return (
     <>
@@ -248,15 +331,25 @@ export function ChatWidget() {
               />
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-medium text-text">Asisten vour.dev</p>
-                <p className="text-xs text-text-faint">
-                  Menjawab dari informasi layanan kami
+                <p className="truncate text-xs text-text-faint">
+                  Tanya seputar layanan kami
                 </p>
               </div>
               <button
                 type="button"
+                onClick={browseTopics}
+                aria-label="Lihat daftar pertanyaan"
+                title={BROWSE_LABEL}
+                className="flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-control text-text-faint transition-colors duration-200 ease-out hover:bg-surface hover:text-text focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none active:scale-[0.96]"
+              >
+                <ListBulletsIcon weight="bold" className="size-4" />
+              </button>
+
+              <button
+                type="button"
                 onClick={() => setOpen(false)}
                 aria-label="Tutup jendela asisten"
-                className="-mr-2 flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-control text-text-faint transition-colors duration-200 ease-out hover:bg-surface hover:text-text focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none active:scale-[0.96]"
+                className="-mr-2 flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-control text-text-faint transition-colors duration-200 ease-out hover:bg-surface hover:text-text focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none active:scale-[0.96]"
               >
                 <span className="scale-[0.7]">
                   <CloseMark />
@@ -306,12 +399,38 @@ export function ChatWidget() {
                   );
                 })}
 
-                {lastFailed && (
+                {/* Follow-ups for the newest reply only. Older chip sets stay in
+                    the transcript but stop competing for attention. */}
+                {!pending && lastMessage?.chips && lastMessage.chips.length > 0 && (
+                  <div className="flex flex-col items-start gap-2 pt-1">
+                    {lastMessage.chips.map((chip, index) => (
+                      <motion.button
+                        key={`${chip.kind}-${chip.label}`}
+                        type="button"
+                        onClick={() =>
+                          chip.kind === "ask" ? send(chip.label) : openTopic(chip.topic)
+                        }
+                        initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          duration: 0.3,
+                          delay: Math.min(index, 6) * 0.04,
+                          ease: EASE,
+                        }}
+                        className={cn(chipClass, chip.kind === "topic" && "text-accent-text")}
+                      >
+                        {chip.label}
+                      </motion.button>
+                    ))}
+                  </div>
+                )}
+
+                {!pending && lastMessage?.whatsapp && (
                   <a
                     href={whatsappLink()}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex min-h-10 items-center gap-2 rounded-control border border-border px-3.5 text-sm text-text transition-colors duration-200 ease-out hover:border-accent hover:text-accent-text focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none active:scale-[0.96]"
+                    className="mt-2 inline-flex min-h-10 items-center gap-2 rounded-control border border-border px-3.5 text-sm text-text transition-colors duration-200 ease-out hover:border-accent hover:text-accent-text focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none active:scale-[0.96]"
                   >
                     <WhatsappLogoIcon weight="fill" className="size-4" />
                     Hubungi via WhatsApp
@@ -334,11 +453,22 @@ export function ChatWidget() {
                             delay: index * 0.06,
                             ease: EASE,
                           }}
-                          className="flex min-h-10 cursor-pointer items-center rounded-control border border-border px-3.5 text-left text-[0.8125rem] text-text-muted transition-[color,border-color,background-color] duration-200 ease-out hover:border-border-strong hover:bg-surface hover:text-text focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none active:scale-[0.96]"
+                          className={chipClass}
                         >
                           {starter}
                         </motion.button>
                       ))}
+
+                      <motion.button
+                        type="button"
+                        onClick={browseTopics}
+                        initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: 0.18, ease: EASE }}
+                        className={cn(chipClass, "text-accent-text")}
+                      >
+                        {BROWSE_LABEL}
+                      </motion.button>
                     </div>
                   </div>
                 )}

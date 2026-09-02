@@ -51,7 +51,7 @@ const SYNONYMS: Record<string, string> = {
   milik: "kepemilikan", punyai: "kepemilikan", hak: "kepemilikan",
   layanan: "layanan", jasa: "layanan", service: "layanan",
   perusahaan: "identitas", studio: "identitas", agency: "identitas",
-  siapa: "identitas", profil: "identitas",
+  profil: "identitas",
 };
 
 function normalize(text: string) {
@@ -136,8 +136,74 @@ const THRESHOLD = 0.38;
  */
 
 export type MatchResult =
-  | { kind: "answer"; answer: Answer; score: number }
+  /** Confident enough to answer. `related` keeps the topic browsable. */
+  | { kind: "answer"; answer: Answer; related: Answer[] }
+  /** Recognised the subject but not the question. Offer what we do have. */
+  | { kind: "suggestions"; options: Answer[] }
   | { kind: "unmatched" };
+
+/**
+ * Anything scoring above this is related enough to offer as a choice, even
+ * though it is too weak to answer with. Asking about landing pages should
+ * surface every landing page question rather than dead-ending at WhatsApp.
+ */
+const SUGGEST_FLOOR = 0.22;
+
+const MAX_SUGGESTIONS = 5;
+const MAX_RELATED = 3;
+
+/** Unique answers, in knowledge-base order. Duplicates exist across sections. */
+const uniqueAnswers = index.map((entry) => entry.answer);
+
+/** Topics in the order the knowledge base introduces them. */
+export function listTopics(): string[] {
+  const seen: string[] = [];
+  for (const answer of uniqueAnswers) {
+    if (!seen.includes(answer.topic)) seen.push(answer.topic);
+  }
+  return seen;
+}
+
+export function questionsByTopic(topic: string): Answer[] {
+  return uniqueAnswers.filter((answer) => answer.topic === topic);
+}
+
+/**
+ * Visitor-facing names for the knowledge base's section headings. The headings
+ * were written for whoever maintains the file, so several are internal jargon
+ * ("Whatsapp Lead Qualification") or English where the site is Indonesian.
+ */
+const TOPIC_LABELS: Record<string, string> = {
+  "IDENTITAS VOUR.dev": "Tentang vour.dev",
+  "LAYANAN VOUR.dev": "Layanan",
+  "LANDING PAGE": "Landing Page",
+  "HOSTING & DEPLOYMENT": "Hosting & Deployment",
+  "SOURCE CODE": "Source Code",
+  TEKNOLOGI: "Teknologi",
+  HARGA: "Harga",
+  REVISI: "Revisi",
+  "CLIENT MATERIAL": "Materi dari Klien",
+  "PROSES PEMESANAN": "Cara Memesan",
+  "LANDING PAGE USE CASE": "Kegunaan Landing Page",
+  FITUR: "Fitur",
+  "SEO & PERFORMANCE": "SEO & Performa",
+  MAINTENANCE: "Maintenance",
+  KEAMANAN: "Keamanan",
+  DOMAIN: "Domain",
+  "SOURCE CODE & OWNERSHIP": "Kepemilikan",
+  "WHATSAPP LEAD QUALIFICATION": "Pertanyaan Umum",
+  "OBJECTION HANDLING": "Pertimbangan",
+  PRODUCTS: "Produk",
+  CONTACT: "Kontak",
+};
+
+export function topicLabel(topic: string): string {
+  return TOPIC_LABELS[topic] ?? topic;
+}
+
+export function findQuestion(question: string): Answer | undefined {
+  return uniqueAnswers.find((answer) => answer.q === question);
+}
 
 /** The brand's own name carries no topic, so a question made only of it is
     asking who we are. It is also the single likeliest opening question. */
@@ -150,7 +216,7 @@ export function findAnswer(question: string): MatchResult {
   if (tokens.length === 0) return { kind: "unmatched" };
 
   if (identityAnswer && tokens.every((token) => BRAND_TOKENS.has(token))) {
-    return { kind: "answer", answer: identityAnswer, score: 1 };
+    return { kind: "answer", answer: identityAnswer, related: [] };
   }
 
   const asked = new Set(tokens);
@@ -180,7 +246,25 @@ export function findAnswer(question: string): MatchResult {
   scored.sort((a, b) => b.score - a.score);
 
   const best = scored[0];
-  if (best.score < THRESHOLD) return { kind: "unmatched" };
 
-  return { kind: "answer", answer: best.answer, score: best.score };
+  if (best.score >= THRESHOLD) {
+    /* Sibling questions under the same topic. Whatever the visitor asked,
+       these are the next things they are likely to want. */
+    const related = scored
+      .slice(1)
+      .filter((entry) => entry.answer.topic === best.answer.topic)
+      .slice(0, MAX_RELATED)
+      .map((entry) => entry.answer);
+
+    return { kind: "answer", answer: best.answer, related };
+  }
+
+  const options = scored
+    .filter((entry) => entry.score >= SUGGEST_FLOOR)
+    .slice(0, MAX_SUGGESTIONS)
+    .map((entry) => entry.answer);
+
+  if (options.length > 0) return { kind: "suggestions", options };
+
+  return { kind: "unmatched" };
 }
