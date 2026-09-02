@@ -89,7 +89,7 @@ export default async function ResourcePage({ params }: PageProps<"/blog/[slug]">
           {post.category}
         </p>
 
-        <h1 className="mt-4 font-mono text-2xl font-bold leading-[1.2] tracking-tight text-balance text-text sm:text-3xl md:text-4xl">
+        <h1 className="mt-4 font-display text-2xl font-bold leading-[1.2] tracking-tight text-balance text-text sm:text-3xl md:text-4xl">
           {post.title}
         </h1>
 

@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { Reveal } from "@/components/motion/reveal";
-import { ProjectIndex } from "@/components/projects/project-index";
+import { CaseRecord } from "@/components/projects/case-record";
 import { ClosingCta } from "@/components/sections/closing-cta";
 import { Container, Section } from "@/components/ui/container";
 import { getProjects } from "@/lib/cms";
@@ -10,7 +10,7 @@ import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Project yang Sudah Dikerjakan vour.dev",
   description:
-    "Tiga catatan project, ditulis dari keluhan yang kami dengar di pertemuan pertama sampai apa yang berubah setelah sistemnya jalan.",
+    "Catatan project vour.dev, ditulis dari keluhan yang kami dengar di pertemuan pertama sampai apa yang berubah setelah sistemnya jalan.",
   path: "/projects",
 });
 
@@ -33,16 +33,15 @@ export default async function ProjectsPage() {
       <Section spacing="header">
         <Container>
           <Reveal>
-            <h1 className="max-w-[30ch] text-balance font-mono text-[1.8rem] font-semibold tracking-[-0.03em] md:text-[2.5rem]">
+            <h1 className="max-w-[30ch] text-balance font-display text-[1.8rem] font-semibold tracking-[-0.03em] md:text-[2.5rem]">
               Apa yang berubah setelah sistemnya jalan
             </h1>
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mt-5 max-w-[60ch] text-sm leading-relaxed text-text-muted md:text-base">
-              Tiap catatan di bawah dimulai dari keluhan yang kami dengar di
-              pertemuan pertama, bukan dari tangkapan layarnya. Buka satu baris
-              untuk melihat kondisi sebelumnya, apa yang dikerjakan, dan
-              hasilnya.
+              Tiap catatan dimulai dari keluhan yang kami dengar di pertemuan
+              pertama, bukan dari tangkapan layarnya. Kondisi sebelumnya, apa
+              yang dikerjakan, dan hasilnya ada di halaman ini semua.
             </p>
           </Reveal>
           <Reveal delay={0.15}>
@@ -61,7 +60,7 @@ export default async function ProjectsPage() {
       </Section>
 
       <Section spacing="continued">
-        <ProjectIndex projects={projects} />
+        <CaseRecord projects={projects} />
       </Section>
 
       <ClosingCta />

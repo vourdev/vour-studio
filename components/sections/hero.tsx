@@ -83,7 +83,7 @@ export function Hero() {
         <KineticHeading
           text="Website, Web Application, dan Deployment untuk Bisnis Anda."
           accentFrom={5}
-          className="font-mono text-[1.85rem] font-semibold leading-[1.16] tracking-[-0.035em] sm:text-[2.5rem] lg:text-[3.5rem]"
+          className="font-display text-[1.85rem] font-semibold leading-[1.16] tracking-[-0.035em] sm:text-[2.5rem] lg:text-[3.5rem]"
         />
 
         <Reveal

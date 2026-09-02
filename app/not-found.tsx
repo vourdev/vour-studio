@@ -10,7 +10,7 @@ export default function NotFound() {
         <p className="font-mono text-xs uppercase tracking-[0.18em] text-accent-text">
           404
         </p>
-        <h1 className="mt-5 font-mono text-[1.6rem] font-semibold tracking-[-0.03em] md:text-[2.1rem]">
+        <h1 className="mt-5 font-display text-[1.6rem] font-semibold tracking-[-0.03em] md:text-[2.1rem]">
           Halaman ini tidak ditemukan
         </h1>
         <p className="mt-5 leading-relaxed text-text-muted">

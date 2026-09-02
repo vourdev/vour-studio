@@ -33,7 +33,7 @@ export default async function BlogPage() {
           {/* Title and standfirst share one baseline on desktop and stack on
               mobile, so the standfirst never floats loose in a corner. */}
           <div className="grid items-end gap-6 md:grid-cols-12 md:gap-10">
-            <h1 className="font-mono text-4xl font-bold tracking-tight text-text sm:text-5xl md:col-span-7 md:text-6xl">
+            <h1 className="font-display text-4xl font-bold tracking-tight text-text sm:text-5xl md:col-span-7 md:text-6xl">
               Insights
             </h1>
             <p className="max-w-[46ch] text-base leading-relaxed text-text-muted md:col-span-5 md:justify-self-end md:text-right">

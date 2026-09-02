@@ -1,6 +1,6 @@
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 
 import { getSiteSettings } from "@/lib/cms";
 import { Footer } from "@/components/layout/footer";
@@ -11,14 +11,26 @@ import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 import { IS_INDEXABLE, siteConfig } from "@/lib/site";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+/**
+ * Plus Jakarta Sans carries both body and display.
+ *
+ * The site used to set every H1 in Geist Mono. Monospace at display size costs
+ * a reader real effort -- even letter widths remove the word shapes you skim
+ * by -- and Indonesian copy runs longer than English, so the headings were the
+ * hardest part of the page to get through. Plus Jakarta Sans is humanist, has
+ * a tall x-height, and was drawn for Indonesian text; one family across
+ * headings and body keeps emphasis inside a single voice instead of splicing
+ * two.
+ */
+const jakartaSans = Plus_Jakarta_Sans({
+  variable: "--font-jakarta-sans",
   subsets: ["latin"],
   display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+/** Kept for what monospace is actually for: years, figures, stack labels, code. */
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
   display: "swap",
 });
@@ -97,7 +109,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       // next-themes swaps this class before paint; suppressHydrationWarning keeps
       // React from complaining about the server/client mismatch that causes.
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable}`}
+      className={`${jakartaSans.variable} ${jetbrainsMono.variable}`}
     >
       <head>
         {/* Scroll reveals are server-rendered with `opacity:0` and only revealed

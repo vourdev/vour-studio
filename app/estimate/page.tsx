@@ -56,7 +56,7 @@ export default function EstimatePage() {
       <Section className="pt-32 md:pt-36">
         <Container>
           <header className="max-w-3xl">
-            <h1 className="text-balance font-mono text-3xl font-bold leading-[1.15] tracking-tight text-text sm:text-4xl">
+            <h1 className="text-balance font-display text-3xl font-bold leading-[1.15] tracking-tight text-text sm:text-4xl">
               Berapa Biaya Membuat Website?
             </h1>
             <p className="mt-5 max-w-[64ch] text-pretty text-base leading-relaxed text-text-muted md:text-lg">

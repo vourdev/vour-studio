@@ -106,7 +106,7 @@ export default function SolutionsPage() {
       <Section spacing="header">
         <Container>
           <Reveal>
-            <h1 className="max-w-[26ch] text-balance font-mono text-[1.8rem] font-semibold tracking-[-0.03em] md:text-[2.5rem]">
+            <h1 className="max-w-[26ch] text-balance font-display text-[1.8rem] font-semibold tracking-[-0.03em] md:text-[2.5rem]">
               Apa Saja Layanan vour.dev?
             </h1>
           </Reveal>

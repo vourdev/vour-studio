@@ -101,7 +101,7 @@ export default function AboutPage() {
           <div className="grid items-center gap-12 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
             <div>
               <Reveal>
-                <h1 className="text-balance font-mono text-[1.85rem] font-semibold leading-[1.16] tracking-[-0.035em] sm:text-[2.5rem] lg:text-[3rem]">
+                <h1 className="text-balance font-display text-[1.85rem] font-semibold leading-[1.16] tracking-[-0.035em] sm:text-[2.5rem] lg:text-[3rem]">
                   Apa itu vour.dev?
                 </h1>
               </Reveal>
