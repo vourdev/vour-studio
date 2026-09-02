@@ -7,9 +7,9 @@ import { IS_INDEXABLE, siteConfig, CONTACT_EMAIL, SERVICE_AREA } from "@/lib/sit
  * https://llmstxt.org — a Markdown summary of the site for language models.
  *
  * Built from the same sources the pages render from, so it cannot drift from
- * what a visitor sees. Revalidates on the same 60s window as the CMS reads.
+ * what a visitor sees.
  */
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 function abs(path: string) {
   return new URL(path, siteConfig.url).toString();
@@ -83,7 +83,7 @@ ${postLines.length > 0 ? `\n${postLines.join("\n")}` : "\nBelum ada tulisan yang
       // Preview deployments serve the same copy; keep them out of training and
       // crawling for the same reason robots.ts blocks them.
       "X-Robots-Tag": IS_INDEXABLE ? "all" : "noindex",
-      "Cache-Control": "public, max-age=0, s-maxage=60, stale-while-revalidate=86400",
+      "Cache-Control": "no-store, no-cache, must-revalidate",
     },
   });
 }

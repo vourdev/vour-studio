@@ -40,8 +40,8 @@ Before completing tasks, verify with:
 - Must degrade gracefully: missing `LEAD_API_URL`/`LEAD_API_KEY` or admin API errors are logged (warning/error) and the visitor still gets a success state. Never error out the user flow.
 
 ### CMS Content Reads
-- `lib/cms.ts` is the only read path into the admin CMS (`GET <CMS_API_URL>/api/products` and `/api/projects`, wrapped in `unstable_cache` with 60s ISR, 3s timeout). `CMS_API_URL` falls back to `LEAD_API_URL`, then `http://localhost:3000`.
-- Must degrade gracefully: the cached fetch throws on failure (revalidation keeps last-known-good data); `getProducts()` / `getProjects()` return the static placeholder data from `lib/data/*` only when nothing good is cached, and log a warning. Never throw in the render path.
+- `lib/cms.ts` is the only read path into the admin CMS (`GET <CMS_API_URL>/api/products`, `/api/projects`, `/api/posts`, `/api/globals/site-settings` with direct `cache: "no-store"`). `CMS_API_URL` falls back to `LEAD_API_URL`, then `http://localhost:3000`.
+- Must degrade gracefully: `getProducts()` / `getProjects()` / `getPosts()` / `getSiteSettings()` return the static placeholder data from `lib/data/*` only when CMS is unreachable, and log a warning. Never throw in the render path.
 - Server components call the `get*()` fetchers and pass the result down as props. Client components must **not** import `lib/cms.ts` (it reads `process.env` and `fetch`s); they receive data via props.
 
 - **One Accent**: Cyan/Turquoise `#39d5f6` (`--accent`). Background: Deep Black `#0a0a0a`. Primary: White `#ffffff`. Style: Flat, clean, developer tools aesthetic (Vercel, Linear, Raycast, Warp).

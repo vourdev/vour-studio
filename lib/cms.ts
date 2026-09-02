@@ -14,8 +14,6 @@
  * NOTE: server-only module. Import it from server components / server actions,
  * never from client components — it reads `process.env` and uses `fetch`.
  */
-import { unstable_cache } from "next/cache";
-
 import {
   products as fallbackProducts,
   type Product,
@@ -37,9 +35,6 @@ import { defaultSiteSettings, type SiteSettings } from "@/lib/site";
 export const CMS_API_URL =
   process.env.CMS_API_URL ?? process.env.LEAD_API_URL ?? "http://localhost:3000";
 
-/** Time-based revalidation (ISR). New products appear within this window. */
-const REVALIDATE_SECONDS = 60;
-
 /** A stalled CMS must not hang a page render, but 10s was too tight: the
  * backend runs on a VPS whose outbound link stalls in bursts, and a cold Neon
  * connection alone can take 10-20s. The 1 Sep 2026 production build timed out
@@ -51,9 +46,9 @@ const FETCH_TIMEOUT_MS = 25_000;
 const RETRY_DELAY_MS = 1_500;
 
 /**
- * Fetch JSON from the CMS and THROW on failure -- never resolve to degraded
- * data. Retries once on a timeout or a 5xx; a 4xx is a real answer and is not
- * worth repeating.
+ * Fetch JSON from the CMS live (cache: no-store) and THROW on failure -- never
+ * resolve to degraded data. Retries once on a timeout or a 5xx; a 4xx is a real
+ * answer and is not worth repeating.
  */
 async function cmsFetch<T>(path: string): Promise<T> {
   let lastError: unknown;
@@ -64,7 +59,7 @@ async function cmsFetch<T>(path: string): Promise<T> {
     }
     try {
       const response = await fetch(`${CMS_API_URL}${path}`, {
-        next: { revalidate: REVALIDATE_SECONDS },
+        cache: "no-store",
         signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
       });
       if (response.ok) return (await response.json()) as T;
@@ -147,17 +142,11 @@ async function fetchProductsFromCms(): Promise<PayloadProduct[]> {
   return data.docs;
 }
 
-const getCachedProducts = unstable_cache(fetchProductsFromCms, ["cms-products"], {
-  revalidate: REVALIDATE_SECONDS,
-  tags: ["cms-products"],
-});
-
 /** Digital products from the CMS. Falls back to `lib/data/products.ts` only
- * when no good data is cached (first render with the CMS down); an empty CMS
- * renders the designed empty states. */
+ * when CMS is unreachable; an empty CMS renders the designed empty states. */
 export async function getProducts(): Promise<Product[]> {
   try {
-    const docs = await getCachedProducts();
+    const docs = await fetchProductsFromCms();
     return docs.map(toProduct);
   } catch (error) {
     console.warn("[cms] CMS tidak dapat dihubungi. Memakai data statis.", error);
@@ -222,16 +211,11 @@ async function fetchProjectsFromCms(): Promise<PayloadProject[]> {
   return data.docs;
 }
 
-const getCachedProjects = unstable_cache(fetchProjectsFromCms, ["cms-projects"], {
-  revalidate: REVALIDATE_SECONDS,
-  tags: ["cms-projects"],
-});
-
 /** Portfolio case studies from the CMS. Falls back to `lib/data/projects.ts`
- * only when no good data is cached; an empty CMS renders an empty list. */
+ * only when CMS is unreachable; an empty CMS renders an empty list. */
 export async function getProjects(): Promise<Project[]> {
   try {
-    const docs = await getCachedProjects();
+    const docs = await fetchProjectsFromCms();
     return docs.map(toProject);
   } catch (error) {
     console.warn("[cms] CMS tidak dapat dihubungi. Memakai data statis.", error);
@@ -260,10 +244,7 @@ type PayloadPost = {
   _status?: string;
 };
 
-/** Picsum seeds matching the original static placeholder covers. */
-const POST_IMAGE_SEEDS: Record<string, string> = {
-  "memilih-antara-website-dan-dashboard": "vour-article-website-dashboard",
-};
+
 
 function toPostMeta(doc: PayloadPost): PostMeta {
   const media = doc.image && typeof doc.image === "object" ? doc.image : undefined;
@@ -295,17 +276,12 @@ async function fetchPostsFromCms(): Promise<PayloadPost[]> {
   return data.docs;
 }
 
-const getCachedPosts = unstable_cache(fetchPostsFromCms, ["cms-posts"], {
-  revalidate: REVALIDATE_SECONDS,
-  tags: ["cms-posts"],
-});
-
 /** Post metadata for listings, newest first — same `{ slug, meta }` shape the
  * old MDX index returned, so consumers barely change. Falls back to the static
- * posts only when no good data is cached. */
+ * posts only when CMS is unreachable. */
 export async function getPosts(): Promise<{ slug: string; meta: PostMeta }[]> {
   try {
-    const docs = await getCachedPosts();
+    const docs = await fetchPostsFromCms();
     return docs
       .map((doc) => ({ slug: doc.slug, meta: toPostMeta(doc) }))
       .sort((a, b) => new Date(b.meta.date).getTime() - new Date(a.meta.date).getTime());
@@ -328,7 +304,7 @@ export async function getPosts(): Promise<{ slug: string; meta: PostMeta }[]> {
 /** Full post (including the Lexical body) for the article page, or null. */
 export async function getPost(slug: string): Promise<Post | null> {
   try {
-    const docs = await getCachedPosts();
+    const docs = await fetchPostsFromCms();
     const doc = docs.find((post) => post.slug === slug);
     return doc ? toPost(doc) : null;
   } catch (error) {
@@ -353,20 +329,11 @@ async function fetchSiteSettingsFromCms(): Promise<PayloadSiteSettings> {
   return cmsFetch<PayloadSiteSettings>("/api/globals/site-settings");
 }
 
-const getCachedSiteSettings = unstable_cache(
-  fetchSiteSettingsFromCms,
-  ["cms-site-settings"],
-  {
-    revalidate: REVALIDATE_SECONDS,
-    tags: ["cms-site-settings"],
-  },
-);
-
 /** Contact + nav settings from the admin global; falls back to `lib/site.ts`
  * defaults when the CMS is unreachable or the fields are empty. */
 export async function getSiteSettings(): Promise<SiteSettings> {
   try {
-    const doc = await getCachedSiteSettings();
+    const doc = await fetchSiteSettingsFromCms();
     const fallback = defaultSiteSettings;
     return {
       contactEmail: doc.contact?.contactEmail || fallback.contactEmail,
