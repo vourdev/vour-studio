@@ -130,7 +130,11 @@ function absolutizeMediaUrl(url: string): string {
 
 function toProduct(doc: PayloadProduct): Product {
   const media = doc.image && typeof doc.image === "object" ? doc.image : undefined;
-  const imageUrl = media?.sizes?.card?.url ?? media?.url;
+  // Full resolution, not the `card` variant. The admin renders `card` at
+  // 768x432; the bento on /products gives a cell roughly 592 CSS px wide, which
+  // needs ~1184 px on a 2x screen, so the small variant was being upscaled and
+  // arriving soft. Same reasoning as toProject.
+  const imageUrl = media?.url ?? media?.sizes?.card?.url;
   return {
     slug: doc.slug,
     name: doc.name,
