@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { Reveal } from "@/components/motion/reveal";
-import { CaseRecord } from "@/components/projects/case-record";
+import { ProjectStack } from "@/components/projects/project-stack";
 import { ClosingCta } from "@/components/sections/closing-cta";
 import { Container, Section } from "@/components/ui/container";
 import { getProjects } from "@/lib/cms";
@@ -39,9 +39,8 @@ export default async function ProjectsPage() {
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mt-5 max-w-[60ch] text-sm leading-relaxed text-text-muted md:text-base">
-              Tiap catatan dimulai dari keluhan yang kami dengar di pertemuan
-              pertama, bukan dari tangkapan layarnya. Kondisi sebelumnya, apa
-              yang dikerjakan, dan hasilnya ada di halaman ini semua.
+              Tiap catatan ditulis dari keluhan yang kami dengar di pertemuan
+              pertama, bukan dari tangkapan layarnya.
             </p>
           </Reveal>
           <Reveal delay={0.15}>
@@ -60,7 +59,7 @@ export default async function ProjectsPage() {
       </Section>
 
       <Section spacing="continued">
-        <CaseRecord projects={projects} />
+        <ProjectStack projects={projects} />
       </Section>
 
       <ClosingCta />

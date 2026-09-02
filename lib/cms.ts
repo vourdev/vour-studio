@@ -165,9 +165,8 @@ type PayloadProject = {
   name: string;
   industry: string;
   year: string;
-  result: string;
-  challenge: string;
-  solution: string;
+  /** Lexical JSON, same shape as a post body. */
+  description?: RichTextContent | null;
   technology: { tech: string }[];
   /** Upload relation; `depth=1` expands it into the media doc. */
   image?: { url?: string; sizes?: { card?: { url?: string } } } | number | null;
@@ -192,9 +191,7 @@ function toProject(doc: PayloadProject): Project {
     name: doc.name,
     industry: doc.industry,
     year: doc.year,
-    result: doc.result,
-    challenge: doc.challenge,
-    solution: doc.solution,
+    description: doc.description ?? null,
     technology: doc.technology.map((tech) => tech.tech),
     // TODO(vour.dev): placeholder seed until a real screenshot is uploaded.
     image: imageUrl

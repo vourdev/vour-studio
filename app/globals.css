@@ -513,3 +513,47 @@
   margin-bottom: 3rem;
   border-color: var(--border);
 }
+/**
+ * Card-sized prose. The project cards render CMS rich text, so an editor can
+ * bold a phrase, add a link or drop in a short list; `.article-prose` is scaled
+ * for a full article page and would blow a card apart.
+ */
+.project-prose > :first-child {
+  margin-top: 0;
+}
+
+.project-prose p {
+  margin-top: 0.75rem;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.project-prose strong {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.project-prose a {
+  color: var(--accent-text);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.project-prose a:hover {
+  text-decoration: none;
+}
+
+.project-prose ul,
+.project-prose ol {
+  margin-top: 0.75rem;
+  padding-left: 1.1rem;
+  list-style: disc;
+}
+
+.project-prose ol {
+  list-style: decimal;
+}
+
+.project-prose li {
+  margin-top: 0.35rem;
+}

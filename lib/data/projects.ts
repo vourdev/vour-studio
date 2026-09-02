@@ -1,22 +1,57 @@
 /**
- * TODO(vour.dev): placeholder case studies. Replace names, industries and results
+ * TODO(vour.dev): placeholder case studies. Replace names, industries and copy
  * with real engagements, and swap the Picsum seeds for real screenshots.
  *
- * `result` is the headline of each card, not the screenshot. What the client
- * got back is the thing a prospect is actually scanning for.
+ * These render only when the CMS is unreachable on a cold cache.
  */
+
+import type { RichTextContent } from "@/lib/data/posts";
 
 export type Project = {
   slug: string;
   name: string;
   industry: string;
   year: string;
-  result: string;
-  challenge: string;
-  solution: string;
+  /** Card body as Lexical JSON, rendered by the shared RichText component. */
+  description: RichTextContent | null;
   technology: string[];
   image: string;
 };
+
+/** Wrap a plain sentence as a single Lexical paragraph, so the static fallback
+ * data feeds the same renderer the CMS content does. */
+function paragraph(text: string): RichTextContent {
+  return {
+    root: {
+      type: "root",
+      format: "",
+      indent: 0,
+      version: 1,
+      direction: "ltr",
+      children: [
+        {
+          type: "paragraph",
+          format: "",
+          indent: 0,
+          version: 1,
+          direction: "ltr",
+          textFormat: 0,
+          children: [
+            {
+              type: "text",
+              text,
+              format: 0,
+              style: "",
+              mode: "normal",
+              detail: 0,
+              version: 1,
+            },
+          ],
+        },
+      ],
+    },
+  } as unknown as RichTextContent;
+}
 
 export const projects: Project[] = [
   {
@@ -24,12 +59,9 @@ export const projects: Project[] = [
     name: "Arunika Living",
     industry: "Retail furnitur",
     year: "2025",
-    result:
+    description: paragraph(
       "Calon pembeli membuka katalognya sendiri. Tim penjualan berhenti mengulang jawaban yang sama tiap hari.",
-    challenge:
-      "Katalog tersebar di beberapa file dan baru dikirim kalau ada yang bertanya. Sebagian besar jam kerja tim penjualan habis untuk itu.",
-    solution:
-      "Katalog daring dengan pencarian dan filter. Tiap produk punya satu tautan yang bisa langsung dikirim ke calon pembeli.",
+    ),
     technology: ["Web Application", "Content Management"],
     image: "https://picsum.photos/seed/vour-project-arunika/1200/800",
   },
@@ -38,12 +70,9 @@ export const projects: Project[] = [
     name: "Kirana Logistik",
     industry: "Logistik",
     year: "2025",
-    result:
+    description: paragraph(
       "Laporan harian sudah siap sebelum tim masuk kerja, tanpa ada yang menyusunnya pagi itu.",
-    challenge:
-      "Data pengiriman tercatat di beberapa spreadsheet terpisah. Menyusun laporan makan satu sampai dua jam tiap pagi, dan angkanya sering beda antar cabang.",
-    solution:
-      "Dashboard internal yang menarik data dari sumber yang sudah dipakai, lalu merangkumnya tiap malam ke satu tampilan yang sama untuk semua cabang.",
+    ),
     technology: ["Dashboard", "AI Automation"],
     image: "https://picsum.photos/seed/vour-project-kirana/1200/800",
   },
@@ -52,12 +81,9 @@ export const projects: Project[] = [
     name: "Sembara Coffee",
     industry: "Food and beverage",
     year: "2024",
-    result:
+    description: paragraph(
       "Pesanan grosir masuk lewat satu jalur yang tercatat, bukan tercecer di beberapa aplikasi chat.",
-    challenge:
-      "Pesanan datang dari berbagai Channel dan sesekali terlewat. Saat ada selisih, tidak ada satu catatan yang bisa dicek ulang.",
-    solution:
-      "Halaman pemesanan dengan konfirmasi otomatis, plus notifikasi internal tiap pesanan baru masuk, jadi tidak ada pembeli yang menunggu tanpa jawaban.",
+    ),
     technology: ["Web Application", "Automation"],
     image: "https://picsum.photos/seed/vour-project-sembara/1600/900",
   },
