@@ -40,7 +40,9 @@ Before completing tasks, verify with:
 - Must degrade gracefully: missing `LEAD_API_URL`/`LEAD_API_KEY` or admin API errors are logged (warning/error) and the visitor still gets a success state. Never error out the user flow.
 
 ### CMS Content Reads
-- `lib/cms.ts` is the only read path into the admin CMS (`GET <CMS_API_URL>/api/products`, `/api/projects`, `/api/posts`, `/api/globals/site-settings` with direct `cache: "no-store"`). `CMS_API_URL` falls back to `LEAD_API_URL`, then `http://localhost:3000`.
+- `lib/cms.ts` is the only read path into the admin CMS (`GET <CMS_API_URL>/api/products`, `/api/projects`, `/api/posts`, `/api/posts/:slug`, `/api/globals/site-settings`). `CMS_API_URL` falls back to `LEAD_API_URL`, then `http://localhost:3000`.
+- Every fetcher is wrapped in `unstable_cache` under a `cms-*` tag, and the root layout sets `revalidate = 300`. **Do not reach for `cache: "no-store"` or `force-dynamic` to get fresh content.** The admin calls `POST /api/revalidate` after every create, update and delete; that webhook expires those exact tags plus the layout path, so an edit is live in seconds. Dropping the tags does not make the site fresher, it makes `revalidateTag` a no-op and moves a Jakarta round trip onto every request. Measured: `force-dynamic` + `no-store` gave 0.63-0.95s TTFB with `x-vercel-cache: MISS` on every page; tagged caching gives ~0.09s and HIT.
+- Read one article with `getPost(slug)`, which hits `/api/posts/:slug` (~16 KB). The full listing is ~162 KB of Lexical bodies.
 - Must degrade gracefully: `getProducts()` / `getProjects()` / `getPosts()` / `getSiteSettings()` return the static placeholder data from `lib/data/*` only when CMS is unreachable, and log a warning. Never throw in the render path.
 - Server components call the `get*()` fetchers and pass the result down as props. Client components must **not** import `lib/cms.ts` (it reads `process.env` and `fetch`s); they receive data via props.
 
