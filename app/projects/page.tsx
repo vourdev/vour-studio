@@ -10,7 +10,7 @@ import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Project yang Sudah Dikerjakan vour.dev",
   description:
-    "Catatan project vour.dev, ditulis dari keluhan yang kami dengar di pertemuan pertama sampai apa yang berubah setelah sistemnya jalan.",
+    "Daftar project yang sudah dikerjakan vour.dev: bidang usaha klien dan apa yang berubah setelah sistemnya dipakai sehari-hari.",
   path: "/projects",
 });
 
@@ -34,18 +34,18 @@ export default async function ProjectsPage() {
         <Container>
           <Reveal>
             <h1 className="max-w-[30ch] text-balance font-display text-[1.8rem] font-semibold tracking-[-0.03em] md:text-[2.5rem]">
-              Apa yang berubah setelah sistemnya jalan
+              Project yang sudah dikerjakan
             </h1>
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mt-5 max-w-[60ch] text-sm leading-relaxed text-text-muted md:text-base">
-              Tiap catatan ditulis dari keluhan yang kami dengar di pertemuan
-              pertama, bukan dari tangkapan layarnya.
+              Tiap project di bawah mencantumkan bidang usaha klien dan apa
+              yang berubah setelah sistemnya dipakai sehari-hari.
             </p>
           </Reveal>
           <Reveal delay={0.15}>
             <p className="mt-4 max-w-[60ch] text-sm leading-relaxed text-text-muted">
-              Jenis pekerjaannya dirinci di{" "}
+              Untuk rincian jenis pekerjaannya, lihat{" "}
               <Link
                 href="/solutions"
                 className="text-accent-text underline underline-offset-4 hover:no-underline"

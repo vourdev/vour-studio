@@ -173,11 +173,11 @@ function EmptyState() {
     <Container>
       <div className="mx-auto max-w-lg rounded-surface border border-dashed border-border-strong px-6 py-16 text-center">
         <p className="text-base font-medium text-text">
-          Belum ada catatan project yang dipublikasikan.
+          Belum ada project yang dipublikasikan.
         </p>
         <p className="mt-2 text-sm leading-relaxed text-text-muted">
-          Kami sedang menyiapkan tulisannya. Sementara itu, jenis pekerjaan yang
-          kami tangani ada di halaman layanan.
+          Sementara itu, jenis pekerjaan yang kami tangani ada di halaman
+          layanan.
         </p>
         <Link
           href="/solutions"
