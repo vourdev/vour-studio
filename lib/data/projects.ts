@@ -1,8 +1,10 @@
 /**
- * TODO(vour.dev): placeholder case studies. Replace names, industries and copy
- * with real engagements, and swap the Picsum seeds for real screenshots.
+ * Offline snapshot of the `projects` collection in the admin CMS. Renders only
+ * when the CMS is unreachable on a cold cache, so it mirrors what the CMS holds
+ * rather than inventing stand-ins: a visitor who hits this during an outage
+ * should see the same work, not three companies that do not exist.
  *
- * These render only when the CMS is unreachable on a cold cache.
+ * Edit projects in the admin panel. Re-snapshot here when the list changes.
  */
 
 import type { RichTextContent } from "@/lib/data/posts";
@@ -55,36 +57,15 @@ function paragraph(text: string): RichTextContent {
 
 export const projects: Project[] = [
   {
-    slug: "arunika-living",
-    name: "Arunika Living",
-    industry: "Retail furnitur",
-    year: "2025",
+    slug: "albaiks-jahe-merah",
+    name: "ALBAIKS JAHE MERAH",
+    industry: "Herbal",
+    year: "2026",
     description: paragraph(
-      "Calon pembeli membuka katalognya sendiri. Tim penjualan berhenti mengulang jawaban yang sama tiap hari.",
+      "Katalog produk dulu dikirim satu per satu lewat chat. Sekarang calon pembeli membukanya sendiri, dan tim penjualan berhenti mengulang jawaban yang sama.",
     ),
-    technology: ["Web Application", "Content Management"],
-    image: "https://picsum.photos/seed/vour-project-arunika/1200/800",
-  },
-  {
-    slug: "kirana-logistik",
-    name: "Kirana Logistik",
-    industry: "Logistik",
-    year: "2025",
-    description: paragraph(
-      "Laporan harian sudah siap sebelum tim masuk kerja, tanpa ada yang menyusunnya pagi itu.",
-    ),
-    technology: ["Dashboard", "AI Automation"],
-    image: "https://picsum.photos/seed/vour-project-kirana/1200/800",
-  },
-  {
-    slug: "sembara-coffee",
-    name: "Sembara Coffee",
-    industry: "Food and beverage",
-    year: "2024",
-    description: paragraph(
-      "Pesanan grosir masuk lewat satu jalur yang tercatat, bukan tercecer di beberapa aplikasi chat.",
-    ),
-    technology: ["Web Application", "Automation"],
-    image: "https://picsum.photos/seed/vour-project-sembara/1600/900",
+    technology: ["Next.js", "Tailwind CSS"],
+    image:
+      "https://vour-studio-admin.vercel.app/api/media/file/1788320643738_Screenshot_2026-08-31_at_11.16.22_AM.png",
   },
 ];

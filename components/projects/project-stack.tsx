@@ -65,7 +65,7 @@ export function ProjectStack({ projects }: { projects: Project[] }) {
       </ol>
 
       <p className="mt-10 max-w-[58ch] text-sm leading-relaxed text-text-muted">
-        Kebutuhan Anda mirip salah satu di atas?{" "}
+        Punya kebutuhan yang mirip?{" "}
         <Link
           href="/contact"
           className="inline-flex items-center gap-1 text-accent-text underline underline-offset-4 hover:no-underline"

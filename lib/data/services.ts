@@ -8,10 +8,10 @@ import { PRIMARY_CTA, PRODUCTS_CTA, SERVICE_CTA } from "@/lib/site";
  * language model all get the same list. Adding a service anywhere else is a
  * bug, not a shortcut.
  *
- * Copy rule from the brief: `summary`, `answer` and `outcomes` sell the
- * outcome and never name a technology. `offerings` may be technical, because
- * it renders only on `/solutions`, where a technical buyer has asked for it.
- * `indexSummary` is the one other exception, and says so at its declaration.
+ * Copy rule (see AGENTS.md, "Language & Copy"): `summary`, `answer` and
+ * `outcomes` sell the outcome and never name a technology. `offerings` and
+ * `indexSummary` may name it, because both render where a visitor is choosing
+ * between options and the stack is part of that choice.
  */
 
 export type ServiceOffering = {

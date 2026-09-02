@@ -39,8 +39,8 @@ export default async function ProjectsPage() {
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mt-5 max-w-[60ch] text-sm leading-relaxed text-text-muted md:text-base">
-              Tiap project di bawah mencantumkan bidang usaha klien dan apa
-              yang berubah setelah sistemnya dipakai sehari-hari.
+              Untuk tiap project, yang dicatat adalah bidang usaha klien dan
+              apa yang berubah setelah sistemnya dipakai sehari-hari.
             </p>
           </Reveal>
           <Reveal delay={0.15}>

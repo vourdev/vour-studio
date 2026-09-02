@@ -17,7 +17,12 @@ Before completing tasks, verify with:
 ## Architecture & Conventions
 
 ### Language & Copy
-- Visitor-facing copy: **Indonesian (`id-ID`)** strictly. Technology (e.g., Next.js, React) must never be a selling point in copy. Copy must focus on solutions/problems solved. Exception: `/solutions` where technical specs are allowed.
+- Visitor-facing copy: **Indonesian (`id-ID`)** strictly. Copy must focus on solutions/problems solved: technology is never the reason to buy, and never carries a claim on its own.
+- Technology may be **named** only where a visitor is comparing options and the stack is part of that comparison. Those places are exhaustive:
+  - `/solutions`, where technical specs are allowed in full.
+  - `indexSummary` on each service (`lib/data/services.ts`), rendered by the home service index.
+  - `technology` tags on a project (`projects` collection), rendered on `/projects`.
+  Everywhere else, name the deliverable, not the tool. Write product names as the vendor writes them (`Next.js`, `Tailwind CSS`, `PostgreSQL`).
 - Code/Comments: **English**. No developer-facing comments unless asked.
 
 ### CTA Labels
