@@ -1,5 +1,6 @@
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
+import dynamic from "next/dynamic";
 import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 
 import { getSiteSettings } from "@/lib/cms";
@@ -10,6 +11,11 @@ import { ThemeProvider } from "@/components/layout/theme-provider";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 import { IS_INDEXABLE, siteConfig } from "@/lib/site";
 import "./globals.css";
+
+/** Nothing on any page depends on the assistant, so it loads after the page does. */
+const ChatWidget = dynamic(() =>
+  import("@/components/chat/chat-widget").then((mod) => mod.ChatWidget),
+);
 
 /**
  * Plus Jakarta Sans carries both body and display.
@@ -155,6 +161,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             {children}
           </main>
           <Footer settings={settings} />
+          <ChatWidget />
         </ThemeProvider>
         <Analytics />
         <script
