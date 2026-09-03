@@ -67,8 +67,16 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "media.vour.studio" },
       // Admin CMS deployed on Vercel (serves uploaded media)
       { protocol: "https", hostname: "vour-studio-admin.vercel.app" },
-      // Unsplash for testimonial avatars
+      // Unsplash for testimonial avatars, and for blog covers when no
+      // topical picture exists.
       { protocol: "https", hostname: "images.unsplash.com" },
+      // Illustrations the blog generator finds. It only ever stores URLs on
+      // these hosts -- see ALLOWED_HOSTS in
+      // `backend-vour-studio/src/services/image-search.service.ts`. Adding a
+      // host there without adding it here turns the article's images into 400s.
+      { protocol: "https", hostname: "upload.wikimedia.org" },
+      { protocol: "https", hostname: "thumb.wikimedia.org" },
+      { protocol: "https", hostname: "live.staticflickr.com" },
     ],
   },
 };

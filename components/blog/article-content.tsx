@@ -7,6 +7,7 @@ import {
   type JSXConverters,
 } from "@payloadcms/richtext-lexical/react";
 
+import { ArticleImage, type ArticleImageNode } from "@/components/blog/article-image";
 import { CodeBlock } from "@/components/blog/code-block";
 import type { RichTextContent } from "@/lib/data/posts";
 
@@ -26,9 +27,11 @@ const LINK_CLASS =
 function renderLink({ node, nodesToJSX, converters }: JSXConverterArgs) {
   const linkNode = node as {
     fields?: { url?: string };
+    /** Shape the blog generator wrote before Sep 2026. */
+    url?: string;
     children?: SerializedLexicalNode[];
   };
-  const href = linkNode.fields?.url ?? "#";
+  const href = linkNode.fields?.url ?? linkNode.url ?? "#";
   const children = nodesToJSX({ nodes: linkNode.children ?? [], converters });
   return href.startsWith("/") ? (
     <Link href={href} className={LINK_CLASS}>
@@ -66,8 +69,18 @@ function renderCodeHighlight({ node }: JSXConverterArgs) {
   return <>{textNode.text || ""}</>;
 }
 
+/**
+ * Images in the article body. Lexical has no image node of its own, so this
+ * matches what `backend-vour-studio` writes -- see `makeImage` in its
+ * `src/lib/lexical.ts`.
+ */
+function renderImage({ node }: JSXConverterArgs) {
+  return <ArticleImage node={node as ArticleImageNode} />;
+}
+
 const converters: JSXConverters = {
   ...defaultJSXConverters,
+  image: renderImage,
   link: renderLink,
   autolink: renderLink,
   code: renderCodeBlock,

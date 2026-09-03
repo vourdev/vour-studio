@@ -6,6 +6,7 @@ import {
   WarningIcon,
   WhatsappLogoIcon,
 } from "@phosphor-icons/react/ssr";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { useActionState, useEffect, useRef, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
@@ -16,14 +17,23 @@ import { whatsappLink } from "@/lib/site";
 
 const initialState: LeadFormState = { status: "idle" };
 
-function LeadFormFields({ sourcePage }: { sourcePage: string }) {
+function LeadFormFields({
+  sourcePage,
+  siteKey,
+}: {
+  sourcePage: string;
+  siteKey?: string;
+}) {
   const [state, formAction, pending] = useActionState(submitLead, initialState);
   const [mountedAt] = useState(() => Date.now());
+  const [turnstileToken, setTurnstileToken] = useState<string>("");
+  const turnstileRef = useRef<TurnstileInstance>(null);
   const elapsedRef = useRef<HTMLInputElement>(null);
   const statusRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
   const serviceParam = searchParams.get("service");
   const productParam = searchParams.get("product");
+
 
   const [message, setMessage] = useState(() => {
     if (serviceParam === "website-development") {
@@ -44,7 +54,11 @@ function LeadFormFields({ sourcePage }: { sourcePage: string }) {
 
   useEffect(() => {
     if (state.status !== "idle") statusRef.current?.focus();
+    if (state.status === "error") {
+      turnstileRef.current?.reset();
+    }
   }, [state.status]);
+
 
   if (state.status === "success") {
     return (
@@ -85,6 +99,7 @@ function LeadFormFields({ sourcePage }: { sourcePage: string }) {
     >
       <input type="hidden" name="sourcePage" value={sourcePage} />
       <input type="hidden" name="elapsedMs" ref={elapsedRef} defaultValue="0" />
+      <input type="hidden" name="turnstileToken" value={turnstileToken} />
 
       {/* Honeypot for bots */}
       <div className="absolute left-[-9999px]" aria-hidden>
@@ -168,6 +183,23 @@ function LeadFormFields({ sourcePage }: { sourcePage: string }) {
         />
       </Field>
 
+      {siteKey ? (
+        <div className="flex flex-col gap-2 min-h-[65px]">
+          <Turnstile
+            ref={turnstileRef}
+            siteKey={siteKey}
+            onSuccess={(token) => setTurnstileToken(token)}
+            onError={() => setTurnstileToken("")}
+            onExpire={() => setTurnstileToken("")}
+            options={{
+              theme: "dark",
+              size: "normal",
+              action: "contact_form",
+            }}
+          />
+        </div>
+      ) : null}
+
       <Button
         type="submit"
         size="lg"
@@ -191,10 +223,20 @@ function LeadFormFields({ sourcePage }: { sourcePage: string }) {
   );
 }
 
-export function LeadForm({ sourcePage = "/contact" }: { sourcePage?: string }) {
+export function LeadForm({
+  sourcePage = "/contact",
+  siteKey,
+}: {
+  sourcePage?: string;
+  siteKey?: string;
+}) {
+  const resolvedSiteKey =
+    siteKey ?? process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY;
+
   return (
     <Suspense fallback={<div className="h-96 w-full animate-pulse bg-bg-subtle rounded-control" />}>
-      <LeadFormFields sourcePage={sourcePage} />
+      <LeadFormFields sourcePage={sourcePage} siteKey={resolvedSiteKey} />
     </Suspense>
   );
 }
+

@@ -107,8 +107,15 @@ export default async function ContactPage() {
               kirim balik.
             </p>
             <div className="mt-8">
-              <LeadForm sourcePage="/contact" />
+              <LeadForm
+                sourcePage="/contact"
+                siteKey={
+                  process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY ||
+                  process.env.SITE_KEY
+                }
+              />
             </div>
+
           </Reveal>
 
           <Reveal delay={0.1} className="md:col-span-5 md:col-start-9">

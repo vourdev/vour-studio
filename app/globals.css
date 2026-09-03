@@ -474,6 +474,41 @@
   text-decoration-color: var(--accent);
 }
 
+/* Images the blog generator places inside an article. Slightly wider than the
+   68ch text column so a diagram stays legible without breaking the grid. */
+.article-figure {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  max-width: 44rem;
+}
+
+.article-figure img {
+  display: block;
+}
+
+.article-figure figcaption {
+  margin-top: 0.625rem;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--text-faint);
+  text-wrap: pretty;
+}
+
+.article-figure-credit {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.article-figure-credit a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--text-faint) 50%, transparent);
+}
+
+.article-figure-credit a:hover {
+  color: var(--text-muted);
+}
+
 .article-prose blockquote {
   margin-top: 1.5rem;
   max-width: 68ch;
