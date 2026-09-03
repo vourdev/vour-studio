@@ -7,6 +7,7 @@ import {
   type JSXConverters,
 } from "@payloadcms/richtext-lexical/react";
 
+import { ArticleDiagram, type ArticleDiagramNode } from "@/components/blog/article-diagram";
 import { ArticleImage, type ArticleImageNode } from "@/components/blog/article-image";
 import { CodeBlock } from "@/components/blog/code-block";
 import type { RichTextContent } from "@/lib/data/posts";
@@ -78,9 +79,18 @@ function renderImage({ node }: JSXConverterArgs) {
   return <ArticleImage node={node as ArticleImageNode} />;
 }
 
+/**
+ * Diagrams the model drew for the article. Same three-way agreement as `image`:
+ * generator writes it, admin editor keeps it, this renders it.
+ */
+function renderDiagram({ node }: JSXConverterArgs) {
+  return <ArticleDiagram node={node as ArticleDiagramNode} />;
+}
+
 const converters: JSXConverters = {
   ...defaultJSXConverters,
   image: renderImage,
+  svg: renderDiagram,
   link: renderLink,
   autolink: renderLink,
   code: renderCodeBlock,

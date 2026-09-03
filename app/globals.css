@@ -494,6 +494,30 @@
   text-wrap: pretty;
 }
 
+/* Diagrams are drawn with `currentColor`, so the figure sets the ink. A panel
+   behind them keeps thin strokes legible without boxing in photographs, which
+   carry their own background. */
+.article-diagram {
+  color: var(--text);
+}
+
+.article-diagram-canvas {
+  overflow-x: auto;
+  border-radius: var(--radius-surface);
+  border: 1px solid var(--border);
+  background: var(--bg-subtle);
+  padding: 1.25rem 1rem;
+}
+
+.article-diagram-canvas svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* A wide diagram squeezed into a phone column becomes unreadable long before
+     it becomes narrow. Below this it scrolls instead. */
+  min-width: 20rem;
+}
+
 .article-figure-credit {
   font-family: var(--font-mono);
   font-size: 0.75rem;
