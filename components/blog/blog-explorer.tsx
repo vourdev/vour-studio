@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRightIcon } from "@phosphor-icons/react";
+import { ArrowLeftIcon, ArrowRightIcon, ArrowUpRightIcon } from "@phosphor-icons/react";
 
 import { cn, formatDate } from "@/lib/utils";
 import { type PostCategory } from "@/lib/data/posts";
@@ -22,8 +22,38 @@ type PostItem = {
 
 const ALL = "Semua";
 
+/** Three full rows on desktop. The grid is 3-up at lg and 2-up at md, so this
+ *  leaves one orphan on tablet, which reads as a normal ragged grid. */
+const PAGE_SIZE = 9;
+
+/**
+ * Page numbers to draw: always the first and last, always the current and its
+ * neighbours, an ellipsis for whatever that skips. Rendering all of them was
+ * fine at ten articles and is not the shape this list is growing into.
+ */
+function pageWindow(current: number, total: number): (number | "gap")[] {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+
+  const pages = new Set([1, total, current, current - 1, current + 1]);
+  const shown = [...pages].filter((n) => n >= 1 && n <= total).sort((a, b) => a - b);
+
+  const out: (number | "gap")[] = [];
+  let previous = 0;
+  for (const page of shown) {
+    if (previous && page - previous > 1) out.push("gap");
+    out.push(page);
+    previous = page;
+  }
+  return out;
+}
+
 export function BlogExplorer({ posts }: { posts: PostItem[] }) {
   const [activeCategory, setActiveCategory] = useState<string>(ALL);
+  const [page, setPage] = useState(1);
+  const listRef = useRef<HTMLDivElement>(null);
+  /** Skips the scroll on first paint, which would otherwise jump a visitor
+   *  landing on /blog past the page heading. */
+  const hasPaged = useRef(false);
 
   const categories = useMemo(() => {
     const seen: string[] = [];
@@ -37,6 +67,27 @@ export function BlogExplorer({ posts }: { posts: PostItem[] }) {
     if (activeCategory === ALL) return posts;
     return posts.filter((post) => post.meta.category === activeCategory);
   }, [posts, activeCategory]);
+
+  const pageCount = Math.max(1, Math.ceil(filteredPosts.length / PAGE_SIZE));
+  // Clamp rather than trust: switching to a smaller category while on page 3
+  // would otherwise show an empty grid instead of that category's articles.
+  const currentPage = Math.min(page, pageCount);
+  const visiblePosts = filteredPosts.slice(
+    (currentPage - 1) * PAGE_SIZE,
+    currentPage * PAGE_SIZE,
+  );
+
+  const goToPage = (next: number) => {
+    hasPaged.current = true;
+    setPage(Math.min(Math.max(next, 1), pageCount));
+  };
+
+  useEffect(() => {
+    if (!hasPaged.current) return;
+    // The top of the list, not the top of the document: the reader asked for
+    // the next page, not for the page heading again.
+    listRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [currentPage]);
 
   return (
     <div>
@@ -53,7 +104,10 @@ export function BlogExplorer({ posts }: { posts: PostItem[] }) {
                 type="button"
                 role="tab"
                 aria-selected={isActive}
-                onClick={() => setActiveCategory(name)}
+                onClick={() => {
+                  setActiveCategory(name);
+                  setPage(1);
+                }}
                 className={cn(
                   "-mb-px cursor-pointer border-b-2 pb-4 text-sm whitespace-nowrap transition-colors duration-200",
                   isActive
@@ -79,15 +133,18 @@ export function BlogExplorer({ posts }: { posts: PostItem[] }) {
           </p>
           <button
             type="button"
-            onClick={() => setActiveCategory(ALL)}
+            onClick={() => {
+              setActiveCategory(ALL);
+              setPage(1);
+            }}
             className="mt-6 cursor-pointer font-mono text-xs font-semibold text-accent-text underline underline-offset-4 hover:no-underline"
           >
             Tampilkan semua artikel
           </button>
         </div>
       ) : (
-        <div className="mt-12 grid gap-x-8 gap-y-14 md:grid-cols-2 lg:grid-cols-3">
-          {filteredPosts.map((post) => (
+        <div ref={listRef} className="mt-12 grid scroll-mt-28 gap-x-8 gap-y-14 md:grid-cols-2 lg:grid-cols-3">
+          {visiblePosts.map((post) => (
             <article key={post.slug} className="group">
               <Link href={`/blog/${post.slug}`} className="block">
                 <div className="relative aspect-16/10 w-full overflow-hidden rounded-surface border border-border bg-bg-subtle">
@@ -136,7 +193,93 @@ export function BlogExplorer({ posts }: { posts: PostItem[] }) {
           ))}
         </div>
       )}
+
+      {pageCount > 1 && (
+        <nav
+          aria-label="Halaman artikel"
+          className="mt-16 flex items-center justify-center gap-1.5"
+        >
+          <PageButton
+            onClick={() => goToPage(currentPage - 1)}
+            disabled={currentPage === 1}
+            label="Halaman sebelumnya"
+          >
+            <ArrowLeftIcon weight="bold" aria-hidden className="size-3.5" />
+          </PageButton>
+
+          {pageWindow(currentPage, pageCount).map((entry, index) =>
+            entry === "gap" ? (
+              <span
+                // Position is the only thing distinguishing two gaps.
+                key={`gap-${index}`}
+                aria-hidden
+                className="px-1 font-mono text-xs text-text-faint"
+              >
+                &hellip;
+              </span>
+            ) : (
+              <PageButton
+                key={entry}
+                onClick={() => goToPage(entry)}
+                active={entry === currentPage}
+                label={`Halaman ${entry}`}
+              >
+                {entry}
+              </PageButton>
+            ),
+          )}
+
+          <PageButton
+            onClick={() => goToPage(currentPage + 1)}
+            disabled={currentPage === pageCount}
+            label="Halaman berikutnya"
+          >
+            <ArrowRightIcon weight="bold" aria-hidden className="size-3.5" />
+          </PageButton>
+        </nav>
+      )}
+
+      {pageCount > 1 && (
+        <p className="mt-4 text-center font-mono text-xs text-text-faint">
+          Halaman {currentPage} dari {pageCount} &middot; {filteredPosts.length} artikel
+        </p>
+      )}
     </div>
+  );
+}
+
+function PageButton({
+  children,
+  onClick,
+  label,
+  active = false,
+  disabled = false,
+}: {
+  children: React.ReactNode;
+  onClick: () => void;
+  label: string;
+  active?: boolean;
+  disabled?: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      aria-label={label}
+      // `aria-current` rather than `aria-selected`: these are links through a
+      // set of pages, not tabs in a tablist.
+      aria-current={active ? "page" : undefined}
+      className={cn(
+        "inline-flex size-9 cursor-pointer items-center justify-center rounded-control border font-mono text-xs tabular-nums transition-colors duration-200",
+        active
+          ? "border-accent/40 bg-accent-soft font-semibold text-accent-text"
+          : "border-border text-text-muted hover:border-border-strong hover:bg-bg-subtle hover:text-text",
+        disabled && "cursor-not-allowed opacity-40 hover:border-border hover:bg-transparent",
+      )}
+    >
+      {children}
+    </button>
   );
 }
 
