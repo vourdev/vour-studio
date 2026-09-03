@@ -25,6 +25,7 @@ import {
   type Project,
 } from "@/lib/data/projects";
 import {
+  builtinPosts,
   fallbackPosts,
   type Post,
   type PostMeta,
@@ -312,9 +313,18 @@ const getCachedPosts = unstable_cache(fetchPostsFromCms, ["cms-posts"], {
 export async function getPosts(): Promise<{ slug: string; meta: PostMeta }[]> {
   try {
     const docs = await getCachedPosts();
-    return docs
-      .map((doc) => ({ slug: doc.slug, meta: toPostMeta(doc) }))
-      .sort((a, b) => new Date(b.meta.date).getTime() - new Date(a.meta.date).getTime());
+    const fromCms = docs.map((doc) => ({ slug: doc.slug, meta: toPostMeta(doc) }));
+    // Built-ins are merged here, not only in the catch: an article that lives
+    // in the code should be readable in normal operation too. Publishing the
+    // same slug to the CMS takes precedence, so it never shows twice.
+    const cmsSlugs = new Set(fromCms.map((post) => post.slug));
+    const builtin = builtinPosts
+      .filter((post) => !cmsSlugs.has(post.slug))
+      .map((post) => ({ slug: post.slug, meta: toPostMeta(post as unknown as PayloadPost) }));
+
+    return [...fromCms, ...builtin].sort(
+      (a, b) => new Date(b.meta.date).getTime() - new Date(a.meta.date).getTime(),
+    );
   } catch (error) {
     console.warn("[cms] CMS tidak dapat dihubungi. Memakai data statis.", error);
     return fallbackPosts.map((post) => ({
@@ -360,7 +370,11 @@ const getCachedPost = unstable_cache(
 export async function getPost(slug: string): Promise<Post | null> {
   try {
     const doc = await getCachedPost(slug);
-    return doc ? toPost(doc) : null;
+    if (doc) return toPost(doc);
+    // The CMS answered, and answered "no such article". A built-in still counts
+    // as one; without this the evergreen page 404s except during an outage,
+    // which is exactly backwards.
+    return builtinPosts.find((post) => post.slug === slug) ?? null;
   } catch (error) {
     console.warn("[cms] CMS tidak dapat dihubungi. Memakai data statis.", error);
     return fallbackPosts.find((post) => post.slug === slug) ?? null;

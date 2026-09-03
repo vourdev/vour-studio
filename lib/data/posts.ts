@@ -35,17 +35,20 @@ export type Post = {
 export type PostMeta = Omit<Post, "slug" | "content">;
 
 /**
- * The floor beneath the snapshot.
+ * Articles that live in the code rather than in the CMS.
  *
- * Not a real article from the CMS: an evergreen introduction to VOUR.dev
- * that lives in the code, so a clone that has never run `snapshot:blog`
- * still renders a blog rather than an empty page. Under normal conditions
- * the snapshot has content and this is never shown.
+ * An evergreen introduction to VOUR.dev, always present: listed alongside CMS
+ * articles in normal operation and still there when the CMS, the VPS or the
+ * database is not. It is also the floor beneath the snapshot, so a clone that
+ * has never run `snapshot:blog` renders a blog rather than an empty page.
  *
  * It replaced a copy of one July article, which until Sep 2026 was the only
  * thing /blog could serve during an outage.
+ *
+ * Being in the code is the point -- it cannot be edited from the admin, and it
+ * cannot go missing with the database.
  */
-const seedPosts: Post[] = [
+export const builtinPosts: Post[] = [
   {
     "slug": "siapa-itu-vour-dev",
     "title": "Siapa itu VOUR.dev?",
@@ -443,7 +446,7 @@ const seedPosts: Post[] = [
  * takes precedence over this copy instead of showing twice.
  */
 const bySlug = new Map<string, Post>();
-for (const post of [...snapshotPosts, ...seedPosts]) {
+for (const post of [...snapshotPosts, ...builtinPosts]) {
   if (!bySlug.has(post.slug)) bySlug.set(post.slug, post);
 }
 
