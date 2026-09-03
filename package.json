@@ -9,7 +9,8 @@
     "lint": "eslint",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "warm-cms": "node scripts/warm-cms.mjs"
+    "warm-cms": "node scripts/warm-cms.mjs",
+    "snapshot:blog": "node scripts/snapshot-blog.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
