@@ -38,6 +38,8 @@ Before completing tasks, verify with:
 - `lib/cms.ts` provides `getPosts()` (listings, `{ slug, meta }` shape) and `getPost(slug)` (full body). No MDX, no `lib/content.ts` — those were removed.
 - Article bodies are Lexical JSON: render with `components/blog/article-content.tsx` (`RichText` from `@payloadcms/richtext-lexical/react`) inside the `.article-prose` container styled in `app/globals.css`.
 - The article route (`app/blog/[slug]/page.tsx`) uses `dynamicParams = true` so newly published posts render on demand with ISR.
+- Article bodies can contain `image` nodes, written by the blog generator in `backend-vour-studio` and rendered by `components/blog/article-image.tsx`. Lexical defines no image node, so the shape is a three-way agreement between that generator, the admin editor's `ImageNode`, and this converter — changing one means changing all three. The pictures are Creative Commons, so the credit line in the figure caption is required, not decoration.
+- `images.remotePatterns` in `next.config.ts` must stay in step with `ALLOWED_HOSTS` in the generator's `src/services/image-search.service.ts`. A host the generator may store but Next has not been told about answers 400, which shows up as a broken article rather than a config error.
 
 ### Lead Forwarding (no local database)
 - This repo has **no database, ORM, or email code**. Storage + notification live in the sibling project `vour-studio-admin` (Payload CMS + Postgres).
