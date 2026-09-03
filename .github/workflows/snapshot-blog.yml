@@ -47,10 +47,14 @@ jobs:
           test -n "$CMS_API_URL" || { echo "CMS_API_URL secret is not set"; exit 1; }
           npm run snapshot:blog
 
-      # tsc is the gate that catches a snapshot the type system rejects, which
-      # would otherwise break the next deploy rather than this job.
-      - name: Typecheck
-        run: npm run typecheck
+      # A full build, not just tsc. Next 16 writes PageProps/LayoutProps into
+      # .next/types during a build, so `tsc --noEmit` on a fresh checkout fails
+      # on types that have nothing to do with the snapshot. Building is also the
+      # stronger gate: it proves the snapshot renders, not merely that it types.
+      - name: Build
+        env:
+          CMS_API_URL: ${{ secrets.CMS_API_URL }}
+        run: npm run build
 
       - name: Commit if changed
         run: |
