@@ -511,11 +511,18 @@
 
 .article-diagram-canvas svg {
   display: block;
-  width: 100%;
+  /* The generator emits each diagram's intrinsic size, and it is honoured rather
+     than stretched: every diagram uses the same label sizes, so drawn at their
+     natural scale they all read at the same size on the page. Stretching each
+     one to the column made a narrow diagram's labels twice the size of a wide
+     one's in the same article. */
+  width: auto;
   height: auto;
+  max-width: 100%;
   /* A wide diagram squeezed into a phone column becomes unreadable long before
      it becomes narrow. Below this it scrolls instead. */
-  min-width: 20rem;
+  min-width: min(100%, 26rem);
+  margin-inline: auto;
 }
 
 .article-figure-credit {
