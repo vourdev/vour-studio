@@ -34,7 +34,7 @@ export const IS_INDEXABLE =
 export const siteConfig = {
   name: "vour.dev",
   legalName: "vour.dev",
-  tagline: "Studio digital untuk website, web application, dan deployment",
+  tagline: "AI-driven web engineering platform, developer tools, and cloud deployment",
   /**
    * The one-sentence answer to "Apa itu vour.dev?".
    *
@@ -43,7 +43,7 @@ export const siteConfig = {
    * of the entity.
    */
   description:
-    "vour.dev adalah studio digital yang membantu bisnis membangun website, aplikasi web, dan kebutuhan deployment. vour.dev juga menyediakan produk digital seperti template website dan developer resources.",
+    "vour.dev is an AI-driven product engineering platform architecting scalable web applications, autonomous AI workflows, and production-grade developer starter kits.",
   url: SITE_URL,
   locale: "id-ID",
 } as const;
@@ -83,8 +83,9 @@ export const mainNav = [
  * sections later and wonders whether they go somewhere different.
  */
 export const PRIMARY_CTA = "Mulai Project"; // -> /contact
+export const EXPLORE_CTA = "Explore Platform"; // -> /solutions
 export const SERVICES_CTA = "Lihat Layanan"; // -> /#services
-export const PRODUCTS_CTA = "Lihat Produk"; // -> /products
+export const PRODUCTS_CTA = "Developer Products"; // -> /products
 export const PROJECTS_CTA = "Lihat Project"; // -> /projects
 export const BLOG_CTA = "Lihat Blog"; // -> /blog
 export const RESOURCES_CTA = BLOG_CTA; // backwards-compatibility alias

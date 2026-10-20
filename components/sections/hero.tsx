@@ -21,7 +21,7 @@ import { Reveal } from "@/components/motion/reveal";
 import { Marquee } from "@/components/ui/marquee-utils/marquee";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import { PRIMARY_CTA, SERVICES_CTA } from "@/lib/site";
+import { EXPLORE_CTA, PRODUCTS_CTA } from "@/lib/site";
 
 /** Dissolve at both ends of the marquee track. Wide enough that a logo fades
     over roughly its own width plus the gap, so nothing pops out of existence. */
@@ -77,12 +77,12 @@ export function Hero() {
         >
           {/* <span aria-hidden className="size-1.5 shrink-0 rounded-full bg-accent" /> */}
           <SparkleIcon weight="fill" className="size-4 text-accent-text" aria-hidden />
-          Studio digital di Indonesia
+          AI-DRIVEN WEB ENGINEERING &amp; DEVELOPER PLATFORM
         </Reveal>
 
         <KineticHeading
-          text="Website, Web Application, dan Deployment untuk Bisnis Anda."
-          accentFrom={5}
+          text="Production-Grade Web Applications & AI Automation Built to Scale."
+          accentFrom={4}
           className="font-display text-[1.85rem] font-semibold leading-[1.16] tracking-[-0.035em] sm:text-[2.5rem] lg:text-[3.5rem]"
         />
 
@@ -91,8 +91,9 @@ export function Hero() {
           delay={0.45}
           className="mt-5 max-w-[58ch] text-base leading-relaxed text-text-muted md:mt-6 md:text-lg"
         >
-          vour.dev membangun website, aplikasi web, dan kebutuhan deployment
-          untuk bisnis di Indonesia. Kode dan dokumentasinya jadi milik Anda.
+          vour.dev engineers high-throughput web platforms, autonomous AI workflows,
+          and production-grade developer toolkits. Built with modern clean architecture—100%
+          owned, zero vendor lock-in.
         </Reveal>
 
         <Reveal
@@ -101,11 +102,11 @@ export function Hero() {
         >
           <MagneticButton>
             <Button asChild size="lg">
-              <Link href="/contact">{PRIMARY_CTA}</Link>
+              <Link href="/solutions">{EXPLORE_CTA}</Link>
             </Button>
           </MagneticButton>
           <Button asChild size="lg" variant="secondary">
-            <Link href="/#services">{SERVICES_CTA}</Link>
+            <Link href="/products">{PRODUCTS_CTA}</Link>
           </Button>
         </Reveal>
       </Container>
