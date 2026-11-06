@@ -37,10 +37,10 @@ function LeadFormFields({
 
   const [message, setMessage] = useState(() => {
     if (serviceParam === "website-development") {
-      return "Halo vour.dev, saya tertarik dengan layanan Website & Web Application Development. ";
+      return "Halo vour.dev, saya tertarik dengan layanan pembuatan website dan web application. ";
     }
     if (serviceParam === "infrastructure") {
-      return "Halo vour.dev, saya tertarik dengan layanan Deployment & Infrastructure. ";
+      return "Halo vour.dev, saya tertarik dengan layanan Deployment & Infrastruktur. ";
     }
     if (productParam) {
       const productName = productParam
@@ -71,7 +71,7 @@ function LeadFormFields({
         <h2 className="mt-4 text-xl font-medium">Pesan Anda sudah masuk</h2>
         <p className="mt-2 max-w-[52ch] text-sm leading-relaxed text-text-muted">
           Kami biasanya membalas dalam satu hari kerja. Kalau butuh lebih cepat,
-          chat WhatsApp adalah jalur tercepat.
+          chat kami lewat WhatsApp.
         </p>
         <a
           href={whatsappLink()}
@@ -101,7 +101,6 @@ function LeadFormFields({
       <input type="hidden" name="elapsedMs" ref={elapsedRef} defaultValue="0" />
       <input type="hidden" name="turnstileToken" value={turnstileToken} />
 
-      {/* Honeypot for bots */}
       <div className="absolute left-[-9999px]" aria-hidden>
         <label htmlFor="company">Perusahaan</label>
         <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />

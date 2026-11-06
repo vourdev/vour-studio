@@ -4,13 +4,8 @@ import { useRef } from "react";
 import { motion } from "motion/react";
 
 /**
- * The dot grid is a static asset, built by `scripts/generate-world-map.mjs`.
- *
- * It used to be generated here on every render and inlined as a `data:` URI,
- * which put 934 kB of SVG into the /contact HTML twice -- once in the
- * server-rendered `<img>`, once in the hydration payload -- and shipped
- * `dotted-map` to the browser for a grid that never changes. As a file the
- * browser fetches 21 kB gzipped and caches it.
+ * Static asset built by `scripts/generate-world-map.mjs`. Do not generate it at render:
+ * inlining it put 934 kB of SVG into the page twice.
  */
 const MAP_SRC = "/world-map.svg";
 
@@ -45,10 +40,7 @@ export default function WorldMap({
 
   return (
     <div className="relative aspect-[2/1] w-full font-sans">
-      {/* Decorative: the arcs and copy around it carry the meaning, so an empty
-          alt keeps it out of the accessibility tree. `next/image` is skipped on
-          purpose -- this is a vector, and routing it through the optimizer
-          would rasterise it. */}
+      {/* Decorative, so empty alt. Not `next/image`: the optimizer would rasterise the vector. */}
       <img
         src={MAP_SRC}
         className="h-full w-full [mask-image:linear-gradient(to_bottom,transparent,white_10%,white_90%,transparent)] pointer-events-none select-none"

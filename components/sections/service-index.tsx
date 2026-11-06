@@ -16,12 +16,7 @@ export type ServiceIndexItem = {
   isSoon: boolean;
 };
 
-/**
- * The service ledger. Each entry opens with its own hairline; a single accent
- * line travels between them on hover, the same shared-element indicator the
- * desktop nav uses for its pill (`desktop-nav-indicator`), so the two surfaces
- * behave alike.
- */
+/** The hover line reuses the nav's shared-element indicator pattern. */
 export function ServiceIndex({ items }: { items: ServiceIndexItem[] }) {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const reduceMotion = useReducedMotion();
@@ -39,8 +34,7 @@ export function ServiceIndex({ items }: { items: ServiceIndexItem[] }) {
         const isHovered = hoveredIdx === idx;
         const number = String(idx + 1).padStart(2, "0");
 
-        // Both states share the box so the hairlines stay on the grid and every
-        // entry's last line keeps the same baseline across a row.
+        // Both states share the box so every entry keeps the same baseline.
         const box =
           "relative flex h-full flex-col border-t border-border pt-5 pb-6";
 

@@ -1,17 +1,8 @@
 import { PRIMARY_CTA, PRODUCTS_CTA, SERVICE_CTA } from "@/lib/site";
 
 /**
- * The single source of truth for what vour.dev sells.
- *
- * Every surface reads from here -- the home showcase, `/solutions`, `llms.txt`,
- * the `Service` JSON-LD and the sitemap -- so a visitor, a crawler and a
- * language model all get the same list. Adding a service anywhere else is a
- * bug, not a shortcut.
- *
- * Copy rule (see AGENTS.md, "Language & Copy"): `summary`, `answer` and
- * `outcomes` sell the outcome and never name a technology. `offerings` and
- * `indexSummary` may name it, because both render where a visitor is choosing
- * between options and the stack is part of that choice.
+ * Single source for every surface that lists services; adding one anywhere else is a bug.
+ * `summary`, `answer` and `outcomes` never name a technology; `offerings` and `indexSummary` may (see AGENTS.md).
  */
 
 export type ServiceOffering = {
@@ -21,7 +12,6 @@ export type ServiceOffering = {
 
 export type Service = {
   slug: string;
-  /** Category label above the card title. */
   category: string;
   icon: "browsers" | "squares" | "cloud" | "storefront" | "robot";
   title: string;
@@ -29,21 +19,14 @@ export type Service = {
   question: string;
   /** Answers `question` in its first sentence, before any elaboration. */
   answer: string;
-  /** One-line card summary for listings. */
   summary: string;
   /**
-   * The line under each entry of the home service index.
-   *
-   * Held to a single length band (85-94 characters) so every entry wraps to
-   * the same two lines and the row keeps one baseline. Unlike `summary`, this
-   * line may name the technology the service is built on: it sits beside the
-   * service name where a visitor is comparing options, and the stack is part
-   * of that comparison.
+   * Home service index line. Keep it 85-94 characters so every entry wraps to two lines.
+   * May name the technology, unlike `summary`.
    */
   indexSummary: string;
   /** What the client gets back, not what we do. */
   outcomes: string[];
-  /** The concrete deliverables inside this service. */
   offerings: ServiceOffering[];
   status: "available" | "soon";
   popular?: boolean;
@@ -56,7 +39,7 @@ export const services: Service[] = [
     slug: "website-development",
     category: "WEBSITE",
     icon: "browsers",
-    title: "Website Development",
+    title: "Pembuatan Website",
     question: "Apa saja yang termasuk jasa pembuatan website vour.dev?",
     answer:
       "Jasa pembuatan website vour.dev mencakup landing page, company profile, website portfolio, dan website custom sesuai kebutuhan bisnis. Pengerjaannya dimulai dari perancangan struktur halaman dan tampilan, dilanjutkan pembuatan, lalu pemasangan sampai website bisa diakses publik di domain Anda.",
@@ -101,7 +84,7 @@ export const services: Service[] = [
     slug: "web-application",
     category: "WEB APPLICATION",
     icon: "squares",
-    title: "Web Application Development",
+    title: "Pembuatan Web Application",
     question: "Kapan bisnis membutuhkan web application?",
     answer:
       "Bisnis membutuhkan web application ketika pengunjung atau tim tidak cukup hanya membaca halaman, tetapi harus login, mengisi, mengubah, dan melihat data. Contohnya dashboard operasional, panel admin, dan sistem pencatatan internal yang selama ini dikerjakan lewat spreadsheet.",
@@ -145,7 +128,7 @@ export const services: Service[] = [
     slug: "deployment-infrastructure",
     category: "DEPLOYMENT",
     icon: "cloud",
-    title: "Deployment & Infrastructure",
+    title: "Deployment & Infrastruktur",
     question: "Apakah vour.dev menyediakan deployment dan konfigurasi server?",
     answer:
       "Ya. vour.dev mengerjakan deployment, konfigurasi server, Docker, dan konfigurasi jaringan. Layanan ini bisa diambil sebagai bagian dari pembuatan website, atau berdiri sendiri untuk aplikasi yang sudah Anda miliki tetapi belum berjalan stabil di production.",
@@ -166,7 +149,7 @@ export const services: Service[] = [
           "Memindahkan aplikasi dari komputer developer ke server yang bisa diakses publik, termasuk domain dan sertifikat HTTPS.",
       },
       {
-        name: "Server Configuration",
+        name: "Konfigurasi Server",
         description:
           "Penyiapan VPS atau cloud server: reverse proxy, firewall, hak akses, backup rutin, dan pemantauan pemakaian.",
       },
@@ -176,7 +159,7 @@ export const services: Service[] = [
           "Aplikasi dan dependensinya dibungkus jadi container, supaya jalan sama persis di komputer developer maupun di server.",
       },
       {
-        name: "Network Configuration",
+        name: "Konfigurasi Jaringan",
         description:
           "Pengaturan DNS, subdomain, routing antar layanan, dan akses privat antar server.",
       },
@@ -205,17 +188,17 @@ export const services: Service[] = [
     ],
     offerings: [
       {
-        name: "Website Template",
+        name: "Template Website",
         description:
           "Template siap pakai untuk company profile dan website bisnis, tinggal diganti isinya.",
       },
       {
-        name: "Portfolio Template",
+        name: "Template Portfolio",
         description:
           "Template portfolio untuk developer dan desainer, dengan format studi kasus per project.",
       },
       {
-        name: "Landing Page Template",
+        name: "Template Landing Page",
         description:
           "Template satu halaman untuk kampanye, dengan section yang bisa disusun ulang.",
       },
@@ -240,9 +223,9 @@ export const services: Service[] = [
   },
   {
     slug: "ai-automation",
-    category: "AI & AUTOMATION",
+    category: "AI & OTOMASI",
     icon: "robot",
-    title: "AI Automation",
+    title: "Otomasi AI",
     question: "Apakah vour.dev menyediakan AI automation?",
     answer:
       "Belum. AI automation masih kami siapkan dan belum dibuka sebagai layanan berbayar. Kalau kebutuhan Anda ke arah sana, silakan tetap hubungi kami supaya bisa kami kabari saat layanannya dibuka.",
@@ -257,11 +240,11 @@ export const services: Service[] = [
     ],
     offerings: [
       {
-        name: "Workflow Automation",
+        name: "Otomasi Alur Kerja",
         description: "Alur kerja berulang dijalankan otomatis. Masih dalam persiapan.",
       },
       {
-        name: "Systems Integration",
+        name: "Integrasi Perkakas",
         description:
           "Menyambungkan perkakas operasional yang sudah dipakai. Masih dalam persiapan.",
       },
@@ -272,7 +255,6 @@ export const services: Service[] = [
   },
 ];
 
-/** Services that are actually purchasable today. */
 export const availableServices = services.filter((s) => s.status === "available");
 
 export function getService(slug: string) {
@@ -300,19 +282,19 @@ export const differentiators = [
 
 export const workflowSteps = [
   {
-    title: "Consultation",
+    title: "Konsultasi",
     body: "Kami dengar masalahnya sampai selesai, sebelum menyebut solusi apa pun.",
   },
   {
-    title: "Planning",
+    title: "Perencanaan",
     body: "Lingkup, jadwal, dan biaya ditulis dan disepakati sebelum baris pertama dikerjakan.",
   },
   {
-    title: "Development",
+    title: "Pengerjaan",
     body: "Progress bisa dilihat tiap minggu, jadi tidak ada kejutan di akhir.",
   },
   {
-    title: "Testing",
+    title: "Pengujian",
     body: "Dicoba di HP lama, layar lebar, dan koneksi lambat sebelum dinyatakan selesai.",
   },
   {
@@ -320,7 +302,7 @@ export const workflowSteps = [
     body: "Dipasang di domain Anda, lengkap dengan sertifikat keamanan dan pemantauan.",
   },
   {
-    title: "Support",
+    title: "Pendampingan",
     body: "Masa pendampingan setelah rilis, saat masalah kecil biasanya baru muncul.",
   },
 ];

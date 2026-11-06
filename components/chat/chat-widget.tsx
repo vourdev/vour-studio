@@ -20,7 +20,6 @@ import { cn } from "@/lib/utils";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-/** Principle: icon swaps cross-fade with scale and blur, never a hard cut. */
 const ICON_SPRING = { type: "spring" as const, duration: 0.3, bounce: 0 };
 
 const GREETING =
@@ -36,8 +35,7 @@ const TOPIC_PROMPT = "Pilih topik untuk melihat pertanyaan yang tersedia:";
 
 const BROWSE_LABEL = "Lihat semua pertanyaan";
 
-/** A lookup returns instantly. Without a beat the reply lands in the same
-    frame as the question and reads as a glitch rather than an answer. */
+/** A short delay so an instant lookup does not read as a glitch. */
 const THINKING_MS = 260;
 
 const STARTERS = [
@@ -46,14 +44,10 @@ const STARTERS = [
   "Bagaimana cara mulai project?",
 ];
 
-/** A tappable follow-up. Every route into the answer bank is one of these, so
-    a visitor never has to guess the wording of a question we can answer. */
 type Chip =
   | { kind: "ask"; label: string }
   | { kind: "topic"; label: string; topic: string };
 
-/** Every tappable follow-up wears this, so a suggestion, a topic and a
-    starter are visibly the same kind of thing. */
 const chipClass =
   "flex min-h-10 w-full cursor-pointer items-center rounded-control border border-border px-3.5 py-2 text-left text-[0.8125rem] leading-snug text-text-muted transition-[color,border-color,background-color] duration-200 ease-out hover:border-border-strong hover:bg-surface hover:text-text focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none active:scale-[0.96]";
 
@@ -61,19 +55,10 @@ type Message = {
   role: "user" | "assistant";
   content: string;
   chips?: Chip[];
-  /** Shown under the message as the way out when we have no answer. */
   whatsapp?: boolean;
 };
 
-/**
- * The launcher mark, built from CSS boxes rather than an icon-set glyph.
- *
- * A stock chat bubble makes the assistant look like a bolted-on plugin. This
- * one borrows the wordmark's motif: the dots are punched out in the accent so
- * they read as holes in the bubble, the way the dot sits inside `vour.dev`.
- * On hover they lift in sequence, which is the only motion here and the only
- * one that earns its place: it answers the press before the panel opens.
- */
+/** Launcher mark built from CSS boxes, echoing the wordmark's dot. */
 function ChatMark() {
   return (
     <span aria-hidden className="relative block size-6">
@@ -93,7 +78,6 @@ function ChatMark() {
   );
 }
 
-/** Paired with ChatMark so both launcher states come from the same hand. */
 function CloseMark() {
   return (
     <span aria-hidden className="relative block size-6">
@@ -108,7 +92,6 @@ function CloseMark() {
   );
 }
 
-/** Three dots, offset in time. Reads as "thinking" where a spinner reads as "loading". */
 function TypingDots() {
   const reduceMotion = useReducedMotion();
 
@@ -213,8 +196,6 @@ export function ChatWidget() {
     }, THINKING_MS);
   }
 
-  /** The topic index, delivered as a message so browsing lives in the
-      conversation rather than in a separate panel the visitor has to close. */
   function browseTopics() {
     if (pending) return;
 
@@ -256,8 +237,6 @@ export function ChatWidget() {
 
   return (
     <>
-      {/* Mobile only: the panel covers most of the screen, so it needs to read
-          as a layer above the page rather than part of it. */}
       <AnimatePresence>
         {open && (
           <motion.button
@@ -281,7 +260,7 @@ export function ChatWidget() {
         aria-expanded={open}
         className="group fixed right-5 bottom-5 z-50 flex size-14 cursor-pointer items-center justify-center rounded-full bg-accent text-accent-fg shadow-[0_1px_0_rgba(255,255,255,0.3)_inset,0_8px_24px_-6px_rgba(57,213,246,0.5),0_2px_8px_rgba(0,0,0,0.4)] transition-[scale,background-color] duration-200 ease-out-expo hover:bg-accent-hover focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg focus-visible:outline-none active:scale-[0.96] md:right-8 md:bottom-8"
       >
-        {/* Both icons stay mounted and cross-fade, so the swap has an exit too. */}
+        {/* Both icons stay mounted so the swap has an exit too. */}
         <span className="relative grid size-6 place-items-center">
           <AnimatePresence initial={false} mode="popLayout">
             <motion.span
@@ -358,7 +337,6 @@ export function ChatWidget() {
             </header>
 
             <div className="relative flex min-h-0 flex-1 flex-col">
-              {/* Content passing under the header fades instead of hard-cutting. */}
               <div
                 aria-hidden
                 className="pointer-events-none absolute inset-x-0 top-0 z-10 h-6 bg-gradient-to-b from-surface-solid to-transparent"
@@ -368,9 +346,7 @@ export function ChatWidget() {
                 ref={scrollRef}
                 aria-live="polite"
                 aria-atomic="false"
-                /* Lenis owns the page's wheel events; without this opt-out the
-                   panel cannot scroll at all. `overscroll-contain` then stops a
-                   scroll that reaches the end from moving the page behind it. */
+                /* Lenis owns wheel events; without this opt-out the panel cannot scroll. */
                 data-lenis-prevent
                 className="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain px-4 py-4"
               >
@@ -399,8 +375,6 @@ export function ChatWidget() {
                   );
                 })}
 
-                {/* Follow-ups for the newest reply only. Older chip sets stay in
-                    the transcript but stop competing for attention. */}
                 {!pending && lastMessage?.chips && lastMessage.chips.length > 0 && (
                   <div className="flex flex-col items-start gap-2 pt-1">
                     {lastMessage.chips.map((chip, index) => (
@@ -489,7 +463,7 @@ export function ChatWidget() {
                 maxLength={1000}
                 placeholder="Tulis pertanyaan..."
                 aria-label="Pertanyaan untuk asisten"
-                className="h-10 min-w-0 flex-1 rounded-control border border-border bg-bg px-3 text-sm text-text transition-colors duration-200 ease-out outline-none placeholder:text-text-faint focus:border-accent"
+                className="h-10 min-w-0 flex-1 rounded-control border border-border-control bg-bg px-3 text-sm text-text transition-colors duration-200 ease-out outline-none placeholder:text-text-faint focus:border-accent"
               />
               <button
                 type="submit"

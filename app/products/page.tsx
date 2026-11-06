@@ -15,10 +15,7 @@ export const metadata = buildMetadata({
   path: "/products",
 });
 
-/**
- * Rendered visibly below the product grid, and mirrored into `FAQPage` markup.
- * Editing one without the other breaks that contract.
- */
+// Rendered below the grid and mirrored into `FAQPage` markup; keep both in sync.
 const productFaqs: ProductFaqItem[] = [
   {
     question: "Apa itu website template?",

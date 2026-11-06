@@ -10,36 +10,18 @@ import { useRef } from "react";
 import { Container } from "@/components/ui/container";
 import type { Project } from "@/lib/data/projects";
 
-/** Where the first card parks, clear of the fixed nav. */
 const STACK_TOP_REM = 7;
-/** Each card parks slightly lower, so the ones beneath stay visible as a lip. */
 const STACK_STEP_REM = 1.1;
 
 /**
- * Projects as a scroll stack: each case parks under the nav and the next one
- * slides over it, leaving a lip of the cards beneath.
- *
- * The pattern is React Bits' ScrollStack. Its component is not used directly
- * because it constructs its own Lenis instance on `window`, and this site
- * already runs one in `components/layout/lenis-provider.tsx`; two instances
- * driving the same scroll fight each other. The stacking here is plain CSS
- * `position: sticky`, and the depth cue is a Motion transform, so it rides the
- * existing smooth scroll instead of competing with it.
- *
- * Stacking is desktop-only. A card is about two thirds of a laptop viewport;
- * on a phone the same card is taller than the screen, so pinning it would trap
- * the reader rather than move them along. Below `lg` the cards are a plain
- * divided list.
+ * React Bits' ScrollStack is not used directly: it creates a second Lenis instance,
+ * which fights the one in `lenis-provider.tsx`. Stacking is desktop-only; below `lg` it is a plain list.
  */
 export function ProjectStack({ projects }: { projects: Project[] }) {
   const containerRef = useRef<HTMLOListElement>(null);
   const reduce = useReducedMotion();
 
-  // Progress across the whole stack. Measuring the container rather than each
-  // card is deliberate: a sticky card's bounding box freezes while it is
-  // pinned, so per-card measurement stalls exactly when the effect is needed.
-  // Cards share one template and run to similar heights, so an even slice per
-  // card tracks closely enough.
+  // Measure the container, not each card: a pinned sticky card's box freezes.
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
@@ -49,8 +31,7 @@ export function ProjectStack({ projects }: { projects: Project[] }) {
 
   return (
     <Container>
-      {/* Trailing room so the last card can reach its park position before the
-          section ends. 16vh left a visible hole under the stack. */}
+      {/* Room for the last card to reach its park position. */}
       <ol ref={containerRef} className="relative lg:pb-[7vh]">
         {projects.map((project, index) => (
           <StackCard
@@ -91,16 +72,10 @@ function StackCard({
   progress: ReturnType<typeof useScroll>["scrollYProgress"];
   reduce: boolean;
 }) {
-  // A card only recedes once the NEXT one has parked on top of it. Mapping the
-  // transform to the card's own segment instead made the card you were reading
-  // shrink and fade under you, which read as a rendering fault rather than
-  // depth.
+  // A card recedes only once the next one has parked on it.
   const coveredAt = (index + 1) / total;
   const scale = useTransform(progress, [coveredAt, coveredAt + 0.5 / total], [1, 0.965]);
 
-  // No opacity fade: a covered card sits behind an opaque one, so the only part
-  // still visible is the lip at its top edge. Fading that is imperceptible,
-  // while fading a card too early makes the stack look see-through.
   const isLast = index === total - 1;
   const depth = reduce || isLast ? undefined : { scale };
 
@@ -120,15 +95,11 @@ function StackCard({
             alt={`Tampilan ${project.name}`}
             width={1200}
             height={900}
-            // First card is the LCP candidate on most viewports; the rest lazy.
             priority={index === 0}
             sizes="(max-width: 1024px) 100vw, 38rem"
             className="aspect-16/10 w-full rounded-[calc(var(--radius-surface)-0.25rem)] border border-border object-cover"
           />
 
-          {/* Centred against the image: a year badge, a name and a short body
-              leave the column shorter than the screenshot beside it, and
-              top-aligning the two made the card look half-empty. */}
           <div>
             <div className="flex flex-wrap items-center gap-2">
               <span className="rounded-control border border-accent/30 bg-accent-soft px-2 py-0.5 font-mono text-xs tabular-nums text-accent-text">

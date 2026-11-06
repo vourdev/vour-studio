@@ -12,34 +12,19 @@ import type { Service } from "@/lib/data/services";
 import { cn } from "@/lib/utils";
 import { ESTIMATE_CTA, PRIMARY_CTA } from "@/lib/site";
 
-/** Fixed nav is `top-4 h-14`, so its bottom edge sits at 72px. */
 const NAV_BOTTOM = 72;
-/** Breathing room between the nav (or the mobile strip) and the reference line. */
 const GAP = 24;
 
 /**
- * The service list as an index plus long-form panels: a sticky rail on desktop,
- * a sticky tab strip on mobile, both tracking whichever panel the reader is in.
- *
- * Panels keep `id={service.slug}` because `/solutions#<slug>` is linked from the
- * home showcase, the About page, `llms.txt` and the `Service` JSON-LD. The
- * scroll-margin below is what keeps those deep links from landing under the nav.
- *
- * Scroll-spy approach adapted from 21st.dev's Service Changelog by @ruixen.ui:
- * resolve the scrolling document from the section's `ownerDocument`, derive the
- * reference line from the strip's rendered height rather than a magic number,
- * and coalesce scroll work into one rAF.
+ * Panels keep `id={service.slug}`: `/solutions#<slug>` is linked from the home showcase,
+ * About, `llms.txt` and the `Service` JSON-LD. Scroll-spy adapted from 21st.dev's Service Changelog by @ruixen.ui.
  */
 export function ServiceLedger({
   services,
   visuals,
 }: {
   services: Service[];
-  /**
-   * Optional decorative figure per service, keyed by slug. A rendered node
-   * rather than a render function: functions cannot cross the server/client
-   * boundary, and these figures are static anyway.
-   */
+  /** A node, not a render function: functions cannot cross the server/client boundary. */
   visuals?: Partial<Record<string, ReactNode>>;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -54,9 +39,7 @@ export function ServiceLedger({
     const compute = () => {
       raf = null;
 
-      // The mobile strip is `display:none` on desktop, where the nav alone sets
-      // the reference line. Reading the rendered rect covers both cases without
-      // duplicating the breakpoint in JS.
+      // Reading the rendered rect avoids duplicating the breakpoint in JS.
       const strip = stripRef.current;
       const stripBottom = strip?.getBoundingClientRect().bottom ?? 0;
       const referenceY = Math.max(stripBottom, NAV_BOTTOM) + GAP;
@@ -76,8 +59,7 @@ export function ServiceLedger({
         else break;
       }
 
-      // The last panel's top may never cross the line when there is not enough
-      // content under it, so bottoming out forces the final entry.
+      // The last panel may never cross the line, so bottoming out forces it.
       const doc = sectionRef.current?.ownerDocument ?? document;
       const scroller = doc.scrollingElement ?? doc.documentElement;
       if (
@@ -98,8 +80,7 @@ export function ServiceLedger({
 
     const doc = sectionRef.current?.ownerDocument ?? document;
     const win = doc.defaultView ?? window;
-    // Scroll events do not bubble but they do traverse capture, so this also
-    // catches scrolling from any nested container.
+    // Capture also catches scrolling from nested containers.
     doc.addEventListener("scroll", onScroll, { passive: true, capture: true });
     win.addEventListener("resize", onScroll, { passive: true });
 
@@ -110,9 +91,7 @@ export function ServiceLedger({
     };
   }, [services.length]);
 
-  // Keep the active tab inside the mobile scroller. Scroll the strip on its own
-  // axis only: `scrollIntoView` here would nudge the page vertically and fight
-  // the spy, landing the reader on the wrong panel.
+  // Scroll the strip on its own axis: `scrollIntoView` would nudge the page and fight the spy.
   useEffect(() => {
     const container = stripRef.current;
     const tab = container?.children[activeIndex] as HTMLElement | undefined;
@@ -139,7 +118,6 @@ export function ServiceLedger({
         scrollPaddingTop: `calc(${NAV_BOTTOM}px + var(--ledger-strip-h, 0px) + ${GAP}px)`,
       }}
     >
-      {/* Mobile: a sticky strip under the floating nav. */}
       <nav
         aria-label="Daftar layanan"
         className="sticky top-[4.5rem] z-30 border-y border-border bg-bg/85 backdrop-blur-md lg:hidden"
@@ -172,7 +150,6 @@ export function ServiceLedger({
 
       <Container>
         <div className="grid gap-y-12 lg:grid-cols-[minmax(0,14rem)_minmax(0,1fr)] lg:gap-x-16">
-          {/* Desktop: a sticky index rail. */}
           <nav aria-label="Daftar layanan" className="hidden lg:block">
             <ol className="sticky top-28 space-y-1 border-l border-border">
               {services.map((service, i) => {
@@ -223,9 +200,6 @@ export function ServiceLedger({
                   }}
                   className="scroll-mt-28"
                 >
-                  {/* Index gutter: a hairline and a number instead of a card
-                      border, so five services read as one document rather than
-                      five repeated boxes. */}
                   <div className="flex items-center gap-4 border-t border-border pt-5">
                     <span className="font-mono text-xs tabular-nums text-accent-text">
                       {String(index + 1).padStart(2, "0")}
@@ -244,9 +218,6 @@ export function ServiceLedger({
                     {service.question}
                   </h2>
 
-                  {/* The answer shares a row with the figure when there is one,
-                      and takes the full measure when there is not -- an empty
-                      reserved column would read as a missing image. */}
                   <div
                     className={cn(
                       "mt-4",
@@ -260,11 +231,6 @@ export function ServiceLedger({
                     {visual}
                   </div>
 
-                  {/* Offerings flow in columns rather than sitting in a grid of
-                      cards. A service has anywhere from two to six of them, and
-                      flowing text balances itself at any count -- no empty
-                      cells, and no column that runs far longer than its
-                      neighbour. */}
                   <div className="mt-10 border-t border-border pt-6">
                     <h3 className="font-mono text-[10px] uppercase tracking-[0.18em] text-text-faint">
                       Yang termasuk di dalamnya
@@ -286,10 +252,6 @@ export function ServiceLedger({
                     </dl>
                   </div>
 
-                  {/* Outcomes are one short line each, so they wrap as a strip
-                      instead of a column. This is what keeps the CTA a fixed
-                      distance below the copy no matter how many offerings the
-                      service has. */}
                   <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2.5 text-sm text-text-muted">
                     {service.outcomes.map((outcome) => (
                       <li key={outcome} className="flex items-start gap-2">
@@ -303,10 +265,6 @@ export function ServiceLedger({
                     ))}
                   </ul>
 
-                  {/* Both CTAs are real buttons so they share the `sm` height.
-                      The secondary one is `ghost` rather than `secondary`: this
-                      row repeats once per service, and five outlined buttons
-                      down the page would out-weigh the copy they sit under. */}
                   <div className="mt-7 flex flex-wrap items-center gap-2">
                     <Button asChild size="sm">
                       <Link href={`/contact?service=${service.slug}`}>

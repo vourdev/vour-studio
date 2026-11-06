@@ -21,7 +21,6 @@ export function Differentiators() {
         </div>
 
         <div className="grid grid-cols-6 gap-6">
-          {/* Card 1: Modern Tech Stack (Col-span 2) */}
           <div className="col-span-full lg:col-span-2 border border-border rounded-surface bg-bg-subtle/50 overflow-hidden flex flex-col justify-between p-7 group hover:border-border-strong transition-colors min-h-[310px]">
             <div className="size-full flex items-center justify-center py-4">
               <div className="relative flex h-24 w-56 items-center m-auto text-accent-text">
@@ -42,7 +41,6 @@ export function Differentiators() {
             </div>
           </div>
 
-          {/* Card 2: AI-Powered Development (Col-span 2) */}
           <div className="col-span-full sm:col-span-3 lg:col-span-2 border border-border rounded-surface bg-bg-subtle/50 overflow-hidden flex flex-col justify-between p-7 group hover:border-border-strong transition-colors min-h-[310px]">
             <div className="size-full flex items-center justify-center py-4">
               <svg className="w-full max-h-24 text-accent/85" viewBox="0 0 380 120" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -68,14 +66,13 @@ export function Differentiators() {
               </svg>
             </div>
             <div className="space-y-2">
-              <h3 className="text-base font-semibold">AI-Powered Development</h3>
+              <h3 className="text-base font-semibold">Dibantu AI, Diputuskan Orang</h3>
               <p className="text-[13px] text-text-muted leading-relaxed">
                 AI kami pakai untuk pekerjaan yang berulang. Keputusan arsitektur dan review kode tetap dipegang orang.
               </p>
             </div>
           </div>
 
-          {/* Card 3: Clean Architecture (Col-span 2) */}
           <div className="col-span-full sm:col-span-3 lg:col-span-2 border border-border rounded-surface bg-bg-subtle/50 overflow-hidden flex flex-col justify-between p-7 group hover:border-border-strong transition-colors min-h-[310px]">
             <div className="relative -mx-7 -mt-7 mb-4 h-40 border-b border-border bg-bg-subtle/40 p-5 flex flex-col font-mono text-[0.65rem] overflow-hidden select-none">
               <div className="flex items-center gap-1.5 pb-2.5 border-b border-border/40">
@@ -86,25 +83,24 @@ export function Differentiators() {
               </div>
               <div className="flex-1 pt-3.5 space-y-2.5 text-text-muted">
                 <div className="flex items-center gap-2">
-                  <span className="text-accent">dir</span> <span className="text-text">entities/</span> <span className="text-[0.625rem] text-text-faint">(Business Domain)</span>
+                  <span className="text-accent">dir</span> <span className="text-text">entities/</span> <span className="text-[0.625rem] text-text-faint">(aturan bisnis)</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-accent">dir</span> <span className="text-text">usecases/</span> <span className="text-[0.625rem] text-text-faint">(Application Logic)</span>
+                  <span className="text-accent">dir</span> <span className="text-text">usecases/</span> <span className="text-[0.625rem] text-text-faint">(alur aplikasi)</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-accent">dir</span> <span className="text-text">frameworks/</span> <span className="text-[0.625rem] text-text-faint">(UI & DB Setup)</span>
+                  <span className="text-accent">dir</span> <span className="text-text">frameworks/</span> <span className="text-[0.625rem] text-text-faint">(tampilan & database)</span>
                 </div>
               </div>
             </div>
             <div className="space-y-2">
-              <h3 className="text-base font-semibold">Clean Architecture</h3>
+              <h3 className="text-base font-semibold">Struktur Kode yang Mudah Dibaca</h3>
               <p className="text-[13px] text-text-muted leading-relaxed">
                 Developer lain bisa membaca struktur kode ini tanpa perlu menelepon kami dulu.
               </p>
             </div>
           </div>
 
-          {/* Card 4: Documentation (Col-span 3) */}
           <div className="col-span-full lg:col-span-3 border border-border rounded-surface bg-bg-subtle/50 overflow-hidden group hover:border-border-strong transition-colors min-h-[295px] p-7">
             <div className="grid h-full sm:grid-cols-2 gap-6">
               <div className="flex flex-col justify-between space-y-10">
@@ -122,23 +118,22 @@ export function Differentiators() {
                 <div className="flex items-center gap-2.5">
                   <span className="block h-fit rounded border border-border bg-surface-solid px-2 py-0.5 text-xs text-text shadow-sm">README.md</span>
                   <span className="block h-1.5 w-1.5 rounded-full bg-accent" />
-                  <span className="text-[0.625rem] text-text-faint">Panduan inisiasi</span>
+                  <span className="text-[0.625rem] text-text-faint">Cara menjalankan</span>
                 </div>
                 <div className="flex items-center gap-2.5">
                   <span className="block h-fit rounded border border-border bg-surface-solid px-2 py-0.5 text-xs text-text shadow-sm">DEPLOY.md</span>
                   <span className="block h-1.5 w-1.5 rounded-full bg-accent" />
-                  <span className="text-[0.625rem] text-text-faint">Langkah hosting otomatis</span>
+                  <span className="text-[0.625rem] text-text-faint">Cara merilis ulang</span>
                 </div>
                 <div className="flex items-center gap-2.5">
                   <span className="block h-fit rounded border border-border bg-surface-solid px-2 py-0.5 text-xs text-text shadow-sm">SETUP.md</span>
                   <span className="block h-1.5 w-1.5 rounded-full bg-accent" />
-                  <span className="text-[0.625rem] text-text-faint">Konfigurasi env keys</span>
+                  <span className="text-[0.625rem] text-text-faint">Pengaturan environment</span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Card 5: Support & Maintenance (Col-span 3) */}
           <div className="col-span-full lg:col-span-3 border border-border rounded-surface bg-bg-subtle/50 overflow-hidden group hover:border-border-strong transition-colors min-h-[295px] p-7">
             <div className="grid h-full sm:grid-cols-2 gap-6">
               <div className="flex flex-col justify-between space-y-10">
@@ -154,15 +149,15 @@ export function Differentiators() {
               </div>
               <div className="relative flex flex-col justify-center space-y-4">
                 <div className="relative flex w-[85%] items-center justify-end gap-2 ml-auto">
-                  <span className="block h-fit rounded border border-border bg-surface-solid px-2 py-1 text-[10px] text-text-muted shadow-sm">Ready to deploy?</span>
+                  <span className="block h-fit rounded border border-border bg-surface-solid px-2 py-1 text-[10px] text-text-muted shadow-sm">Sudah bisa rilis?</span>
                   <div className="size-6 rounded-full bg-accent flex items-center justify-center text-[10px] font-bold text-accent-fg">DE</div>
                 </div>
                 <div className="relative flex w-[85%] items-center justify-start gap-2 mr-auto">
                   <div className="size-6 rounded-full bg-border-strong flex items-center justify-center text-[10px] font-bold text-text">V</div>
-                  <span className="block h-fit rounded border border-border bg-accent/15 px-2 py-1 text-[10px] text-accent-text font-medium shadow-sm">All pipelines cleared.</span>
+                  <span className="block h-fit rounded border border-border bg-accent/15 px-2 py-1 text-[10px] text-accent-text font-medium shadow-sm">Sudah live. Kami pantau dulu.</span>
                 </div>
                 <div className="relative flex w-[85%] items-center justify-end gap-2 ml-auto">
-                  <span className="block h-fit rounded border border-border bg-surface-solid px-2 py-1 text-[10px] text-text-muted shadow-sm">Awesome, thank you!</span>
+                  <span className="block h-fit rounded border border-border bg-surface-solid px-2 py-1 text-[10px] text-text-muted shadow-sm">Mantap, terima kasih!</span>
                   <div className="size-6 rounded-full bg-accent flex items-center justify-center text-[10px] font-bold text-accent-fg">DE</div>
                 </div>
               </div>

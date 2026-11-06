@@ -3,21 +3,8 @@
 import { useEffect, useRef } from "react";
 
 /**
- * The hero backdrop: a band of glowing sine waves bent by the pointer.
- *
- * Composition rules it inherits from the rest of the site:
- * - One accent. Every lit line is the accent hue read off `--accent`; depth
- *   comes from alpha, line width and blur, never a second colour. The two
- *   faintest lines drop to white at very low alpha so the band has a cool edge
- *   without introducing a hue.
- * - The band sits below the optical centre, so it passes under the CTAs instead
- *   of through the headline, and the canvas is masked at all four edges so it
- *   never ends on a hard line.
- *
- * Cost control: four paths sampled every 8px, DPR capped at 2, and the loop is
- * suspended whenever the hero scrolls out of view or the tab is hidden. The
- * pointer lives in a ref; in state it would re-render the tree per mousemove.
- *
+ * Hero wave band. One accent only: depth comes from alpha, width and blur.
+ * The loop pauses when the hero is off-screen or the tab is hidden; the pointer lives in a ref, not state.
  * `prefers-reduced-motion` paints one settled frame and never starts the loop.
  */
 
@@ -36,7 +23,6 @@ type Wave = {
   alpha: number;
   width: number;
   blur: number;
-  /** 0 = accent, 1 = white. Anything between is a tint of the accent. */
   wash: number;
 };
 
@@ -47,7 +33,6 @@ const WAVES: Wave[] = [
   { offset: Math.PI * 1.45, amplitude: 1.1, frequency: 0.0021, alpha: 0.14, width: 1, blur: 10, wash: 1 },
 ];
 
-/** Fades the band out on every edge, matching the lattice mask above it. */
 const MASK = [
   "linear-gradient(to right, transparent 0%, black 14%, black 86%, transparent 100%)",
   "linear-gradient(to bottom, transparent 12%, black 30%, black 84%, transparent 100%)",
@@ -118,8 +103,6 @@ export function GlowyWaves({ className }: { className?: string }) {
     };
 
     const drawWave = (wave: Wave, index: number, t: number) => {
-      // Amplitude follows the viewport: on a laptop the band stays inside the
-      // hero, on a tall display it still reads as a wave and not a hairline.
       const amplitude = wave.amplitude * Math.min(Math.max(height * 0.058, 22), 66);
       const lane = height * BASELINE + (index - (WAVES.length - 1) / 2) * height * LANE_SPREAD;
 
@@ -178,8 +161,6 @@ export function GlowyWaves({ className }: { className?: string }) {
     resize();
 
     if (reduce) {
-      // A settled frame: the band still reads as a designed element, nothing
-      // moves and no listeners stay attached.
       draw(1200);
       const staticResize = new ResizeObserver(() => {
         resize();
@@ -197,8 +178,7 @@ export function GlowyWaves({ className }: { className?: string }) {
       target.y = event.clientY - rect.top;
     };
 
-    // The pointer left the window entirely: ease the band back to rest instead
-    // of freezing it wherever the cursor happened to exit.
+    // Pointer left the window: ease back to rest instead of freezing.
     const onPointerOut = (event: PointerEvent) => {
       if (event.relatedTarget) return;
       target.x = width / 2;
@@ -249,19 +229,12 @@ export function GlowyWaves({ className }: { className?: string }) {
   );
 }
 
-/** Fades the lattice out at all four edges so it never ends on a hard line. */
 const LATTICE_MASK = [
   "linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)",
   "linear-gradient(to bottom, transparent 0%, black 12%, black 78%, transparent 100%)",
 ].join(", ");
 
-/**
- * The whole hero backdrop: lattice, accent glow, the wave band, and the edge
- * falloff that hands the bottom of the section back to the page background.
- *
- * Order matters. The lattice sits under the waves so the lit lines read as the
- * top layer, and the falloff sits over both so neither fights the headline.
- */
+/** Layer order matters: lattice under the waves, falloff over both. */
 export function GlowyWavesBackground({ className }: { className?: string }) {
   return (
     <div aria-hidden className={className}>

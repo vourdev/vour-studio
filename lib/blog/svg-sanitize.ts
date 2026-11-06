@@ -1,21 +1,6 @@
 /**
- * Reduces an SVG written by a language model to something safe to inline.
- *
- * The diagrams in an article body are authored by the model and rendered as
- * markup, not as an image, so the article body is an HTML injection surface.
- * The model is not an attacker, but its input is not trusted either: the topic
- * brief comes from a Topic Bank that other systems write to, and a model that
- * has been talked into emitting a `<script>` must not be able to put one on
- * vour.dev.
- *
- * The approach is allow-list, not deny-list. Anything not named here is
- * removed, so a tag or attribute nobody thought of fails closed.
- *
- * This is a copy of `src/lib/svg-sanitize.ts` in `backend-vour-studio`, which
- * runs the same pass before storing. Deliberate duplication: the two repos
- * share no package, and the render side must not depend on every row in the
- * table having been written by a version of the generator that sanitized. Keep
- * them in step -- the allow-lists are the contract.
+ * Allow-list sanitizer for model-written SVG: anything not named here is removed, so unknown input fails closed.
+ * Copy of `src/lib/svg-sanitize.ts` in backend-vour-studio. Keep them in step: the allow-lists are the contract.
  */
 
 /** Shapes, structure, text and gradients. No `<image>`, `<use>`, `<a>`,
@@ -46,11 +31,7 @@ const ALLOWED_ATTRS = new Set([
 /** A diagram past this is not a diagram; it is a traced photograph. */
 const MAX_BYTES = 40_000
 
-/**
- * `url(#id)` is how a shape references a marker or gradient in the same
- * document and is the only function worth keeping. `url(http...)` and
- * `javascript:` are not.
- */
+/** Only same-document `url(#id)` survives; `url(http...)` and `javascript:` do not. */
 function safeAttrValue(name: string, value: string): string | null {
   const lowered = value.toLowerCase()
   if (lowered.includes('javascript:') || lowered.includes('data:text') || lowered.includes('<script')) return null

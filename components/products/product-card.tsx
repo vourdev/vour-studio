@@ -15,16 +15,6 @@ interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
   onPreviewClick?: (product: Product) => void;
 }
 
-/**
- * Product tile for the home-page teaser. Shares its visual language with the
- * `/products` bento: image on top, copy on a solid surface below, availability
- * stated as text.
- *
- * Deliberately absent: a category pill floating on the screenshot, a pulsing
- * status dot, and the "Kategori / Harga / Status" strip. The pill sat on top of
- * an image we do not control, the dot conveyed nothing, and the strip repeated
- * what the copy right above it already said.
- */
 const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
   ({ className, product, onPreviewClick }, ref) => {
     const isAvailable = product.status === "available";

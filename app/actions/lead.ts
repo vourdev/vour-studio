@@ -4,15 +4,8 @@ import { headers } from "next/headers";
 import { z } from "zod";
 
 
-/**
- * The database lives in the admin project (vour-studio-admin). This server
- * action validates the form, then forwards the lead to the admin's public API
- * (`POST /api/leads`) where it is stored and emailed out.
- *
- * Everything degrades gracefully: if the admin URL or API key is unset, or the
- * request fails, we log and still return success so the visitor is never
- * blocked by an infrastructure problem.
- */
+// Forwards to the admin's `POST /api/leads`. Missing config or a failed request is logged
+// and the visitor still gets success.
 
 const leadSchema = z.object({
   name: z.string().trim().min(2, "Nama minimal 2 karakter.").max(120),
@@ -34,7 +27,6 @@ const leadSchema = z.object({
   company: z.string().max(0).optional().or(z.literal("")),
   /** Milliseconds between form mount and submit. */
   elapsedMs: z.coerce.number().nonnegative().default(0),
-  /** Cloudflare Turnstile token from client widget */
   turnstileToken: z.string().optional().or(z.literal("")),
 });
 
@@ -94,7 +86,7 @@ async function verifyTurnstileToken(
 
     if (!res.ok) {
       console.warn(`[lead] Turnstile API HTTP ${res.status}`);
-      return { success: true }; // Graceful degradation
+      return { success: true };
     }
 
     const data = (await res.json()) as TurnstileVerifyResponse;
@@ -154,7 +146,6 @@ export async function submitLead(
   if (data.company) return { status: "success" };
   if (data.elapsedMs > 0 && data.elapsedMs < MIN_FILL_MS) return { status: "success" };
 
-  // Cloudflare Turnstile verification
   const headerList = await headers();
   const clientIp =
     headerList.get("cf-connecting-ip") ||

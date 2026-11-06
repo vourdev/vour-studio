@@ -25,11 +25,7 @@ type RevealProps = {
   className?: string;
 };
 
-/**
- * The site-wide scroll entrance. Cheaper than a ScrollTrigger for a plain
- * "appear once when it enters the viewport", and it animates only transform
- * and opacity so the work stays on the compositor.
- */
+/** Animates only transform and opacity. */
 export function Reveal({
   children,
   index = 0,
@@ -44,9 +40,7 @@ export function Reveal({
   return (
     <Comp
       className={className}
-      // Motion writes `opacity:0` into the server-rendered HTML. Without JS the
-      // element would stay invisible forever, so a noscript rule in the layout
-      // targets this attribute and forces it visible.
+      // A noscript rule in the layout targets this attribute so the element stays visible without JS.
       data-reveal=""
       initial={reduce ? false : { opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}

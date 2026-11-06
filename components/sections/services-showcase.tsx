@@ -10,16 +10,8 @@ import { services } from "@/lib/data/services";
 import { CONSULT_CTA } from "@/lib/site";
 
 /**
- * The service index: a numbered ledger rather than a wall of cards.
- *
- * Each entry carries only what a visitor needs to pick a direction (number,
- * name, what it is built with) and links into the matching section of
- * `/solutions`, where the full breakdown already lives. The section is
- * anchored at `#services` because the hero's secondary CTA scrolls here.
- *
- * The grid is a client island (`ServiceIndex`) because its hover indicator is
- * a shared-element animation. Only the four fields it renders are handed over,
- * so the rest of each `Service` stays out of the payload.
+ * Anchored at `#services`: the hero's secondary CTA scrolls here. Pass only the
+ * four fields `ServiceIndex` renders so the rest of each `Service` stays out of the client payload.
  */
 export function ServicesShowcase() {
   const items = services.map((service) => ({
@@ -39,8 +31,6 @@ export function ServicesShowcase() {
               <span className="font-mono text-xs font-medium uppercase tracking-[0.16em] text-text-faint">
                 Apa yang bisa kami bantu
               </span>
-              {/* The mark is sized in `em`, so it tracks the headline across
-                  every breakpoint instead of needing its own scale. */}
               <h2 className="mt-5 text-4xl font-semibold leading-[1.05] tracking-tight text-text md:text-5xl lg:text-6xl">
                 Layanan
                 <span className="mt-2 flex items-center gap-[0.25em]">

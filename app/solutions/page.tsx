@@ -23,13 +23,11 @@ export const metadata = buildMetadata({
   path: "/solutions",
 });
 
-/** Only two services earn a figure; the rest would be decoration for its own sake. */
 const SERVICE_VISUALS = {
   "website-development": <BrowserVisual />,
   "deployment-infrastructure": <TerminalVisual />,
 };
 
-/** A browser chrome mock. Decorative: the service copy carries the meaning. */
 function BrowserVisual() {
   return (
     <div
@@ -67,7 +65,6 @@ function BrowserVisual() {
   );
 }
 
-/** A deploy log mock. Decorative: the service copy carries the meaning. */
 function TerminalVisual() {
   return (
     <div
@@ -140,7 +137,6 @@ export default function SolutionsPage() {
 
       <ServiceLedger services={services} visuals={SERVICE_VISUALS} />
 
-      {/* Differentiators Matrix Section ("Mengapa Memilih vour.dev") */}
       <Section className="border-t border-border bg-bg/50">
         <Container>
           <Reveal>

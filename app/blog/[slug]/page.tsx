@@ -98,8 +98,6 @@ export default async function ResourcePage({ params }: PageProps<"/blog/[slug]">
         </p>
       </Container>
 
-      {/* The cover breaks wider than the reading column: it is the article's
-          one full-scale visual, and the body returns to a 3xl measure below. */}
       <Container className="mt-12 max-w-5xl md:mt-14">
         <Image
           src={post.image}
@@ -141,9 +139,8 @@ export default async function ResourcePage({ params }: PageProps<"/blog/[slug]">
             Butuh penyesuaian khusus untuk project Anda?
           </h2>
           <p className="mt-3 max-w-[52ch] text-sm leading-relaxed text-pretty text-text-muted">
-            Jika situasi operasional atau arsitektur sistem bisnis Anda
-            membutuhkan solusi kustom, diskusikan langsung bersama tim engineer
-            kami. Anda juga bisa{" "}
+            Kalau kasus di bisnis Anda tidak persis seperti di artikel ini,
+            ceritakan langsung ke kami. Anda juga bisa{" "}
             <Link
               href="/solutions"
               className="text-accent-text underline underline-offset-4 hover:no-underline"

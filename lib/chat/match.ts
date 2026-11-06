@@ -1,9 +1,6 @@
 import { answers, type Answer } from "@/lib/chat/answers";
 
-/**
- * Words that carry no meaning in an Indonesian question. Dropping them stops
- * "apa", "bisa" and "saya" from making every question look alike.
- */
+/** Indonesian stop words; without them "apa", "bisa" and "saya" make every question look alike. */
 const STOP_WORDS = new Set([
   "apa", "apakah", "itu", "yang", "di", "ke", "dari", "dan", "atau", "untuk",
   "dengan", "saya", "kami", "kalian", "anda", "bisa", "boleh", "ada", "nya",
@@ -12,11 +9,7 @@ const STOP_WORDS = new Set([
   "tolong", "mohon", "punya", "dapat", "adalah", "ini", "dalam", "oleh",
 ]);
 
-/**
- * Colloquial and abbreviated forms mapped onto the vocabulary the knowledge
- * base actually uses. Visitors type "brp hrg lp", the answers say "berapa
- * harga landing page"; without this the match never happens.
- */
+/** Maps colloquial shorthand ("brp hrg lp") onto the knowledge base's vocabulary. */
 const SYNONYMS: Record<string, string> = {
   // Spelling and shorthand
   brp: "berapa", hrg: "harga", gmn: "bagaimana", gimana: "bagaimana",
@@ -62,8 +55,7 @@ function normalize(text: string) {
     .replace(/[^a-z0-9\s]/g, " ");
 }
 
-/** Indonesian clitics and possessives. Stripping them collapses
-    "pengerjaannya" onto "pengerjaan", which is the same word to a reader. */
+/** Indonesian clitics and possessives ("pengerjaannya" -> "pengerjaan"). */
 const SUFFIXES = ["nya", "kah", "lah", "pun", "ku", "mu"];
 
 function stem(word: string) {
@@ -90,11 +82,7 @@ function tokenize(text: string) {
   return out;
 }
 
-/**
- * Inverse document frequency. A question sharing the word "landing" with an
- * answer says little, since dozens mention it; sharing "sitemap" says a lot.
- * Weighting by rarity is what separates a real match from a topical one.
- */
+/** Inverse document frequency: rare shared words count more than common ones. */
 const documentFrequency = new Map<string, number>();
 
 const seenQuestions = new Set<string>();
@@ -121,32 +109,24 @@ function weight(token: string) {
 }
 
 /**
- * A match must clear this share of the question's total weight. Tuned against
- * real phrasings: lower and "berapa lama pengerjaannya" starts matching
- * "bagaimana proses pengerjaannya", which is a different question with a
- * confident-looking wrong answer.
+ * Share of the question's weight a match must clear. Tuned on real phrasings: lower and
+ * "berapa lama pengerjaannya" matches "bagaimana proses pengerjaannya".
  */
 const THRESHOLD = 0.38;
 
 /**
- * Near-ties are not a problem to solve. Several stored questions about domains
- * score alike because they are all about domains, and answering with any of
- * them is right. An earlier version rejected those ties and answered barely
- * half the questions it had answers for. The threshold alone decides.
+ * Do not reject near-ties: similar stored questions are all valid answers, and rejecting
+ * them once left half the answerable questions unanswered.
  */
 
 export type MatchResult =
   /** Confident enough to answer. `related` keeps the topic browsable. */
   | { kind: "answer"; answer: Answer; related: Answer[] }
-  /** Recognised the subject but not the question. Offer what we do have. */
+  /** Subject recognised, question not. */
   | { kind: "suggestions"; options: Answer[] }
   | { kind: "unmatched" };
 
-/**
- * Anything scoring above this is related enough to offer as a choice, even
- * though it is too weak to answer with. Asking about landing pages should
- * surface every landing page question rather than dead-ending at WhatsApp.
- */
+/** Above this, a question is offered as a related choice even if too weak to answer with. */
 const SUGGEST_FLOOR = 0.22;
 
 const MAX_SUGGESTIONS = 5;
@@ -168,11 +148,7 @@ export function questionsByTopic(topic: string): Answer[] {
   return uniqueAnswers.filter((answer) => answer.topic === topic);
 }
 
-/**
- * Visitor-facing names for the knowledge base's section headings. The headings
- * were written for whoever maintains the file, so several are internal jargon
- * ("Whatsapp Lead Qualification") or English where the site is Indonesian.
- */
+/** Visitor-facing names for the knowledge base's internal section headings. */
 const TOPIC_LABELS: Record<string, string> = {
   "IDENTITAS VOUR.dev": "Tentang vour.dev",
   "LAYANAN VOUR.dev": "Layanan",
@@ -205,8 +181,7 @@ export function findQuestion(question: string): Answer | undefined {
   return uniqueAnswers.find((answer) => answer.q === question);
 }
 
-/** The brand's own name carries no topic, so a question made only of it is
-    asking who we are. It is also the single likeliest opening question. */
+/** A question made only of the brand name is asking who we are. */
 const BRAND_TOKENS = new Set(["vour", "dev", "vourdev"]);
 
 const identityAnswer = answers.find((entry) => entry.q === "Apa itu VOUR.dev?");
@@ -233,9 +208,8 @@ export function findAnswer(question: string): MatchResult {
     }
     if (shared === 0) continue;
 
-    /* Weighted Dice: the overlap has to account for much of BOTH sides. A
-       stored question that merely contains the asked words, among many others,
-       scores lower than a short one that is about exactly them. */
+    /* Weighted Dice: the overlap must cover much of both sides, so a long stored question
+       that merely contains the asked words scores below a short exact one. */
     let candidateWeight = 0;
     for (const token of candidate) candidateWeight += weight(token);
 
@@ -248,8 +222,6 @@ export function findAnswer(question: string): MatchResult {
   const best = scored[0];
 
   if (best.score >= THRESHOLD) {
-    /* Sibling questions under the same topic. Whatever the visitor asked,
-       these are the next things they are likely to want. */
     const related = scored
       .slice(1)
       .filter((entry) => entry.answer.topic === best.answer.topic)

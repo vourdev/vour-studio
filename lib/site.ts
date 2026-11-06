@@ -1,32 +1,16 @@
-/**
- * Single source of truth for brand, navigation and contact details.
- *
- * TODO(vour.dev): every value marked `placeholder` needs the real thing before launch.
- */
+/** TODO(vour.dev): every value marked `placeholder` needs the real thing before launch. */
 
 /**
- * Canonical origin for every absolute URL the site emits: metadataBase, OG
- * tags, `alternates.canonical`, JSON-LD, sitemap and robots.
- *
- * Set `NEXT_PUBLIC_SITE_URL` to `https://vour.dev` once that domain resolves
- * and points here; every one of the above follows with no code change. Until
- * then the fallback stays on the origin that is actually live, because a
- * canonical pointing at a domain that does not answer is worse for search than
- * a canonical on a working `.vercel.app`.
- *
- * The value is inlined at build time, so changing it means a redeploy.
+ * Inlined at build time, so changing it needs a redeploy. Set `NEXT_PUBLIC_SITE_URL` to
+ * `https://vour.dev` once that domain resolves; until then the fallback stays on the live origin.
  */
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
   "https://vour.dev";
 
 /**
- * Whether this deployment is the one search engines should index.
- *
- * Every preview build serves the same copy on its own `*.vercel.app` host. Left
- * indexable, those hosts compete with the canonical domain for the same queries.
- * `VERCEL_ENV` is "production" only on the production deployment; undefined
- * means a local or self-hosted build, which we treat as the real thing.
+ * Only production is indexable; previews would compete with the canonical domain.
+ * An undefined `VERCEL_ENV` (local or self-hosted build) counts as production.
  */
 export const IS_INDEXABLE =
   process.env.VERCEL_ENV === "production" || process.env.VERCEL_ENV === undefined;
@@ -35,13 +19,7 @@ export const siteConfig = {
   name: "vour.dev",
   legalName: "vour.dev",
   tagline: "Studio digital untuk website, web application, dan deployment",
-  /**
-   * The one-sentence answer to "Apa itu vour.dev?".
-   *
-   * Reused verbatim in metadata, JSON-LD, `llms.txt`, the About page and the
-   * footer so every surface -- and every crawler -- reads the same definition
-   * of the entity.
-   */
+  /** Reused verbatim in metadata, JSON-LD, `llms.txt`, About and the footer. */
   description:
     "vour.dev adalah studio digital yang membantu bisnis membangun website, aplikasi web, dan kebutuhan deployment. vour.dev juga menyediakan produk digital seperti template website dan developer resources.",
   url: SITE_URL,
@@ -75,13 +53,7 @@ export const mainNav = [
   { label: "Contact", href: "/contact" },
 ] as const;
 
-/**
- * One label per intent, site-wide.
- *
- * Every button that leads to the same place says exactly the same thing, so a
- * visitor never sees "Lihat Produk" in the hero and "Lihat semua produk" three
- * sections later and wonders whether they go somewhere different.
- */
+/** One label per destination: every button to the same place says the same thing. */
 export const PRIMARY_CTA = "Mulai Project"; // -> /contact
 export const SERVICES_CTA = "Lihat Layanan"; // -> /#services
 export const PRODUCTS_CTA = "Lihat Produk"; // -> /products
@@ -98,11 +70,7 @@ export type SocialIcon = "github" | "linkedin" | "instagram" | "tiktok";
 export type SocialLink = { label: string; href: string; icon: SocialIcon };
 export type NavItem = { label: string; href: string };
 
-/**
- * Dynamic site-wide settings (contact, socials, nav) read from the admin CMS
- * via `getSiteSettings()` in `lib/cms.ts`. This constant is the fallback used
- * when the CMS is unreachable or the fields are empty.
- */
+/** Fallback when the CMS is unreachable or the fields are empty. */
 export type SiteSettings = {
   contactEmail: string;
   whatsappNumber: string;

@@ -14,8 +14,6 @@ import { getSiteSettings } from "@/lib/cms";
 import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 import { whatsappLink } from "@/lib/site";
 
-/** The map renders a generated dot grid and animates arcs, so it stays out of
-    the initial bundle: nothing above it depends on the code. */
 const WorldMap = dynamic(() => import("@/components/ui/world-map"));
 
 export const metadata = buildMetadata({
@@ -32,11 +30,7 @@ const SOCIAL_ICONS = {
   tiktok: TiktokLogoIcon,
 } as const;
 
-/**
- * Arcs drawn from Jakarta out to the regions clients have written in from.
- * Coordinates are the cities themselves, so the drawing is honest about what
- * it shows: reach, not offices.
- */
+// Client cities, not offices.
 const JAKARTA = { lat: -6.2, lng: 106.85, label: "Jakarta" };
 
 const REACH = [
@@ -167,9 +161,6 @@ export default async function ContactPage() {
         </div>
       </Container>
 
-      {/* The page's one visual, and its closing note: it carries no copy and
-          nothing follows it, so it reads as a sign-off rather than something
-          the visitor has to scroll past to reach the form. */}
       <Container className="mt-20 md:mt-28">
         <Reveal>
           <WorldMap dots={REACH} lineColor="#39d5f6" />

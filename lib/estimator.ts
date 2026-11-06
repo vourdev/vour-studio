@@ -32,10 +32,6 @@ export const emptySelection: EstimatorSelection = {
   addonIds: [],
 };
 
-/**
- * What the estimator is allowed to offer. A type that is not sellable yet is
- * left out of the form entirely rather than shown as a dead option.
- */
 export const selectableProjectTypes: ProjectType[] = projectTypes.filter(
   (type) => !type.comingSoon,
 );
@@ -55,8 +51,7 @@ export function projectTypeById(id: ProjectTypeId | null): ProjectType | null {
 }
 
 export function complexityById(id: ComplexityId) {
-  // The config always carries every level, so the fallback is unreachable in
-  // practice; it exists so the return type stays non-nullable.
+  // Unreachable in practice; keeps the return type non-nullable.
   return complexityLevels.find((level) => level.id === id) ?? complexityLevels[0];
 }
 
@@ -80,12 +75,7 @@ function sumRanges(items: { price: PriceRange }[]): PriceRange {
   );
 }
 
-/**
- * Complexity positions the estimate inside the project type's base range rather
- * than scaling it. A multiplier compounds against a base whose upper bound
- * already describes a complex build, which produced ranges so wide (3x from low
- * to high) that they told the visitor nothing.
- */
+/** Complexity positions the estimate inside the base range; a multiplier made ranges too wide to mean anything. */
 export function calculateEstimate(selection: EstimatorSelection): Estimate | null {
   const type = projectTypeById(selection.projectType);
   // A type that is not offered yet must never produce a number, whatever state
@@ -129,8 +119,7 @@ const idr = new Intl.NumberFormat("id-ID", {
 });
 
 export function formatIDR(value: number) {
-  // Intl emits a non-breaking space after "Rp"; keep it so the currency
-  // symbol never wraps away from its amount.
+  // Keep Intl's non-breaking space after "Rp" so the symbol never wraps away.
   return idr.format(value);
 }
 

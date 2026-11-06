@@ -1,23 +1,7 @@
 /**
- * Bakes every published article into the repository as a static snapshot.
- *
- * `lib/cms.ts` already falls back to `lib/data/posts.ts` whenever the CMS is
- * unreachable -- the plumbing has been there since the MDX migration. What was
- * missing is content: that file held one article from July, so a VPS outage
- * left /blog showing a single stale post while ten were published.
- *
- * This closes that gap. The snapshot is committed, so the static build carries
- * the articles with it and needs nothing from api-studio, the VPS or Neon at
- * runtime.
- *
- * LAST KNOWN GOOD
- * ---------------
- * The generated file is only replaced by a snapshot that passes every check
- * below. A CMS that answers with half a list, an empty body or a broken date
- * leaves the previous snapshot exactly where it was, and the script exits
- * non-zero so the build fails loudly rather than shipping a thinner fallback
- * than the one it replaced. A fallback that silently degrades is worse than no
- * fallback, because nobody finds out until the day it is needed.
+ * Bakes every published article into `lib/data/posts.generated.ts` as the offline fallback.
+ * Last known good: the file is only replaced by a snapshot that passes every check below. Otherwise
+ * the previous snapshot stands and the script exits non-zero.
  *
  *   npm run snapshot:blog
  */
@@ -50,8 +34,7 @@ function absolutize(url) {
   return `${CMS_API_URL}${url.startsWith("/") ? "" : "/"}${url}`;
 }
 
-/** Mirrors `toPostMeta` in lib/cms.ts: covers display large, so the og size
- *  wins over the full upload when the admin generated one. */
+/** Mirrors `toPostMeta` in lib/cms.ts. */
 function toPost(doc) {
   const media = doc.image && typeof doc.image === "object" ? doc.image : undefined;
   const imageUrl = media?.sizes?.og?.url ?? media?.url;
@@ -76,15 +59,8 @@ function countTextNodes(node) {
 }
 
 /**
- * Splits the response into what is fit to ship and what is not.
- *
- * Per-article, not all-or-nothing. The first run against production rejected
- * ten good articles because one of them -- an early generator run that produced
- * 830 characters -- has a body too thin to be worth serving. Denying the other
- * nine a fallback over that would have been the wrong trade.
- *
- * Run-level failures are handled by the caller: too few articles left, or too
- * many dropped, means the CMS is not healthy and the previous snapshot stands.
+ * Drops unfit articles one by one; run-level health (too few left, too many dropped)
+ * is checked by the caller.
  */
 function partition(posts) {
   const kept = [];
@@ -109,8 +85,7 @@ function partition(posts) {
       reasons.push(`unparseable date "${post.date}"`);
     }
 
-    // A body that did not survive the trip renders as a blank page, which looks
-    // far more broken than an outage does.
+    // A blank body looks more broken than an outage.
     const nodes = countTextNodes(post.content?.root);
     if (nodes < MIN_TEXT_NODES) reasons.push(`body has ${nodes} text nodes, expected ${MIN_TEXT_NODES}+`);
 
@@ -169,8 +144,7 @@ if (posts.length > 0 && dropped.length / posts.length > MAX_DROPPED_SHARE) {
   process.exit(1);
 }
 
-// Never trade a richer snapshot for a thinner one. A CMS that has quietly lost
-// half its rows still answers 200, and this is the only place that notices.
+// Never replace a richer snapshot with a thinner one: a CMS that lost rows still answers 200.
 const previous = await currentSnapshotSize();
 if (previous > kept.length) {
   console.error(

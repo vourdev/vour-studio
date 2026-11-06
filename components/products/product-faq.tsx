@@ -11,21 +11,10 @@ import { cn } from "@/lib/utils";
 export type ProductFaq = {
   question: string;
   answer: string;
-  /** Where the answer leads next. */
   link: { href: string; label: string };
 };
 
-/**
- * The product FAQ as a question rail plus one answer panel.
- *
- * A stacked list would have been the third list-shaped section on this route,
- * after the bento and the page intro. It also reads as a wall: four long
- * answers, all open, none of them the one you came for. Here the questions stay
- * scannable in one glance and the panel answers whichever is selected.
- *
- * The panel is a fixed minimum height so switching questions never jumps the
- * page, and every answer stays in the DOM for crawlers.
- */
+/** Every answer stays in the DOM for crawlers and the FAQPage markup. */
 export function ProductFaq({
   faqs,
   heading,
@@ -75,10 +64,8 @@ export function ProductFaq({
             </ul>
           </div>
 
-          {/* Every panel stays mounted and they share one grid cell, so the
-              container is as tall as the longest answer and switching never
-              jumps the page. Keeping them in the DOM is also what lets the
-              FAQPage markup describe content that is genuinely on the page. */}
+          {/* All panels share one grid cell, so switching never jumps the page.
+              Keeping them mounted lets the FAQPage markup describe content that is really on the page. */}
           <div className="grid">
             {faqs.map((faq, index) => {
               const isActive = index === active;

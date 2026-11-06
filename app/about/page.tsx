@@ -95,7 +95,6 @@ export default function AboutPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
       />
 
-      {/* 1. The answer, before anything else. */}
       <Section spacing="header">
         <Container>
           <div className="grid items-center gap-12 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
@@ -147,7 +146,6 @@ export default function AboutPage() {
         </Container>
       </Section>
 
-      {/* 2. What vour.dev does. */}
       <Section className="border-t border-border">
         <Container>
           <Reveal>
@@ -199,7 +197,6 @@ export default function AboutPage() {
         </Container>
       </Section>
 
-      {/* 3. Who it is for. */}
       <Section className="border-t border-border bg-bg-subtle/40">
         <Container>
           <Reveal>
@@ -237,7 +234,6 @@ export default function AboutPage() {
         </Container>
       </Section>
 
-      {/* 4. How it works. */}
       <Section className="border-t border-border">
         <Container>
           <Reveal>
@@ -288,7 +284,6 @@ export default function AboutPage() {
         </Container>
       </Section>
 
-      {/* 5. Technology. */}
       <Section className="border-t border-border bg-bg-subtle/40">
         <Container>
           <Reveal>
@@ -320,7 +315,6 @@ export default function AboutPage() {
         </Container>
       </Section>
 
-      {/* 6. Digital products. */}
       <Section className="border-t border-border">
         <Container>
           <div className="grid gap-8 md:grid-cols-[1.4fr_1fr] md:items-center">
@@ -357,7 +351,6 @@ export default function AboutPage() {
         </Container>
       </Section>
 
-      {/* 7. Starting a project. */}
       <Section className="border-t border-border bg-bg-subtle/40">
         <Container>
           <div className="relative overflow-hidden rounded-surface border border-border bg-bg p-8 md:p-12">

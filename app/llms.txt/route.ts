@@ -3,12 +3,7 @@ import { faqs } from "@/lib/data/faq";
 import { services } from "@/lib/data/services";
 import { IS_INDEXABLE, siteConfig, CONTACT_EMAIL, SERVICE_AREA } from "@/lib/site";
 
-/**
- * https://llmstxt.org — a Markdown summary of the site for language models.
- *
- * Built from the same sources the pages render from, so it cannot drift from
- * what a visitor sees.
- */
+// https://llmstxt.org. Built from the same sources the pages render from, so it cannot drift.
 export const dynamic = "force-dynamic";
 
 function abs(path: string) {
@@ -54,7 +49,7 @@ ${serviceBlocks.join("\n\n")}
 - [Produk](${abs("/products")}): template website, portfolio, landing page, dan developer resources.
 - [Estimasi Biaya](${abs("/estimate")}): estimator untuk menghitung kisaran biaya project.
 - [Projects](${abs("/projects")}): studi kasus, ditulis dari masalah klien sampai hasil setelah rilis.
-- [Blog](${abs("/blog")}): catatan keputusan teknis dari project yang dikerjakan.
+- [Blog](${abs("/blog")}): panduan memilih jenis website, memperkirakan biaya, dan urusan deployment.
 - [Tentang](${abs("/about")}): profil studio, cara kerja, teknologi, dan FAQ lengkap.
 - [Kontak](${abs("/contact")}): form brief project, WhatsApp, dan email.
 
@@ -80,8 +75,7 @@ ${postLines.length > 0 ? `\n${postLines.join("\n")}` : "\nBelum ada tulisan yang
   return new Response(body, {
     headers: {
       "Content-Type": "text/markdown; charset=utf-8",
-      // Preview deployments serve the same copy; keep them out of training and
-      // crawling for the same reason robots.ts blocks them.
+      // Keep preview deployments out, same as robots.ts.
       "X-Robots-Tag": IS_INDEXABLE ? "all" : "noindex",
       "Cache-Control": "no-store, no-cache, must-revalidate",
     },

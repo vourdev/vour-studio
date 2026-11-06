@@ -15,21 +15,13 @@ export function Container<T extends ElementType = "div">({
   );
 }
 
-/**
- * Vertical rhythm for every top-level section on the site.
- *
- * `spacing` exists so a page header and the block that continues it do not each
- * pay full section padding -- stacking `header` on top of `default` leaves a gap
- * roughly twice the intended one, which is what the variants below prevent.
- */
+/** Use `header` then `continued` instead of stacking `header` on `default`, which doubles the gap. */
 const SECTION_SPACING = {
-  /** A band of its own, usually separated by a border or a background change. */
   default: "py-20 md:py-28",
   /** First section on a page: clears the fixed nav, then a header-sized gap. */
   header: "pt-32 pb-12 md:pt-36 md:pb-14",
   /** Continues the section directly above it; the two read as one block. */
   continued: "pt-0 pb-20 md:pb-28",
-  /** Caller owns the padding entirely. */
   none: "",
 } as const;
 

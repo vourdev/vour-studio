@@ -4,18 +4,11 @@ import { useEffect } from "react";
 
 export const LENIS_SCROLL_EVENT = "lenis:scroll";
 
-/**
- * The running Lenis instance, or null when smooth scroll is off (reduced
- * motion, or before the dynamic import resolves).
- *
- * Lenis drives `window` on its own rAF loop, so a native
- * `scrollIntoView({ behavior: "smooth" })` fights it and lands short. Anything
- * that jumps to an in-page target should go through `scrollToElement` below.
- */
+/** Null when smooth scroll is off. Jump to in-page targets via `scrollToElement`:
+ * native smooth `scrollIntoView` fights Lenis and lands short. */
 let lenisInstance: { scrollTo: (target: HTMLElement, options?: object) => void } | null =
   null;
 
-/** Scroll an element to the top of the viewport, respecting its scroll-margin. */
 export function scrollToElement(el: HTMLElement, { instant = false } = {}) {
   if (lenisInstance && !instant) {
     lenisInstance.scrollTo(el, { offset: -scrollMarginTop(el) });
@@ -30,16 +23,7 @@ function scrollMarginTop(el: HTMLElement) {
   return Number.parseFloat(value) || 0;
 }
 
-/**
- * Smooth scroll provider.
- *
- * Lenis moves the page on its own schedule. Components that need to react to
- * scroll position (e.g. GSAP ScrollTrigger) subscribe to the `lenis:scroll`
- * window event instead of importing GSAP here, keeping GSAP confined to
- * components/sections/workflow.tsx.
- *
- * Lenis is imported inside the effect so it stays out of the initial bundle.
- */
+/** Keep GSAP out of here: scroll-driven components listen for the `lenis:scroll` window event. */
 export function LenisProvider() {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {

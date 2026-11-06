@@ -90,7 +90,6 @@ export function FeaturedProducts({
           </div>
         </Reveal>
 
-        {/* Category Filter Tabs */}
         <Reveal y={16} className="mt-8">
           <div className="flex flex-wrap items-center gap-2 border-b border-border pb-4">
             {productCategories.map((category) => {
@@ -113,7 +112,6 @@ export function FeaturedProducts({
           </div>
         </Reveal>
 
-        {/* Products Grid or Empty State */}
         {filteredProducts.length === 0 ? (
           <Reveal y={24} className="mt-8">
             <div className="flex flex-col items-center justify-center rounded-surface border border-dashed border-border bg-bg-subtle/50 px-6 py-16 text-center">
@@ -149,7 +147,6 @@ export function FeaturedProducts({
         )}
       </Container>
 
-      {/* Quick View Modal */}
       {quickViewProduct ? (
         <div
           role="dialog"
@@ -158,18 +155,15 @@ export function FeaturedProducts({
           data-lenis-prevent
           className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overscroll-contain"
         >
-          {/* Backdrop */}
           <div
             className="fixed inset-0 bg-bg/80 backdrop-blur-md transition-opacity"
             onClick={() => setQuickViewProduct(null)}
           />
 
-          {/* Modal Card - Full Flex & Max-Height for Scrollability */}
           <div
             data-lenis-prevent
             className="relative z-10 my-auto flex max-h-[85vh] w-full max-w-2xl flex-col overflow-hidden rounded-surface border border-border bg-bg-subtle shadow-2xl animate-in fade-in zoom-in-95 duration-200 overscroll-contain"
           >
-            {/* Modal Header */}
             <div className="flex shrink-0 items-center justify-between border-b border-border bg-bg px-6 py-4">
               <div className="flex items-center gap-2">
                 <span className="rounded-control border border-accent/40 bg-accent-soft px-2.5 py-0.5 font-mono text-xs text-accent-text">
@@ -189,7 +183,6 @@ export function FeaturedProducts({
               </button>
             </div>
 
-            {/* Modal Scrollable Content */}
             <div
               data-lenis-prevent
               className="flex-1 overflow-y-auto p-6 overscroll-contain"

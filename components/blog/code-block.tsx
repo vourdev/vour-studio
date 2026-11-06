@@ -23,7 +23,6 @@ export function CodeBlock({ code, language }: CodeBlockProps) {
 
   return (
     <div className="relative group my-6 overflow-hidden rounded-surface border border-border bg-[#0d0f12] shadow-sm">
-      {/* Header bar with language label & Copy button */}
       <div className="flex items-center justify-between border-b border-border/40 bg-surface/50 px-4 py-2 text-xs font-mono">
         <span className="text-text-muted select-none text-[11px] font-medium tracking-wide uppercase">
           {language || "code"}
@@ -48,7 +47,6 @@ export function CodeBlock({ code, language }: CodeBlockProps) {
         </button>
       </div>
 
-      {/* Code content */}
       <pre className="!m-0 !border-0 !rounded-none !bg-transparent p-4 overflow-x-auto font-mono text-sm leading-relaxed text-text">
         <code>{code}</code>
       </pre>

@@ -22,15 +22,9 @@ type PostItem = {
 
 const ALL = "Semua";
 
-/** Three full rows on desktop. The grid is 3-up at lg and 2-up at md, so this
- *  leaves one orphan on tablet, which reads as a normal ragged grid. */
 const PAGE_SIZE = 9;
 
-/**
- * Page numbers to draw: always the first and last, always the current and its
- * neighbours, an ellipsis for whatever that skips. Rendering all of them was
- * fine at ten articles and is not the shape this list is growing into.
- */
+/** First, last, current and its neighbours; an ellipsis for the gaps. */
 function pageWindow(current: number, total: number): (number | "gap")[] {
   if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
 
@@ -51,8 +45,7 @@ export function BlogExplorer({ posts }: { posts: PostItem[] }) {
   const [activeCategory, setActiveCategory] = useState<string>(ALL);
   const [page, setPage] = useState(1);
   const listRef = useRef<HTMLDivElement>(null);
-  /** Skips the scroll on first paint, which would otherwise jump a visitor
-   *  landing on /blog past the page heading. */
+  /** Skips the scroll on first paint so a visitor landing on /blog stays at the heading. */
   const hasPaged = useRef(false);
 
   const categories = useMemo(() => {
@@ -69,8 +62,7 @@ export function BlogExplorer({ posts }: { posts: PostItem[] }) {
   }, [posts, activeCategory]);
 
   const pageCount = Math.max(1, Math.ceil(filteredPosts.length / PAGE_SIZE));
-  // Clamp rather than trust: switching to a smaller category while on page 3
-  // would otherwise show an empty grid instead of that category's articles.
+  // Clamp: a smaller category could leave the current page empty.
   const currentPage = Math.min(page, pageCount);
   const visiblePosts = filteredPosts.slice(
     (currentPage - 1) * PAGE_SIZE,
@@ -84,16 +76,11 @@ export function BlogExplorer({ posts }: { posts: PostItem[] }) {
 
   useEffect(() => {
     if (!hasPaged.current) return;
-    // The top of the list, not the top of the document: the reader asked for
-    // the next page, not for the page heading again.
     listRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [currentPage]);
 
   return (
     <div>
-      {/* Tabs swipe horizontally on mobile instead of wrapping to a second row.
-          Above md the row always fits, so the scroll container is dropped
-          entirely rather than left in place with nothing to scroll. */}
       <div className="no-scrollbar -mx-4 overflow-x-auto border-b border-border px-4 md:mx-0 md:overflow-x-visible md:px-0">
         <div role="tablist" className="flex w-max min-w-full items-center gap-7 md:w-auto">
           {categories.map((name) => {
@@ -155,9 +142,7 @@ export function BlogExplorer({ posts }: { posts: PostItem[] }) {
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover transition-transform duration-700 ease-out-expo group-hover:scale-[1.03]"
                   />
-                  {/* Metadata reads over the photo, so the strip carries its own
-                      scrim: it stays legible where backdrop-filter is unsupported
-                      or disabled by prefers-reduced-transparency. */}
+                  {/* Own scrim keeps metadata legible where backdrop-filter is unavailable. */}
                   <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-4 border-t border-white/15 bg-black/55 px-4 py-3 font-mono text-[11px] text-white backdrop-blur-md">
                     <span className="tabular-nums">
                       <time dateTime={post.meta.date}>
@@ -267,8 +252,7 @@ function PageButton({
       onClick={onClick}
       disabled={disabled}
       aria-label={label}
-      // `aria-current` rather than `aria-selected`: these are links through a
-      // set of pages, not tabs in a tablist.
+      // `aria-current`, not `aria-selected`: these are links, not tabs.
       aria-current={active ? "page" : undefined}
       className={cn(
         "inline-flex size-9 cursor-pointer items-center justify-center rounded-control border font-mono text-xs tabular-nums transition-colors duration-200",

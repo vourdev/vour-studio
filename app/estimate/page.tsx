@@ -12,7 +12,6 @@ export const metadata = buildMetadata({
   path: "/estimate",
 });
 
-/** Rendered visibly below the estimator, and mirrored into `FAQPage` markup. */
 const estimateFaqs = [
   {
     question: "Berapa biaya membuat website?",

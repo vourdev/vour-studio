@@ -17,24 +17,14 @@ const ChatWidget = dynamic(() =>
   import("@/components/chat/chat-widget").then((mod) => mod.ChatWidget),
 );
 
-/**
- * Plus Jakarta Sans carries both body and display.
- *
- * The site used to set every H1 in Geist Mono. Monospace at display size costs
- * a reader real effort -- even letter widths remove the word shapes you skim
- * by -- and Indonesian copy runs longer than English, so the headings were the
- * hardest part of the page to get through. Plus Jakarta Sans is humanist, has
- * a tall x-height, and was drawn for Indonesian text; one family across
- * headings and body keeps emphasis inside a single voice instead of splicing
- * two.
- */
+// Body and headings. Monospace at display size is hard to read, so headings never use it.
 const jakartaSans = Plus_Jakarta_Sans({
   variable: "--font-jakarta-sans",
   subsets: ["latin"],
   display: "swap",
 });
 
-/** Kept for what monospace is actually for: years, figures, stack labels, code. */
+// Years, figures, stack labels and code only.
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
@@ -88,9 +78,7 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     images: ["/images/ogImage.png"],
   },
-  // Mirrors robots.txt. A disallow only asks a crawler not to fetch the page;
-  // a URL it already knows about can still be listed. The meta tag is what
-  // actually keeps preview hosts out of the index.
+  // Mirrors robots.txt: only this meta tag keeps already-known preview URLs out of the index.
   robots: IS_INDEXABLE
     ? { index: true, follow: true }
     : { index: false, follow: false },
@@ -104,19 +92,8 @@ export const viewport: Viewport = {
   ],
 };
 
-/**
- * ISR floor for every route beneath this layout.
- *
- * `force-dynamic` sat here and made all fourteen routes server-render on every
- * request, `/contact` and `/about` included, even though nothing on the site
- * reads cookies, headers or search params. Every navigation then paid a fresh
- * render plus at least one round trip to the Jakarta VPS, because the root
- * layout awaits `getSiteSettings()` on every page.
- *
- * Freshness does not depend on this number: the admin calls
- * `POST /api/revalidate` after every write, which expires the CMS cache tags
- * and this path. The window only matters if a webhook is lost.
- */
+// Do not switch to `force-dynamic`: freshness comes from the revalidate webhook, and this
+// window only matters if a webhook is lost.
 export const revalidate = 300;
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
@@ -125,24 +102,18 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="id"
-      // next-themes swaps this class before paint; suppressHydrationWarning keeps
-      // React from complaining about the server/client mismatch that causes.
+      // next-themes swaps the class before paint.
       suppressHydrationWarning
       className={`${jakartaSans.variable} ${jetbrainsMono.variable}`}
     >
       <head>
-        {/* Scroll reveals are server-rendered with `opacity:0` and only revealed
-            once Motion hydrates. If JS never arrives, everything below the hero
-            would stay invisible. This makes the failure mode "no animation"
-            rather than "no page". */}
+        {/* Reveals render at opacity 0; without JS this keeps the page visible. */}
         <noscript>
           <style>{`[data-reveal]{opacity:1!important;transform:none!important}`}</style>
         </noscript>
       </head>
       <body className="flex min-h-dvh flex-col">
-        {/* "system" rather than "dark": the visitor's OS preference wins on first
-            visit, and the nav toggle overrides it from there. Hard-coding "dark"
-            would make enableSystem decorative. */}
+        {/* OS preference wins on first visit; the nav toggle overrides it. */}
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

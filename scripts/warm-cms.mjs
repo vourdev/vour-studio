@@ -1,15 +1,6 @@
 /**
- * Wake the CMS before `next build` prerenders against it.
- *
- * The backend runs on a VPS with a Neon serverless database. Both go cold, and
- * the first query after an idle period has been measured at 10-20s while a warm
- * one takes ~35ms. The 1 Sep 2026 production build hit exactly that: every CMS
- * fetch timed out and each page shipped its static fallback instead of real
- * content. Pinging /health here pays the cold start once, outside the render.
- *
- * Never fails the build. A CMS that stays down is already handled -- the
- * fetchers fall back to static data -- and blocking a deploy on it would be
- * worse than shipping slightly stale content.
+ * Pays the CMS cold start (10-20s) once, before `next build` prerenders against it.
+ * Never fails the build: the fetchers already fall back to static data.
  */
 const origin = process.env.CMS_API_URL ?? process.env.LEAD_API_URL;
 

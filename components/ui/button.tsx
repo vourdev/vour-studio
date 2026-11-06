@@ -5,17 +5,14 @@ import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  // `whitespace-nowrap` is deliberate: a CTA label that wraps to two lines is a
-  // layout bug, and silently wrapping hides it. Keep labels short instead.
+  // `whitespace-nowrap` is deliberate: a wrapping CTA label is a layout bug. Keep labels short.
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-control font-medium cursor-pointer transition-[transform,background-color,border-color,color] duration-200 ease-out-expo active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
         primary:
           "bg-accent text-accent-fg hover:bg-accent-hover shadow-[0_1px_0_rgba(255,255,255,0.25)_inset]",
-        // Opaque, not transparent. In the hero this button sits over an animated
-        // canvas; a see-through fill let the moving blocks show through and the
-        // hover state read as broken.
+        // Opaque: in the hero this sits over an animated canvas.
         secondary:
           "border border-border-strong bg-bg text-text hover:border-accent hover:bg-bg-subtle hover:text-accent-text",
         ghost: "bg-transparent text-text-muted hover:text-text hover:bg-surface-solid",

@@ -10,10 +10,7 @@ import { Container, Section } from "@/components/ui/container";
 import { featuredFaqs, type Faq } from "@/lib/data/faq";
 import { faqJsonLd } from "@/lib/seo";
 
-/**
- * Renders the FAQ and the `FAQPage` structured data for exactly the questions
- * it shows, so the markup never describes content a visitor cannot see.
- */
+/** Structured data covers exactly the questions shown, never content a visitor cannot see. */
 export function FaqSection({
   faqs = featuredFaqs,
   heading = "Pertanyaan yang Sering Ditanyakan tentang vour.dev",

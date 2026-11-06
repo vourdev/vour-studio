@@ -31,7 +31,7 @@ export function AnimatedNumber({
 
     const controls = animate(0, value, {
       duration,
-      ease: [0.25, 1, 0.5, 1], // Natural smooth easeOut without abrupt stopping delay
+      ease: [0.25, 1, 0.5, 1],
       onUpdate(latest) {
         element.textContent = Math.round(latest)
           .toString()
@@ -42,8 +42,7 @@ export function AnimatedNumber({
     return () => controls.stop();
   }, [value, duration, padZero, isInView, reduce]);
 
-  // Initial render: show final value formatted if reduced motion or not in view is true,
-  // otherwise show "0" padded to match target length roughly so layout doesn't shift much.
+  // Show the final value, or a padded "0" to limit layout shift.
   const initialText = (reduce || !isInView)
     ? value.toString().padStart(padZero, "0")
     : "0".padStart(padZero || 1, "0");

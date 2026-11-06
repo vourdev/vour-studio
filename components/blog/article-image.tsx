@@ -1,13 +1,7 @@
 import Image from "next/image";
 
-/**
- * Image inside an article body.
- *
- * The generator writes these nodes; see `src/lib/lexical.ts` in
- * `backend-vour-studio` for the shape. Pictures come from Wikimedia Commons,
- * Openverse and Unsplash, and several of those licences require attribution,
- * so the credit line is part of the component rather than optional decoration.
- */
+/** Shape is set by `makeImage` in backend-vour-studio's `src/lib/lexical.ts`.
+ * The credit line is required by the image licences. */
 export type ArticleImageNode = {
   src?: string;
   altText?: string;
@@ -41,9 +35,7 @@ export function ArticleImage({ node }: { node: ArticleImageNode }) {
           className="h-auto w-full rounded-surface border border-border bg-bg-subtle"
         />
       ) : (
-        // Dimensions are only missing on rows written before the search started
-        // recording them. Without them `next/image` cannot reserve the box, and
-        // a wrong guess is worse than no optimisation.
+        // Older rows lack dimensions; a guessed size is worse than skipping `next/image`.
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={src}

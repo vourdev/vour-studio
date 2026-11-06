@@ -30,8 +30,6 @@ export default async function BlogPage() {
       />
       <Container>
         <Reveal>
-          {/* Title and standfirst share one baseline on desktop and stack on
-              mobile, so the standfirst never floats loose in a corner. */}
           <div className="grid items-end gap-6 md:grid-cols-12 md:gap-10">
             <h1 className="font-display text-4xl font-bold tracking-tight text-text sm:text-5xl md:col-span-7 md:text-6xl">
               Insights

@@ -7,13 +7,7 @@ import { cn } from "@/lib/utils";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-/**
- * Hero headline only. Words rise into place in sequence on load, which walks
- * the eye left-to-right through the value proposition instead of dropping the
- * whole block at once.
- *
- * Motion v12 replaced `staggerChildren` with `delayChildren: stagger(...)`.
- */
+/** Hero headline only. Motion v12 replaced `staggerChildren` with `delayChildren: stagger(...)`. */
 export function KineticHeading({
   text,
   accentFrom,
@@ -53,14 +47,10 @@ export function KineticHeading({
       }}
     >
       {words.map((word, i) => (
-        // The separating space is a plain text node between wrappers, not part
-        // of them. Baking a non-breaking space into each inline-block widens it
-        // and costs a break opportunity, which pushes the headline onto an extra
-        // line.
+        // The space stays a plain text node between wrappers; a baked-in nbsp
+        // removes a break opportunity and pushes the headline onto an extra line.
         <Fragment key={`${word}-${i}`}>
           {i > 0 ? " " : null}
-          {/* Two spans: the outer one clips, the inner one travels. Without the
-              clip, words fade in from thin air rather than rising out of the line. */}
           <span className="inline-block overflow-hidden pb-[0.12em] align-bottom">
             <motion.span
               data-reveal=""

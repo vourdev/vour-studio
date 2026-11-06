@@ -3,13 +3,7 @@
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
 import { useRef, type ReactNode } from "react";
 
-/**
- * Pointer-attracted wrapper for the primary CTA, and only the primary CTA.
- *
- * Pointer position lives in motion values, never in React state: state would
- * re-render the tree on every mousemove and the effect would collapse on any
- * page with real content on it.
- */
+/** Primary CTA only. Pointer position lives in motion values, never React state. */
 export function MagneticButton({
   children,
   strength = 0.35,
@@ -40,8 +34,7 @@ export function MagneticButton({
       className={className}
       style={{ x, y, scale }}
       onPointerMove={(event) => {
-        // Coarse pointers have no hover, and a "magnetic" tap target that moves
-        // under the thumb is hostile. Skip.
+        // Skip on coarse pointers: a target that moves under the thumb is hostile.
         if (event.pointerType !== "mouse") return;
         const rect = ref.current?.getBoundingClientRect();
         if (!rect) return;

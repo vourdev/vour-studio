@@ -1,12 +1,6 @@
 /**
- * Pricing configuration for the project estimator.
- *
- * TODO(vour.dev): every number here is a placeholder. Confirm the real commercial
- * ranges before launch. Nothing in the UI or the calculation engine hardcodes a
- * price, so changing a value in this file is the only edit required.
- *
- * All amounts are IDR. `min`/`max` describe the range a line item adds to the
- * estimate, never a final quote.
+ * All amounts are IDR; `min`/`max` is the range a line item adds, never a final quote.
+ * TODO(vour.dev): every number here is a placeholder. Confirm the real ranges before launch.
  */
 
 export type ProjectTypeId = "website" | "webapp" | "ai" | "infra";
@@ -41,11 +35,7 @@ export type ComplexityLevel = {
   id: ComplexityId;
   label: string;
   description: string;
-  /**
-   * Which slice of the project type's base range this level occupies, as
-   * fractions of that range. The base range already spans simple to complex,
-   * so complexity positions the estimate inside it instead of multiplying it.
-   */
+  /** Fractions of the project type's base range; complexity positions inside it, never multiplies it. */
   band: { from: number; to: number };
 };
 

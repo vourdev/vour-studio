@@ -55,11 +55,7 @@ function abs(path: string) {
 /** Stable node id, so other graphs on the site can point at the organisation. */
 const ORG_ID = `${siteConfig.url}/#organization`;
 
-/**
- * Organization plus every service line, so search engines see what vour.dev
- * sells. Built from `lib/data/services.ts` rather than a hand-kept copy, so it
- * cannot drift from the `/solutions` page a visitor actually reads.
- */
+/** Built from `lib/data/services.ts` so it cannot drift from `/solutions`. */
 export function organizationJsonLd() {
   return {
     "@context": "https://schema.org",
@@ -99,7 +95,6 @@ export function organizationJsonLd() {
   };
 }
 
-/** WebSite node. Declares the site language and its publisher. */
 export function websiteJsonLd() {
   return {
     "@context": "https://schema.org",
@@ -113,7 +108,6 @@ export function websiteJsonLd() {
   };
 }
 
-/** One `Service` node per available service, for the `/solutions` page. */
 export function servicesJsonLd() {
   return {
     "@context": "https://schema.org",
@@ -144,11 +138,8 @@ export function servicesJsonLd() {
 }
 
 /**
- * FAQPage for a set of question/answer pairs.
- *
- * Only ever call this with FAQs that are rendered visibly on the same page --
- * structured data that describes hidden content violates search-engine
- * guidelines.
+ * Only pass FAQs rendered visibly on the same page: structured data for hidden content
+ * violates search-engine guidelines.
  */
 export function faqJsonLd(faqs: { question: string; answer: string }[]) {
   return {

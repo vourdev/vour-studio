@@ -52,9 +52,8 @@ export function Nav({ settings = defaultSiteSettings }: { settings?: SiteSetting
         exit: { opacity: 0, y: 12, filter: "blur(4px)", transition: { duration: 0.15 } },
       };
 
-  // Navigating anywhere closes the panel, including via the browser back button.
-  // Adjusted during render rather than in an effect, so there is no extra commit
-  // where the panel is still open on the new route.
+  // Close the panel on any navigation. Done during render, not in an effect,
+  // so no commit shows the panel still open on the new route.
   if (lastPathname !== pathname) {
     setLastPathname(pathname);
     setOpen(false);
@@ -86,7 +85,6 @@ export function Nav({ settings = defaultSiteSettings }: { settings?: SiteSetting
           </Link>
         </div>
 
-        {/* Six items plus a CTA fit on one line from lg up; centered absolutely in middle */}
         <nav
           aria-label="Navigasi utama"
           className="hidden lg:block absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10"
@@ -108,7 +106,6 @@ export function Nav({ settings = defaultSiteSettings }: { settings?: SiteSetting
                   >
                     {item.label}
                   </Link>
-                  {/* Single pill travels between items; rests on the active route */}
                   {desktopIdx === idx && (
                     <motion.div
                       layoutId="desktop-nav-indicator"
@@ -135,7 +132,7 @@ export function Nav({ settings = defaultSiteSettings }: { settings?: SiteSetting
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? "Tutup menu" : "Buka menu"}
-            className="inline-flex size-9 items-center justify-center rounded-full border border-border bg-surface text-text lg:hidden hover:border-border-strong hover:bg-bg-subtle active:scale-90 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/15 cursor-pointer"
+            className="inline-flex size-9 items-center justify-center rounded-full border border-border bg-surface text-text lg:hidden hover:border-border-strong hover:bg-bg-subtle active:scale-90 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer"
           >
             <span className={cn("transition-transform duration-300 ease-out flex items-center justify-center", open ? "rotate-90" : "")}>
               {open ? (
@@ -148,7 +145,6 @@ export function Nav({ settings = defaultSiteSettings }: { settings?: SiteSetting
         </div>
       </header>
 
-      {/* Mobile Drawer Menu (Outside header container for clean stacking and touch interaction) */}
       <AnimatePresence>
         {open ? (
           <motion.div
@@ -161,11 +157,7 @@ export function Nav({ settings = defaultSiteSettings }: { settings?: SiteSetting
             exit="exit"
             className="fixed inset-0 z-40 flex flex-col bg-bg/98 backdrop-blur-2xl overscroll-contain overflow-y-auto lg:hidden"
           >
-            {/* `px-10` reproduces the header's own inset below `lg` (its
-                `inset-x-4` plus `px-6`), so the panel's rules and the logo above
-                them share one edge. From `md` the list and the contact block sit
-                side by side, vertically centred: stacked and top-aligned, four
-                links leave most of a tablet viewport empty. */}
+            {/* `px-10` matches the header's inset below `lg` so the rules and logo share one edge. */}
             <div className="mx-auto grid min-h-full w-full max-w-7xl content-between gap-10 px-10 pt-24 pb-10 md:grid-cols-[1fr_20rem] md:content-center md:items-start md:gap-16">
               <nav aria-label="Navigasi seluler" className="flex flex-col">
                 {navLinks.map((item, idx) => {
@@ -196,8 +188,7 @@ export function Nav({ settings = defaultSiteSettings }: { settings?: SiteSetting
               </nav>
 
               <div className="flex flex-col gap-5 border-t border-border pt-6 md:border-t-0 md:pt-0">
-                {/* One column from `md`: side by side inside a 20rem track the
-                    email address no longer fits and truncates. */}
+                {/* One column from `md`: a 20rem track truncates the email address. */}
                 <motion.div variants={itemVariants} className="grid grid-cols-2 gap-3 md:grid-cols-1">
                   <a
                     href={`mailto:${settings.contactEmail}`}
@@ -213,7 +204,7 @@ export function Nav({ settings = defaultSiteSettings }: { settings?: SiteSetting
                     className="flex flex-col gap-1 rounded-xl border border-accent/30 bg-accent-soft p-4 hover:border-accent hover:bg-accent-soft/70 transition-all duration-200 group"
                   >
                     <span className="text-[10px] font-mono tracking-wider text-accent-text uppercase font-semibold">WhatsApp</span>
-                    <span className="text-xs font-mono text-accent-text truncate font-bold">Chat Prioritas</span>
+                    <span className="text-xs font-mono text-accent-text truncate font-bold">Chat langsung</span>
                   </a>
                 </motion.div>
 

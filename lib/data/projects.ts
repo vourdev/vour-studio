@@ -1,10 +1,6 @@
 /**
- * Offline snapshot of the `projects` collection in the admin CMS. Renders only
- * when the CMS is unreachable on a cold cache, so it mirrors what the CMS holds
- * rather than inventing stand-ins: a visitor who hits this during an outage
- * should see the same work, not three companies that do not exist.
- *
- * Edit projects in the admin panel. Re-snapshot here when the list changes.
+ * Offline snapshot of the CMS `projects` collection, shown only when the CMS is unreachable
+ * on a cold cache. Edit in the admin; re-snapshot here when the list changes.
  */
 
 import type { RichTextContent } from "@/lib/data/posts";
@@ -14,14 +10,11 @@ export type Project = {
   name: string;
   industry: string;
   year: string;
-  /** Card body as Lexical JSON, rendered by the shared RichText component. */
   description: RichTextContent | null;
   technology: string[];
   image: string;
 };
 
-/** Wrap a plain sentence as a single Lexical paragraph, so the static fallback
- * data feeds the same renderer the CMS content does. */
 function paragraph(text: string): RichTextContent {
   return {
     root: {

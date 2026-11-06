@@ -1,16 +1,7 @@
 /**
- * Brand FAQ, written against the questions people actually type or ask an
- * assistant about vour.dev.
- *
- * Rules for editing this file:
- * - Answer the question in the first sentence, then elaborate.
- * - 40-100 words. Do not pad to hit a length.
- * - Never state a number, a duration or a policy that has not been confirmed.
- *   Where the honest answer is "it depends", say so and point at `/estimate`.
- *
- * TODO(vour.dev): confirm the commercial answers before launch -- the entries
- * tagged `needsOwnerReview` deliberately avoid quoting figures or policies that
- * have not been decided yet.
+ * Answer in the first sentence; 40-100 words. Never state an unconfirmed number, duration
+ * or policy; where it depends, say so and point at `/estimate`.
+ * TODO(vour.dev): confirm the `needsOwnerReview` commercial answers before launch.
  */
 
 export type FaqGroup = "brand" | "layanan" | "teknis" | "proses";
@@ -69,7 +60,7 @@ export const faqs: Faq[] = [
   {
     question: "Apakah vour.dev menyediakan landing page dan company profile?",
     answer:
-      "Ya, keduanya termasuk dalam layanan website development. Landing page berisi satu halaman dengan satu tujuan, biasanya untuk satu kampanye. Company profile berisi beberapa halaman yang memperkenalkan perusahaan, layanan atau produk, portofolio, dan kontak. Pilihannya tergantung apakah Anda sedang menjalankan satu kampanye atau memperkenalkan perusahaan secara utuh.",
+      "Ya, keduanya termasuk dalam layanan pembuatan website. Landing page berisi satu halaman dengan satu tujuan, biasanya untuk satu kampanye. Company profile berisi beberapa halaman yang memperkenalkan perusahaan, layanan atau produk, portofolio, dan kontak. Pilihannya tergantung apakah Anda sedang menjalankan satu kampanye atau memperkenalkan perusahaan secara utuh.",
     group: "layanan",
     featured: true,
   },
@@ -163,7 +154,6 @@ export const faqs: Faq[] = [
   },
 ];
 
-/** The shorter set rendered on the home page. */
 export const featuredFaqs = faqs.filter((faq) => faq.featured);
 
 export const faqsByGroup = (Object.keys(faqGroupLabels) as FaqGroup[]).map(

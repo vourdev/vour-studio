@@ -45,13 +45,11 @@ export function Workflow() {
         const nodes = gsap.utils.toArray<HTMLElement>("[data-node]");
         const titles = gsap.utils.toArray<HTMLElement>("[data-title]");
 
-        // Initial unlit state
         if (lineH) gsap.set(lineH, { scaleX: 0 });
         if (lineV) gsap.set(lineV, { scaleY: 0 });
         nodes.forEach((node) => (node.dataset.active = "false"));
         titles.forEach((title) => (title.dataset.active = "false"));
 
-        // ScrollTrigger to scrub line filling and node activation as user scrolls down
         ScrollTrigger.create({
           trigger: root,
           start: "top 88%",
@@ -67,7 +65,6 @@ export function Workflow() {
             nodes.forEach((node, i) => {
               const title = titles[i];
               const threshold = nodes.length > 1 ? i / (nodes.length - 1) : 0;
-              // Step 1 activates at initial scroll entry (p > 0.01), subsequent steps activate when line reaches them
               const isActive = p >= (i === 0 ? 0.01 : threshold);
 
               node.dataset.active = isActive ? "true" : "false";
@@ -100,7 +97,6 @@ export function Workflow() {
         </p>
 
         <div ref={rootRef} className="relative mt-16">
-          {/* Vertical rail line (mobile & tablet) */}
           <div className="absolute left-[1.125rem] top-5 bottom-5 w-0.5 lg:hidden bg-border overflow-hidden -translate-x-1/2 z-0">
             <div
               data-progress-line-v
@@ -108,7 +104,6 @@ export function Workflow() {
             />
           </div>
 
-          {/* Horizontal rail line (desktop: starts at Node 1 center and ends at Node 6 center) */}
           <div className="absolute left-[1.125rem] right-[calc(100%/6-1.125rem)] top-[1.125rem] hidden h-0.5 lg:block bg-border overflow-hidden -translate-y-1/2 z-0">
             <div
               data-progress-line
@@ -121,7 +116,6 @@ export function Workflow() {
               const stepNumber = String(index + 1).padStart(2, "0");
               return (
                 <li key={step.title} className="relative pl-12 lg:pl-0">
-                  {/* Step Node Circle with Step Number */}
                   <span
                     data-node
                     data-active="false"

@@ -43,8 +43,7 @@ export function Estimator() {
   const noteId = useId();
 
   const selected = projectTypeById(selection.projectType);
-  // A coming-soon type is never "selected" as far as the rest of the form is
-  // concerned, so the later steps and the summary cannot half-open on it.
+  // A coming-soon type never counts as selected, so later steps stay closed.
   const type = selected && !selected.comingSoon ? selected : null;
   const availableFeatures = useMemo(
     () => featuresFor(selection.projectType),
@@ -73,8 +72,7 @@ export function Estimator() {
     if (projectTypeById(id)?.comingSoon) return;
     markStarted();
     track("project_type_selected", { project_type: id });
-    // Features and add-ons are scoped to a project type, so carrying the old
-    // selection over would price things the new type does not offer.
+    // Features and add-ons belong to one project type; reset them on change.
     setSelection({ ...emptySelection, projectType: id });
   }
 
@@ -442,7 +440,7 @@ function OptionCard({
       className={[
         "relative flex min-h-11 cursor-pointer flex-col rounded-surface border p-5",
         "transition-colors duration-150",
-        "has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent/40",
+        "has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent",
         disabled ? "cursor-default" : "",
         checked
           ? "border-accent/50 bg-accent-soft"
@@ -475,7 +473,7 @@ function OptionCard({
               type === "radio" ? "rounded-full" : "rounded-[4px]",
               checked
                 ? "border-accent bg-accent text-accent-fg"
-                : "border-border-strong bg-transparent text-transparent",
+                : "border-border-control bg-transparent text-transparent",
             ].join(" ")}
             aria-hidden
           >

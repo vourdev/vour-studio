@@ -8,17 +8,8 @@ import { formatPrice, type Product } from "@/lib/data/products";
 import { cn } from "@/lib/utils";
 
 /**
- * Bento layout for the product catalogue.
- *
- * Grid mechanic adapted from 21st.dev's Feature Bento by @uilayout.contact: a
- * fixed row height plus a hero cell spanning two columns and two rows, with the
- * remaining tiles flowing beside and beneath it. Everything else in that
- * component (blue gradients, glass pills, pulsing dots, invented statistics) is
- * dropped - none of it survives our brief.
- *
- * `spanFor` keeps the grid exactly full at any product count. The hero plus two
- * tiles closes a 3x2 block; whatever is left is widened so the final row never
- * ends in a hole.
+ * Grid mechanic adapted from 21st.dev's Feature Bento by @uilayout.contact.
+ * `spanFor` widens the leftover tiles so the final row never ends in a hole.
  */
 function spanFor(index: number, total: number) {
   if (total < 4) return "md:col-span-1";
@@ -35,10 +26,6 @@ function spanFor(index: number, total: number) {
   return positionInRest === rest - 1 ? "md:col-span-2" : "md:col-span-1";
 }
 
-/**
- * Track count follows the catalogue size. The CMS currently publishes two
- * products, and a fixed three-column grid would leave a hole beside them.
- */
 function columnsFor(total: number) {
   if (total <= 1) return "md:grid-cols-1";
   if (total === 2) return "md:grid-cols-2";
@@ -80,9 +67,7 @@ export function ProductBento({ products }: { products: Product[] }) {
           const isHero = index === 0 && products.length >= 4;
           const isWide = span.includes("col-span-2") && !isHero;
 
-          // A screenshot needs width to read. Large cells always get one; in a
-          // short catalogue every cell is wide enough, so every cell gets one
-          // rather than the page shipping with no photography at all.
+          // Short catalogues give every cell a screenshot; long ones only the large cells.
           const hasImage =
             products.length < 4 ||
             isHero ||
@@ -110,13 +95,11 @@ export function ProductBento({ products }: { products: Product[] }) {
                       alt={`Pratinjau ${product.name}`}
                       fill
                       sizes={isHero ? "(max-width: 768px) 100vw, 66vw" : "(max-width: 768px) 100vw, 100vw"}
-                      // Largest above-the-fold image on this route, so it is
-                      // the LCP candidate.
+                      // LCP candidate.
                       priority={index === 0}
                       className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                     />
-                    {/* Scrim, not glass: the copy has to clear WCAG AA over a
-                        photograph we do not control. */}
+                    {/* Scrim, not glass: copy must clear WCAG AA over an arbitrary photo. */}
                     <div
                       aria-hidden
                       className="absolute inset-0 bg-gradient-to-t from-bg via-bg/85 to-bg/25"

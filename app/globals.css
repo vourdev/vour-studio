@@ -2,20 +2,10 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-/* next-themes writes `class="dark"` onto <html>, so the dark variant follows the
-   class rather than the media query. The media query still drives the default
-   through next-themes' `defaultTheme="system"`. */
+/* next-themes sets `class="dark"` on <html>, so the variant follows the class, not the media query. */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ---------------------------------------------------------------------------
-   vour.dev design tokens.
-
-   Locked decisions, applied everywhere:
-   - One accent: acid lime. No second accent colour appears anywhere on the site.
-   - Neutrals are the cool zinc family. Never #000000, never #ffffff.
-   - Two radii only: `surface` (12px) for panels/cards, `control` (8px) for
-     buttons, inputs and chips.
---------------------------------------------------------------------------- */
+/* Design tokens. One accent only; two radii only: `surface` (12px) for panels, `control` (8px) for controls. */
 
 :root {
   --bg: #0a0a0a;
@@ -24,6 +14,7 @@
   --surface-solid: #151518;
   --border: #ffffff14;
   --border-strong: #ffffff29;
+  --border-control: #63636b;
   --text: #ffffff;
   --text-muted: #a1a1aa;
   --text-faint: #8b8b94;
@@ -72,6 +63,7 @@
   --surface-solid: #151518;
   --border: oklch(1 0 0 / 10%);
   --border-strong: #ffffff29;
+  --border-control: #63636b;
   --text: #ffffff;
   --text-muted: #a1a1aa;
   --text-faint: #8b8b94;
@@ -119,6 +111,8 @@
   --color-surface-solid: var(--surface-solid);
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
+  /* Form control edges need 3:1 against the page (WCAG 1.4.11); --border is decorative only. */
+  --color-border-control: var(--border-control);
   --color-text: var(--text);
   --color-text-muted: var(--text-muted);
   --color-text-faint: var(--text-faint);
@@ -130,10 +124,7 @@
 
   --font-sans: var(--font-jakarta-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
-  /* Headings share the body family. `font-display` exists as a named seam so a
-     separate display face can be introduced later without touching call sites;
-     it also stops headings from reaching for `font-mono`, which is what they
-     did before. */
+  /* Change the heading face here, not at call sites. Headings never use `font-mono`. */
   --font-display: var(--font-sans);
 
   --radius-surface: 0.75rem;
@@ -271,9 +262,7 @@
     border-color: var(--border);
   }
 
-  /* Swipeable strips (the blog category tabs) scroll by drag, not by scrollbar:
-     the visible track would otherwise sit permanently under the row on systems
-     set to always show scrollbars. Keyboard and pointer scrolling still work. */
+  /* Hides the scrollbar track on drag-scrolled strips; keyboard and pointer scrolling still work. */
   .no-scrollbar {
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -283,8 +272,7 @@
     display: none;
   }
 
-  /* Static engineering lattice behind the hero. Pure CSS, so it costs one paint
-     and never repaints; the canvas on top animates only the lit blocks. */
+  /* Static lattice behind the hero; the canvas on top animates only the lit blocks. */
   .dot-grid {
     background-image: radial-gradient(circle at center,
         rgba(255, 255, 255, 0.16) 1.25px,
@@ -338,7 +326,6 @@
   animation-play-state: paused;
 }
 
-/* Infinite slider animation for testimonials */
 @keyframes infinite-scroll {
   from {
     transform: translateY(0);
@@ -356,7 +343,6 @@
   animation-duration: var(--hover-speed, 80s);
 }
 
-/* Marquee animation for horizontal testimonials */
 @keyframes marquee {
   from {
     transform: translateX(0);
@@ -383,8 +369,7 @@
   animation: marquee-vertical var(--duration) linear infinite;
 }
 
-/* Every animation on the site collapses here. Motion components additionally
-   check useReducedMotion(), but this catches the CSS-driven ones. */
+/* Collapses CSS-driven animations; Motion components also check useReducedMotion(). */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -406,11 +391,7 @@
     transition-duration: 0.01ms !important;
   }
 }
-/* ---------------------------------------------------------------------------
-   Article prose. The CMS stores post bodies as Lexical JSON, rendered by the
-   RichText component; these rules replicate the per-element styling the old
-   MDX renderer (mdx-components.tsx) applied, using the same design tokens.
---------------------------------------------------------------------------- */
+/* Article prose for Lexical bodies rendered by RichText. */
 .article-prose > :first-child {
   margin-top: 0;
 }
@@ -474,8 +455,7 @@
   text-decoration-color: var(--accent);
 }
 
-/* Images the blog generator places inside an article. Slightly wider than the
-   68ch text column so a diagram stays legible without breaking the grid. */
+/* Generator-placed images run slightly wider than the 68ch column so diagrams stay legible. */
 .article-figure {
   margin-top: 2rem;
   margin-bottom: 2rem;
@@ -494,9 +474,7 @@
   text-wrap: pretty;
 }
 
-/* Diagrams are drawn with `currentColor`, so the figure sets the ink. A panel
-   behind them keeps thin strokes legible without boxing in photographs, which
-   carry their own background. */
+/* Diagrams draw with `currentColor`, so the figure sets the ink. */
 .article-diagram {
   color: var(--text);
 }
@@ -511,16 +489,11 @@
 
 .article-diagram-canvas svg {
   display: block;
-  /* The generator emits each diagram's intrinsic size, and it is honoured rather
-     than stretched: every diagram uses the same label sizes, so drawn at their
-     natural scale they all read at the same size on the page. Stretching each
-     one to the column made a narrow diagram's labels twice the size of a wide
-     one's in the same article. */
+  /* Keep each diagram's intrinsic size; stretching to the column makes label sizes inconsistent. */
   width: auto;
   height: auto;
   max-width: 100%;
-  /* A wide diagram squeezed into a phone column becomes unreadable long before
-     it becomes narrow. Below this it scrolls instead. */
+  /* Below this width a wide diagram scrolls instead of shrinking. */
   min-width: min(100%, 26rem);
   margin-inline: auto;
 }
@@ -579,11 +552,7 @@
   margin-bottom: 3rem;
   border-color: var(--border);
 }
-/**
- * Card-sized prose. The project cards render CMS rich text, so an editor can
- * bold a phrase, add a link or drop in a short list; `.article-prose` is scaled
- * for a full article page and would blow a card apart.
- */
+/* Card-sized prose for CMS rich text in project cards; `.article-prose` is too large there. */
 .project-prose > :first-child {
   margin-top: 0;
 }

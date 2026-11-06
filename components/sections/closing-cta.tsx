@@ -7,14 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Container, Section } from "@/components/ui/container";
 import { PRIMARY_CTA, whatsappLink } from "@/lib/site";
 
-/**
- * The closing moment, so a centred composition earns its place here even though
- * every section above is asymmetric.
- *
- * One contact-intent button, using the same label as the nav and the hero.
- * WhatsApp is a channel, presented as a quiet link rather than a second CTA
- * competing for the same click.
- */
+/** WhatsApp stays a quiet link so it does not compete with the one CTA. */
 export function ClosingCta() {
   return (
     <Section className="relative isolate overflow-hidden border-t border-border">
